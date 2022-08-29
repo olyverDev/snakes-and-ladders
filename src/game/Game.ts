@@ -2,14 +2,23 @@ import { Cell } from './Cell';
 
 export class Game {
   map: Cell[][] = [[]];
-  private size = 4;
-  private canvas: HTMLCanvasElement | null = null;
+  size = 6;
+  private canvas?: CanvasRenderingContext2D | null = null;
 
-  setSize = (size: number) => (this.size = size);
-  setCanvas = (canvas: HTMLCanvasElement | null) => (this.canvas = canvas);
+  setSize = (size: number) => {
+    this.size = size;
+  };
 
-  init = () => {
+  init = (canvas: HTMLCanvasElement | null) => {
     this.map = Game.generaMap(this.size);
+    this.canvas = canvas?.getContext('2d');
+  };
+
+  render = () => {
+    const canvas = this.canvas;
+    if (canvas) {
+      this.map.forEach((row) => row.forEach((cell) => cell.render(canvas)));
+    }
   };
 
   private static generaMap = (size: number) =>

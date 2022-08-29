@@ -5,7 +5,7 @@ import Player from '../Player';
 import './App.css';
 
 const renderGame = (): ReactElement => (
-  <div className="">
+  <div className="GameContainer">
     <Player />
     <GameComponent />
   </div>
