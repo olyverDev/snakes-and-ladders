@@ -1,7 +1,12 @@
+import { MutableRefObject } from 'react';
 import './Canvas.css';
 
-function Canvas() {
-  return <div className="Canvas">Canvas</div>;
+type CanvasProps = {
+  canvasRef: MutableRefObject<HTMLCanvasElement | null>;
+};
+
+function Canvas({ canvasRef }: CanvasProps) {
+  return <canvas ref={canvasRef} className="Canvas" />;
 }
 
 export default Canvas;
