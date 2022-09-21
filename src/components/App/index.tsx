@@ -1,12 +1,12 @@
 import { ReactElement, useCallback, useMemo, useState } from 'react';
 import GameComponent from '../GameComponent';
 import Menu from '../Menu';
-import Player from '../Player';
+import AudioPlayer from '../AudioPlayer';
 import './App.css';
 
 const renderGame = (): ReactElement => (
   <div className="GameContainer">
-    <Player />
+    <AudioPlayer />
     <GameComponent />
   </div>
 );
