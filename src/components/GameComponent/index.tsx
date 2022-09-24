@@ -29,7 +29,6 @@ function GameComponent() {
   useWindowResize(onResize);
   return (
     <div className="GameComponent">
-      GameComponent
       <canvas ref={canvasRef} className="Canvas" />
     </div>
   );

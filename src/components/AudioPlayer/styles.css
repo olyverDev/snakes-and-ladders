@@ -1,0 +1,25 @@
+.AudioPlayerContainer {
+  width: 50%;
+  padding: 20px;
+  min-height: 400px;
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-evenly;
+  width: auto;
+  padding-top: 10px;
+}
+
+.button {
+  width: 30%;
+  background-color: cornflowerblue;
+}
+
+.button:focus {
+  background-color: slateblue;
+}
+
+.button:active {
+  background-color: slateblue;
+}
