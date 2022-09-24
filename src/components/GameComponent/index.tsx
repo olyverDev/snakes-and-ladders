@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef } from 'react';
 import Game from '../../game';
 import { Cell } from '../../game/Cell';
-import { useWindowSize } from '../../utils';
+import { useWindowResize } from '../../utils';
 import './GameComponent.css';
 
 function GameComponent() {
@@ -26,7 +26,7 @@ function GameComponent() {
     }
   }, [onResize]);
 
-  useWindowSize(onResize);
+  useWindowResize(onResize);
   return (
     <div className="GameComponent">
       GameComponent

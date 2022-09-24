@@ -1,6 +1,6 @@
 import { useLayoutEffect } from 'react';
 
-export const useWindowSize = (callback: () => unknown) => {
+export const useWindowResize = (callback: () => unknown) => {
   useLayoutEffect(() => {
     function updateSize() {
       callback();
