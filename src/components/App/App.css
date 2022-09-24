@@ -10,5 +10,13 @@
 .GameContainer {
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
   height: 100%;
+}
+
+@media only screen and (max-width: 1024px) {
+  .GameContainer {
+    flex-direction: column;
+    justify-content: flex-start;
+  }
 }
