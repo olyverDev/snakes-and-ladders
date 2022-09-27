@@ -1,5 +1,13 @@
 .DiceContainer {
   width: 200px;
-  height: 100px;
+  height: 140px;
   padding: 20px;
+}
+
+.DiceLabel {
+    color: antiquewhite;
+    font-family: system-ui;
+    font-size: 1.5em;
+    line-height: 40px;
+    height: 40px;
 }
