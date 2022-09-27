@@ -6,8 +6,8 @@ import './App.css';
 
 const renderGame = (): ReactElement => (
   <div className="GameContainer">
-    <AudioPlayer />
     <GameComponent />
+    <AudioPlayer />
   </div>
 );
 
