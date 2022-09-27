@@ -3,11 +3,15 @@ import GameComponent from '../GameComponent';
 import Menu from '../Menu';
 import AudioPlayer from '../AudioPlayer';
 import './App.css';
+import Dice from '../Dice';
 
 const renderGame = (): ReactElement => (
   <div className="GameContainer">
     <GameComponent />
-    <AudioPlayer />
+    <div className="SideControls">
+      <AudioPlayer />
+      <Dice />
+    </div>
   </div>
 );
 

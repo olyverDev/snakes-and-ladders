@@ -13,16 +13,6 @@
   max-width: var(--react-player-max-width);
 }
 
-.AudioPlayerWrapper {
-  position: relative;
-}
-
-.ReactPlayer {
-  position: absolute;
-  top: 0;
-  left: 0;
-}
-
 .buttons {
   display: flex;
   width: 100%;

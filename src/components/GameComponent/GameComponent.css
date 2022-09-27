@@ -1,11 +1,12 @@
 .GameComponent {
   display: flex;
+  flex: 0;
   width: 100vw;
 }
 
 canvas {
   background-color: rebeccapurple;
-  width: 100vmin;
+  width: var(--canvas-width);
   aspect-ratio: 1;
 }
 

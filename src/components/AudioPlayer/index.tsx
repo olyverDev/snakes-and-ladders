@@ -39,16 +39,13 @@ function AudioPlayer() {
           />
         ))}
       </div>
-      <div className="AudioPlayerWrapper">
-        <ReactPlayer
-          loop
-          playing
-          controls
-          url={currentUrl}
-          className="ReactPlayer"
-          width="100%"
-        />
-      </div>
+      <ReactPlayer
+        loop
+        playing
+        controls
+        url={currentUrl}
+        width="100%"
+      />
     </div>
   );
 }

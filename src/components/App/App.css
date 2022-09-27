@@ -10,13 +10,23 @@
 .GameContainer {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: space-evenly;
   height: 100%;
+}
+
+.SideControls {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 @media only screen and (max-width: 1024px) {
   .GameContainer {
     flex-direction: column;
     justify-content: flex-start;
+  }
+
+  .SideControls {
+    flex-direction: column-reverse;
   }
 }
