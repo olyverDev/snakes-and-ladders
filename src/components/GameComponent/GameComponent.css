@@ -1,9 +1,16 @@
 .GameComponent {
   display: flex;
+  width: 100vw;
 }
 
 canvas {
   background-color: rebeccapurple;
   width: 100vmin;
   aspect-ratio: 1;
+}
+
+@media only screen and (max-width: 1024px) {
+  .GameComponent {
+    flex-direction: column;
+  }
 }
