@@ -2,7 +2,6 @@ import { useCallback, useEffect, useMemo, useRef } from 'react';
 import Game from '../../game';
 import { Cell } from '../../game/Cell';
 import { useWindowResize } from '../../utils';
-import Dice from '../Dice';
 import './GameComponent.css';
 
 function GameComponent() {
@@ -31,7 +30,6 @@ function GameComponent() {
   return (
     <div className="GameComponent">
       <canvas ref={canvasRef} className="Canvas" />
-      <Dice />
     </div>
   );
 }
