@@ -14,6 +14,7 @@ function GameComponent() {
 
   const onRoll = useCallback((newValue: number) => {
     setHistory((previous) => [...previous, newValue]);
+    game.moveUser(newValue);
   }, []);
 
   const onResize = useCallback(() => {
@@ -39,7 +40,6 @@ function GameComponent() {
   return (
     <div className="GameContainer">
       <div className="GameComponent">
-        {history}
         <canvas ref={canvasRef} className="Canvas" />
       </div>
       <div className="SideControls">

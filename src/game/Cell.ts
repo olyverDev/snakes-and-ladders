@@ -3,6 +3,8 @@ import { CELL_COLORS } from '../constants';
 export class Cell {
   private static currentId = 0;
   private static cellSize = 0;
+  static getCellSize = () => Cell.cellSize;
+
   static setCellSize = (size: number) => {
     Cell.cellSize = size;
   };
@@ -26,9 +28,6 @@ export class Cell {
   color = CELL_COLORS.RED;
 
   render = (canvas: CanvasRenderingContext2D) => {
-    canvas.fillStyle = `rgba(${Math.random() * 255}, ${Math.random() * 255}, ${
-      Math.random() * 255
-    }, ${Math.random() * 255} )`;
     canvas.drawImage(
       this.color,
       this.x * Cell.cellSize,
