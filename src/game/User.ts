@@ -1,8 +1,5 @@
 import { Cell } from './Cell';
-import userImage from '../assets/giphy-unscreen.gif';
-
-const image = new Image();
-image.src = userImage;
+import { GameImagesService } from '../gameImagesService';
 
 export class User {
   position: Cell;
@@ -11,9 +8,11 @@ export class User {
     this.position = position;
   }
   render = (canvas: CanvasRenderingContext2D) => {
+    if (!GameImagesService.collection.userImage) return;
+
     if (this.position) {
       canvas.drawImage(
-        image,
+        GameImagesService.collection.userImage,
         this.position.x * Cell.getCellSize(),
         this.position.y * Cell.getCellSize(),
         Cell.getCellSize(),

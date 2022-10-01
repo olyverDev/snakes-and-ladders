@@ -1,23 +1,26 @@
-import { ReactElement, useCallback, useMemo, useState } from 'react';
+import { ReactElement, useEffect, useMemo, useState } from 'react';
+
+import { GameImagesService } from '../../gameImagesService';
 import GameComponent from '../GameComponent';
 import Menu from '../Menu';
 import './App.css';
 
 function App() {
-  const renderMenu = useCallback(
-    () => <Menu play={() => setCurrentRoute(SCREENS.GAME)} />,
-    []
-  );
+  const { loaded: imagesLoaded } = GameImagesService.useLoad();
 
   const SCREENS = useMemo(
     () => ({
-      MENU: renderMenu,
+      MENU: <Menu loading={!imagesLoaded} play={() => setCurrentRoute(SCREENS.GAME)} />,
       GAME: <GameComponent />,
     }),
-    [renderMenu]
+    [imagesLoaded]
   );
 
   const [currentRoute, setCurrentRoute] = useState<ReactElement>(SCREENS.MENU);
+
+  useEffect(() => {
+    setCurrentRoute(SCREENS.MENU);
+  }, [SCREENS])
 
   return <div className="App">{currentRoute}</div>;
 }
