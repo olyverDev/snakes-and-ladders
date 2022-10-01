@@ -6,9 +6,11 @@ import Game from '../../game';
 import { Cell } from '../../game/Cell';
 import { useWindowResize } from '../../utils';
 import './GameComponent.css';
+import { allImagesLoaded, IMAGES } from '../../images';
 
 function GameComponent() {
   const [history, setHistory] = useState([0]);
+  const [imagesLoaded, setImagesLoaded] = useState(false);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const game = useMemo(() => new Game(), []);
 
@@ -25,26 +27,34 @@ function GameComponent() {
       Cell.setCellSize(canvasSize / game.size);
       game.render();
     }
-  }, [canvasRef.current, game]);
+  }, [game, imagesLoaded]);
 
   useEffect(() => {
-    if (canvasRef.current && game) {
+    if (canvasRef.current && game && imagesLoaded) {
       game.init(canvasRef.current);
       onResize();
       game.render();
     }
-  }, [onResize]);
+  }, [onResize, imagesLoaded]);
 
   useWindowResize(onResize);
+  useEffect(() => {
+    allImagesLoaded.then((isLoaded) => {
+      console.log({ IMAGES });
+
+      setImagesLoaded(isLoaded);
+      console.log(isLoaded);
+      game.render();
+    });
+  }, []);
 
   return (
     <div className="GameContainer">
       <div className="GameComponent">
-        <canvas ref={canvasRef} className="Canvas" />
+        {!!imagesLoaded && <canvas ref={canvasRef} className="Canvas" />}
       </div>
       <div className="SideControls">
-        <AudioPlayer />
-        <Dice onRoll={onRoll} />
+        <AudioPlayer /> {!!imagesLoaded && <Dice onRoll={onRoll} />}
       </div>
     </div>
   );

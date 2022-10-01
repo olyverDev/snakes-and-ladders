@@ -1,4 +1,4 @@
-import { CELL_COLORS } from '../constants';
+import { IMAGES } from '../images';
 
 export class Cell {
   private static currentId = 0;
@@ -18,14 +18,14 @@ export class Cell {
     this.x = x;
     this.y = y;
     if (x % 2 !== 0) {
-      this.color = y % 2 === 0 ? CELL_COLORS.RED : CELL_COLORS.BLUE;
+      this.color = y % 2 === 0 ? IMAGES.RED_CELL : IMAGES.BLUE_CELL;
     }
     else {
-      this.color = y % 2 !== 0 ? CELL_COLORS.RED : CELL_COLORS.BLUE;
+      this.color = y % 2 !== 0 ? IMAGES.RED_CELL : IMAGES.BLUE_CELL;
     }
   }
 
-  color = CELL_COLORS.RED;
+  color = IMAGES.RED_CELL;
 
   render = (canvas: CanvasRenderingContext2D) => {
     canvas.drawImage(
