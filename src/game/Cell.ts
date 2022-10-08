@@ -1,4 +1,6 @@
-import { IMAGES } from '../images';
+import { GameImagesService } from '../gameImagesService';
+
+const { collection: images } = GameImagesService;
 
 export class Cell {
   private static currentId = 0;
@@ -18,16 +20,18 @@ export class Cell {
     this.x = x;
     this.y = y;
     if (x % 2 !== 0) {
-      this.color = y % 2 === 0 ? IMAGES.RED_CELL : IMAGES.BLUE_CELL;
+      this.color = y % 2 === 0 ? images.redCell : images.blueCell;
     }
     else {
-      this.color = y % 2 !== 0 ? IMAGES.RED_CELL : IMAGES.BLUE_CELL;
+      this.color = y % 2 !== 0 ? images.redCell : images.blueCell;
     }
   }
 
-  color = IMAGES.RED_CELL;
+  color = images.redCell;
 
   render = (canvas: CanvasRenderingContext2D) => {
+    if (!this.color) return;
+
     canvas.drawImage(
       this.color,
       this.x * Cell.cellSize,
