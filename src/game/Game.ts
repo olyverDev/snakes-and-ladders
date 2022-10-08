@@ -32,12 +32,23 @@ export class Game {
   private static generaMap = (size: number) =>
     Array(size)
       .fill(null)
-      .map((_, x) => Game.generateColumn(size, x));
+      .map((_, y, { length: columnsCount }) =>
+        Game.generateRow(size, y, columnsCount)
+      );
 
-  private static generateColumn = (size: number, x: number) =>
-    Array(size)
+  private static generateRow = (
+    rowsCount: number,
+    y: number,
+    columnsCount: number
+  ) => {
+    const isRowOdd = y % 2;
+    return Array(rowsCount)
       .fill(null)
-      .map((_, y) => new Cell(x, y));
+      .map(
+        (_, x) =>
+          new Cell(isRowOdd ? columnsCount - x - 1 : x, columnsCount - y - 1)
+      );
+  };
 
   moveUser = (countMoves: number) => {
     if (this.user) {

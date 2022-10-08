@@ -39,5 +39,11 @@ export class Cell {
       Cell.cellSize,
       Cell.cellSize
     );
+    canvas.font = '35px serif';
+    canvas.fillText(
+      '' + this.id,
+      this.x * Cell.cellSize + Cell.cellSize / 2,
+      this.y * Cell.cellSize + Cell.cellSize / 2
+    );
   };
 }
