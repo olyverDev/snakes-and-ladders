@@ -13,8 +13,8 @@ export class User {
     if (this.position) {
       canvas.drawImage(
         GameImagesService.collection.userImage,
-        this.position.x * Cell.getCellSize(),
-        this.position.y * Cell.getCellSize(),
+        this.position.X * Cell.getCellSize(),
+        this.position.Y * Cell.getCellSize(),
         Cell.getCellSize(),
         Cell.getCellSize()
       );

@@ -1,8 +1,9 @@
 import { GameImagesService } from '../gameImagesService';
+import { GameObject } from './GameObject';
 
 const { collection: images } = GameImagesService;
 
-export class Cell {
+export class Cell extends GameObject {
   private static currentId = 0;
   private static cellSize = 0;
   static getCellSize = () => Cell.cellSize;
@@ -12,13 +13,12 @@ export class Cell {
   };
 
   id = 0;
-  x = 0;
-  y = 0;
 
   constructor(x: number, y: number) {
+    super();
     this.id = Cell.currentId++;
-    this.x = x;
-    this.y = y;
+    this.X = x
+    this.Y = y;
     if (x % 2 !== 0) {
       this.color = y % 2 === 0 ? images.redCell : images.blueCell;
     } else {
@@ -33,8 +33,8 @@ export class Cell {
 
     canvas.drawImage(
       this.color,
-      this.x * Cell.cellSize,
-      this.y * Cell.cellSize,
+      this.X * Cell.cellSize,
+      this.Y * Cell.cellSize,
       Cell.cellSize,
       Cell.cellSize
     );
