@@ -1,13 +1,14 @@
 import './Menu.css';
 
 type MenuProps = {
+  loading: boolean;
   play: () => unknown;
 };
 
-function Menu({ play }: MenuProps) {
+function Menu({ loading, play }: MenuProps) {
   return (
     <div className="Menu">
-      <button onClick={play}>Play</button>
+      <button disabled={loading} onClick={play}>{loading ? 'Loading...' : 'Play'}</button>
     </div>
   );
 }

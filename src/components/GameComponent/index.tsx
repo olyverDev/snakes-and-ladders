@@ -14,6 +14,7 @@ function GameComponent() {
 
   const onRoll = useCallback((newValue: number) => {
     setHistory((previous) => [...previous, newValue]);
+    game.moveUser(newValue);
   }, []);
 
   const onResize = useCallback(() => {
@@ -24,7 +25,7 @@ function GameComponent() {
       Cell.setCellSize(canvasSize / game.size);
       game.render();
     }
-  }, [canvasRef.current, game]);
+  }, [game]);
 
   useEffect(() => {
     if (canvasRef.current && game) {
@@ -36,10 +37,13 @@ function GameComponent() {
 
   useWindowResize(onResize);
 
+  useEffect(() => {
+    game.render();
+  }, []);
+
   return (
     <div className="GameContainer">
       <div className="GameComponent">
-        {history}
         <canvas ref={canvasRef} className="Canvas" />
       </div>
       <div className="SideControls">

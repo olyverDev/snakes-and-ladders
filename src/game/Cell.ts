@@ -1,8 +1,12 @@
-import { CELL_COLORS } from '../constants';
+import { GameImagesService } from '../gameImagesService';
+
+const { collection: images } = GameImagesService;
 
 export class Cell {
   private static currentId = 0;
   private static cellSize = 0;
+  static getCellSize = () => Cell.cellSize;
+
   static setCellSize = (size: number) => {
     Cell.cellSize = size;
   };
@@ -16,19 +20,18 @@ export class Cell {
     this.x = x;
     this.y = y;
     if (x % 2 !== 0) {
-      this.color = y % 2 === 0 ? CELL_COLORS.RED : CELL_COLORS.BLUE;
+      this.color = y % 2 === 0 ? images.redCell : images.blueCell;
     }
     else {
-      this.color = y % 2 !== 0 ? CELL_COLORS.RED : CELL_COLORS.BLUE;
+      this.color = y % 2 !== 0 ? images.redCell : images.blueCell;
     }
   }
 
-  color = CELL_COLORS.RED;
+  color = images.redCell;
 
   render = (canvas: CanvasRenderingContext2D) => {
-    canvas.fillStyle = `rgba(${Math.random() * 255}, ${Math.random() * 255}, ${
-      Math.random() * 255
-    }, ${Math.random() * 255} )`;
+    if (!this.color) return;
+
     canvas.drawImage(
       this.color,
       this.x * Cell.cellSize,
