@@ -10,21 +10,19 @@ const offsets = { x: 80, y: 40, sizeX: 180, sizeY: 100 };
 const imageSize = { x: 2, y: 3 };
 
 export class Snake extends GameObject {
-  fromId: number;
-  toId: number;
   constructor(from?: Cell, to?: Cell) {
     if (!from || !to) throw new Error('Cell not found!');
 
-    super(
-      images.snake,
-      from?.x,
-      from?.y,
-      Math.abs(to?.x - from?.x) +1,
-      Math.abs(to?.y - from?.y) +1,
-      from.x > to.x ? orientations.left : orientations.right
-    );
-    this.fromId = from?.id;
-    this.toId = to?.id;
+    super({
+      image: images.snake,
+      x: from?.x,
+      y: from?.y,
+      sizeX: Math.abs(to?.x - from?.x) + 1,
+      sizeY: Math.abs(to?.y - from?.y) + 1,
+      orientation: from.x > to.x ? orientations.left : orientations.right,
+      fromId: from?.id,
+      toId: to?.id,
+    });
   }
   render = (canvas: CanvasRenderingContext2D) => {
     if (this.isRight) {
@@ -43,8 +41,8 @@ export class Snake extends GameObject {
       image,
       (isRight ? -x - 1 : x) * cellSize - sizeMultipliedOffsets.x,
       y * cellSize - sizeMultipliedOffsets.y,
-      (sizeX) * cellSize + sizeMultipliedOffsets.sizeX,
-      (sizeY) * cellSize + sizeMultipliedOffsets.sizeY
+      sizeX * cellSize + sizeMultipliedOffsets.sizeX,
+      sizeY * cellSize + sizeMultipliedOffsets.sizeY
     );
     canvas.restore();
   };

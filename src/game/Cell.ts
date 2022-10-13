@@ -11,7 +11,7 @@ export class Cell extends GameObject {
     } else {
       image = y % 2 !== 0 ? images.redCell : images.blueCell;
     }
-    super(image, x, y);
+    super({ image, x, y });
     this.id = Cell.currentId++;
   }
 

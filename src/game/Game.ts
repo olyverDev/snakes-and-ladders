@@ -7,8 +7,8 @@ import { User } from './User';
 export class Game {
   isInitialized = false;
   map: Cell[][] = [[]];
-  snakes: GameObject[] = [];
-  ladders: GameObject[] = [];
+  snakes: Snake[] = [];
+  ladders: Ladder[] = [];
   size = 6;
   private user?: User;
   private static canvas?: CanvasRenderingContext2D | null = null;
@@ -25,10 +25,21 @@ export class Game {
     this.user = new User(this.map[0][0]);
     this.isInitialized = true;
 
-    this.snakes.push(new Snake(this.getCellById(22), this.getCellById(9)));
+    // this.snakes.push(new Snake(this.getCellById(27), this.getCellById(9)));
+    // this.snakes.push(new Snake(this.getCellById(28), this.getCellById(9)));
+    // this.snakes.push(new Snake(this.getCellById(24), this.getCellById(9)));
+    // this.snakes.push(new Snake(this.getCellById(25), this.getCellById(9)));
+    // this.snakes.push(new Snake(this.getCellById(26), this.getCellById(9)));
+    // this.snakes.push(new Snake(this.getCellById(29), this.getCellById(9)));
 
-    // this.ladders.push(new Ladder(this.getCellById(7), this.getCellById(0)));
+    // this.ladders.push(new Ladder(this.getCellById(32), this.getCellById(27)));
+    // this.ladders.push(new Ladder(this.getCellById(32), this.getCellById(28)));
+    // this.ladders.push(new Ladder(this.getCellById(32), this.getCellById(24)));
+    // this.ladders.push(new Ladder(this.getCellById(32), this.getCellById(25)));
+    // this.ladders.push(new Ladder(this.getCellById(32), this.getCellById(26)));
+    // this.ladders.push(new Ladder(this.getCellById(32), this.getCellById(29)));
 
+    this.ladders.push(new Ladder(this.getCellById(23), this.getCellById(9)));
   };
 
   render = () => {
@@ -62,15 +73,30 @@ export class Game {
       );
   };
 
-  moveUser = (countMoves: number) => {
-    if (this.user) {
-      const currentPosition = this.user.position;
-      const newPosition = this.getCellById(currentPosition.id + countMoves);
-
-      this.user.position = newPosition || currentPosition;
-      this.render();
+  moveUser = ({
+    countMoves = 0,
+    toId,
+  }: {
+    countMoves?: number;
+    toId?: number;
+  }) => {
+    const { user, getCellById, checkGameObject, render } = this;
+    if (user) {
+      const currentPosition = user.position;
+      const newPosition = getCellById(toId || currentPosition.id + countMoves);
+      user.position = newPosition || currentPosition;
+      this.snakes.forEach(checkGameObject);
+      this.ladders.forEach(checkGameObject);
+      render();
     }
   };
+
+  checkGameObject = ({ fromId, toId }: GameObject) => {
+    if (fromId === this.user?.position.id) {
+      this.moveUser({ toId });
+    }
+  };
+
   getCellById = (searchId: number) =>
     this.map.flat().find(({ id }) => id === searchId);
 }

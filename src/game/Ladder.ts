@@ -13,23 +13,21 @@ const offsets = {
 
 const imageSize = { x: 2, y: 3 };
 export class Ladder extends GameObject {
-  fromId: number;
-  toId: number;
 
-  constructor(from?: Cell, to?: Cell) {
-    if (!from || !to) throw new Error('Cell not found!');
-    const isLeft = from.x < to.x;
+  constructor(to?: Cell, from?: Cell) {
+    if (!to || !from) throw new Error('Cell not found!');
+    const isLeft = to.x < from.x;
     const image = isLeft ? images.ladderLeft : images.ladderRight;
     super(
-      image,
-      Math.min(to?.x, from?.x),
-      from?.y,
-      Math.abs(to?.x - from?.x) + 1,
-      Math.abs(to?.y - from?.y) + 1,
-      isLeft ? orientations.left : orientations.right
+     { image: image,
+      x: Math.min(from?.x, to?.x),
+      y: to?.y,
+      sizeX: Math.abs(from?.x - to?.x) + 1,
+      sizeY: Math.abs(from?.y - to?.y) + 1,
+      orientation: isLeft ? orientations.left : orientations.right,
+      fromId: from?.id,
+      toId: to?.id}
     );
-    this.fromId = from?.id;
-    this.toId = to?.id;
   }
 
   render = (canvas: CanvasRenderingContext2D) => {
@@ -45,7 +43,7 @@ export class Ladder extends GameObject {
     
     canvas.drawImage(
       image,
-      (isLeft ? x : x) * cellSize - sizeMultipliedOffsets.x,
+      x * cellSize - sizeMultipliedOffsets.x,
       y * cellSize - sizeMultipliedOffsets.y,
       sizeX * cellSize + sizeMultipliedOffsets.sizeX,
       sizeY * cellSize + sizeMultipliedOffsets.sizeY
