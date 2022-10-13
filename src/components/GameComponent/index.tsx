@@ -12,9 +12,9 @@ function GameComponent() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const game = useMemo(() => new Game(), []);
 
-  const onRoll = useCallback((newValue: number) => {
-    setHistory((previous) => [...previous, newValue]);
-    game.moveUser(newValue);
+  const onRoll = useCallback((countMoves: number) => {
+    setHistory((previous) => [...previous, countMoves]);
+    game.moveUser({ countMoves });
   }, []);
 
   const onResize = useCallback(() => {
@@ -22,7 +22,7 @@ function GameComponent() {
       const canvasSize = canvasRef.current.scrollWidth;
       canvasRef.current.width = canvasSize;
       canvasRef.current.height = canvasSize;
-      Cell.setCellSize(canvasSize / game.size);
+      Cell.cellSize = canvasSize / game.size;
       game.render();
     }
   }, [game]);

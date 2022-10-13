@@ -13,10 +13,10 @@ export class User {
     if (this.position) {
       canvas.drawImage(
         GameImagesService.collection.userImage,
-        this.position.x * Cell.getCellSize(),
-        this.position.y * Cell.getCellSize(),
-        Cell.getCellSize(),
-        Cell.getCellSize()
+        this.position.x * Cell.cellSize,
+        this.position.y * Cell.cellSize,
+        Cell.cellSize,
+        Cell.cellSize
       );
     }
   };
