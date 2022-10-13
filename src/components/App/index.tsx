@@ -1,12 +1,21 @@
 import { ReactElement, useEffect, useMemo, useState } from 'react';
 
 import { GameImagesService } from '../../gameImagesService';
+import { gameLoopFactory } from '../../gameLoop';
 import GameComponent from '../GameComponent';
 import Menu from '../Menu';
 import './App.css';
 
+const gameLoop = gameLoopFactory(() => {});
+
 function App() {
   const { loaded: imagesLoaded } = GameImagesService.useLoad();
+
+  useEffect(() => {
+    window.requestAnimationFrame(() => {
+      gameLoop(window.performance.now());
+    });
+  }, []);
 
   const SCREENS = useMemo(
     () => ({
