@@ -1,9 +1,14 @@
 import { Cell } from './Cell';
+import { GameObject } from './GameObject';
+import { Ladder } from './Ladder';
+import { Snake } from './Snake';
 import { User } from './User';
 
 export class Game {
   isInitialized = false;
   map: Cell[][] = [[]];
+  snakes: GameObject[] = [];
+  ladders: GameObject[] = [];
   size = 6;
   private user?: User;
   private static canvas?: CanvasRenderingContext2D | null = null;
@@ -14,18 +19,25 @@ export class Game {
 
   init = (canvas: HTMLCanvasElement | null) => {
     if (this.isInitialized) return;
-
+    Cell.currentId = 0;
     this.map = Game.generaMap(this.size);
     Game.canvas = canvas?.getContext('2d');
     this.user = new User(this.map[0][0]);
     this.isInitialized = true;
+
+    this.snakes.push(new Snake(this.getCellById(22), this.getCellById(9)));
+
+    // this.ladders.push(new Ladder(this.getCellById(7), this.getCellById(0)));
+
   };
 
   render = () => {
     const canvas = Game.canvas;
     if (canvas) {
-      this.map.forEach((row) => row.forEach((cell) => cell.render(canvas)));
+      this.map.flat().forEach(({ render }) => render(canvas));
       this.user?.render(canvas);
+      this.snakes.forEach(({ render }) => render(canvas));
+      this.ladders.forEach(({ render }) => render(canvas));
     }
   };
 
@@ -53,12 +65,12 @@ export class Game {
   moveUser = (countMoves: number) => {
     if (this.user) {
       const currentPosition = this.user.position;
-      const newPosition = this.map
-        .flat()
-        .find(({ id }) => id === currentPosition.id + countMoves);
+      const newPosition = this.getCellById(currentPosition.id + countMoves);
 
       this.user.position = newPosition || currentPosition;
       this.render();
     }
   };
+  getCellById = (searchId: number) =>
+    this.map.flat().find(({ id }) => id === searchId);
 }

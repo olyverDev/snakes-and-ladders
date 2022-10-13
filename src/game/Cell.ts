@@ -4,47 +4,52 @@ import { GameObject } from './GameObject';
 const { collection: images } = GameImagesService;
 
 export class Cell extends GameObject {
-  private static currentId = 0;
-  private static cellSize = 0;
-  static getCellSize = () => Cell.cellSize;
-
-  static setCellSize = (size: number) => {
-    Cell.cellSize = size;
-  };
-
-  id = 0;
-
   constructor(x: number, y: number) {
-    super();
-    this.id = Cell.currentId++;
-    this.X = x
-    this.Y = y;
+    let image = null;
     if (x % 2 !== 0) {
-      this.color = y % 2 === 0 ? images.redCell : images.blueCell;
+      image = y % 2 === 0 ? images.redCell : images.blueCell;
     } else {
-      this.color = y % 2 !== 0 ? images.redCell : images.blueCell;
+      image = y % 2 !== 0 ? images.redCell : images.blueCell;
     }
+    super(image, x, y);
+    this.id = Cell.currentId++;
   }
 
+  static cellSize = 0;
+  static currentId = 0;
+
+  id = 0;
   color = images.redCell;
 
   render = (canvas: CanvasRenderingContext2D) => {
-    if (!this.color) return;
+    if (!this.image) return;
 
     canvas.drawImage(
-      this.color,
-      this.X * Cell.cellSize,
-      this.Y * Cell.cellSize,
+      this.image,
+      this.x * Cell.cellSize,
+      this.y * Cell.cellSize,
       Cell.cellSize,
       Cell.cellSize
     );
 
     // TODO: remove me ---------------
     canvas.font = '35px serif';
+    canvas.fillStyle = 'white';
+    const offset = 20;
     canvas.fillText(
       '' + this.id,
-      this.x * Cell.cellSize + Cell.cellSize / 2,
+      this.x * Cell.cellSize + Cell.cellSize / 2 - offset,
       this.y * Cell.cellSize + Cell.cellSize / 2
+    );
+    canvas.fillText(
+      'x:' + this.x,
+      this.x * Cell.cellSize + Cell.cellSize / 2 - 30 - offset,
+      this.y * Cell.cellSize + Cell.cellSize / 2 + 40
+    );
+    canvas.fillText(
+      'y:' + this.y,
+      this.x * Cell.cellSize + Cell.cellSize / 2 + 30 - offset,
+      this.y * Cell.cellSize + Cell.cellSize / 2 + 40
     );
     // TODO: remove me ---------------
   };

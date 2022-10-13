@@ -22,7 +22,7 @@ function GameComponent() {
       const canvasSize = canvasRef.current.scrollWidth;
       canvasRef.current.width = canvasSize;
       canvasRef.current.height = canvasSize;
-      Cell.setCellSize(canvasSize / game.size);
+      Cell.cellSize = canvasSize / game.size;
       game.render();
     }
   }, [game]);
