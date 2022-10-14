@@ -4,13 +4,23 @@ import AudioPlayer from '../AudioPlayer';
 import Dice from '../Dice';
 import Game from '../../game';
 import { Cell } from '../../game/Cell';
+import { gameLoopFactory } from '../../gameLoop';
 import { useWindowResize } from '../../utils';
 import './GameComponent.css';
 
 function GameComponent() {
   const [history, setHistory] = useState([0]);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const game = useMemo(() => new Game(), []);
+
+  const game = useMemo(() => Game.object, []);
+
+  useEffect(() => {
+    if (!game) return;
+    const gameLoop = gameLoopFactory([game.update, game.render]);
+    window.requestAnimationFrame(() => {
+      gameLoop(window.performance.now());
+    });
+  }, [game]);
 
   const onRoll = useCallback((countMoves: number) => {
     setHistory((previous) => [...previous, countMoves]);
@@ -23,7 +33,7 @@ function GameComponent() {
       canvasRef.current.width = canvasSize;
       canvasRef.current.height = canvasSize;
       Cell.cellSize = canvasSize / game.size;
-      game.render();
+      // game.render();
     }
   }, [game]);
 
@@ -31,7 +41,7 @@ function GameComponent() {
     if (canvasRef.current && game) {
       game.init(canvasRef.current);
       onResize();
-      game.render();
+      // game.render();
     }
   }, [onResize]);
 

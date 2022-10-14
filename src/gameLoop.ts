@@ -1,15 +1,16 @@
-export const gameLoopFactory = (render: () => void) => {
+export type LoopCallbackFunctionType = (delta: number) => void;
+export const gameLoopFactory = (callbacks: LoopCallbackFunctionType[] = []) => {
   let prevTimeStamp: number = 0;
-  let secondsPassed;
+  const framerate = 1000 / 60;
 
   function gameLoop(timeStamp: number) {
-    secondsPassed = (timeStamp - prevTimeStamp) / 1000;
-    prevTimeStamp = timeStamp;
-    console.log('secondsPassed: ', secondsPassed);
+    if (timeStamp >= prevTimeStamp + framerate) {
+      callbacks.forEach((callback) => callback(timeStamp - prevTimeStamp));
+      prevTimeStamp = timeStamp;
+    }
 
-    render();
     window.requestAnimationFrame(gameLoop);
-  };
+  }
 
   return gameLoop;
-}
+};
