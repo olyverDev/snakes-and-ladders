@@ -10,7 +10,9 @@ export const useWindowResize = (callback: () => unknown) => {
     return () => window.removeEventListener('resize', updateSize);
   }, []);
 };
+
 const matchDistance = 4;
+
 export const checkPointsMatch = ({
   x1,
   y1,
@@ -22,3 +24,8 @@ export const checkPointsMatch = ({
   x2: number;
   y2: number;
 }) => Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2)) < matchDistance;
+
+export const normalizeVector = ({ x, y }: { x: number; y: number }) => {
+  const length = Math.sqrt(x * x + y * y);
+  return { x: x / length, y: y / length };
+};

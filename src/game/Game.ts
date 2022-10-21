@@ -1,5 +1,5 @@
 import { LoopCallbackFunctionType } from '../gameLoop';
-import { checkPointsMatch } from '../utils';
+import { checkPointsMatch, normalizeVector } from '../utils';
 import { Cell } from './Cell';
 import { GameObject } from './GameObject';
 import { Ladder } from './Ladder';
@@ -8,8 +8,8 @@ import { User } from './User';
 
 type UserMoveAnimationType = {
   callback: LoopCallbackFunctionType;
-  xFrom: number;
-  yFrom: number;
+  xVec: number;
+  yVec: number;
   xTo: number;
   yTo: number;
   speed: number;
@@ -17,6 +17,7 @@ type UserMoveAnimationType = {
 };
 
 export class Game {
+  finishId = 0;
   isInitialized = false;
   map: Cell[][] = [[]];
   snakes: Snake[] = [];
@@ -28,8 +29,6 @@ export class Game {
   private user?: User;
   private static canvas?: CanvasRenderingContext2D | null = null;
   constructor() {
-    Game.id += 1;
-    console.log(`Game.id${Game.id}`);
     Game.object = this;
   }
   setSize = (size: number) => {
@@ -40,16 +39,17 @@ export class Game {
     if (this.isInitialized) return;
     Cell.currentId = 0;
     this.map = Game.generaMap(this.size);
+    this.finishId = Math.pow(this.size, 2) - 1;
     Game.canvas = canvas?.getContext('2d');
     this.user = new User(this.map[0][0]);
     this.isInitialized = true;
 
-    this.snakes.push(new Snake(this.getCellById(27), this.getCellById(9)));
-    this.snakes.push(new Snake(this.getCellById(28), this.getCellById(9)));
-    this.snakes.push(new Snake(this.getCellById(24), this.getCellById(9)));
-    this.snakes.push(new Snake(this.getCellById(25), this.getCellById(9)));
-    this.snakes.push(new Snake(this.getCellById(26), this.getCellById(9)));
-    this.snakes.push(new Snake(this.getCellById(29), this.getCellById(9)));
+    // this.snakes.push(new Snake(this.getCellById(27), this.getCellById(9)));
+    // this.snakes.push(new Snake(this.getCellById(28), this.getCellById(9)));
+    // this.snakes.push(new Snake(this.getCellById(24), this.getCellById(9)));
+    // this.snakes.push(new Snake(this.getCellById(25), this.getCellById(9)));
+    // this.snakes.push(new Snake(this.getCellById(26), this.getCellById(9)));
+    // this.snakes.push(new Snake(this.getCellById(29), this.getCellById(9)));
 
     // this.ladders.push(new Ladder(this.getCellById(32), this.getCellById(27)));
     // this.ladders.push(new Ladder(this.getCellById(32), this.getCellById(28)));
@@ -103,11 +103,21 @@ export class Game {
       const currentPosition = user.position;
       const newPosition = getCellById(toId || currentPosition.id + countMoves);
       user.position = newPosition || currentPosition;
-      if (!newPosition) return;
+      if (!newPosition) {
+        this.moveUser({ toId: this.finishId });
+        return;
+      }
+
+      const { x: xVec, y: yVec } = normalizeVector({
+        x: currentPosition.x - newPosition.x,
+        y: currentPosition.y - newPosition.y,
+      });
+
       this.userMoveAnimations.push({
         callback: function (delta) {
-          const { xFrom, yFrom, xTo, yTo, speed, gameObj } = this || {};
+          const { xVec, yVec, xTo, yTo, speed, gameObj } = this || {};
           if (!gameObj || !gameObj.user) return;
+
           if (
             checkPointsMatch({
               x1: gameObj.user.x,
@@ -122,28 +132,14 @@ export class Game {
             gameObj.user.y = yTo;
             return;
           }
-          if (gameObj.user.x > xTo) {
-            gameObj.user.x -= speed * delta;
-            console.log('move x-');
-          }
-          if (gameObj.user.x < xTo) {
-            gameObj.user.x += speed * delta;
-            console.log('move x+');
-          }
-          if (gameObj.user.y > yTo) {
-            gameObj.user.y -= speed * delta;
-            console.log('move y-');
-          }
-          if (gameObj.user.y < yTo) {
-            gameObj.user.y += speed * delta;
-            console.log('move y+');
-          }
+          gameObj.user.x -= xVec * speed * delta;
+          gameObj.user.y -= yVec * speed * delta;
         },
-        xFrom: currentPosition.x,
-        yFrom: currentPosition.y,
+        xVec,
+        yVec,
         xTo: newPosition.x * Cell.cellSize,
         yTo: newPosition.y * Cell.cellSize,
-        speed: 0.1,
+        speed: 0.2,
         gameObj: this,
       });
       this.snakes.forEach(checkGameObject);
