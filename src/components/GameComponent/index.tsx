@@ -33,7 +33,6 @@ function GameComponent() {
       canvasRef.current.width = canvasSize;
       canvasRef.current.height = canvasSize;
       Cell.cellSize = canvasSize / game.size;
-      // game.render();
     }
   }, [game]);
 
@@ -41,7 +40,6 @@ function GameComponent() {
     if (canvasRef.current && game) {
       game.init(canvasRef.current);
       onResize();
-      // game.render();
     }
   }, [onResize]);
 
