@@ -126,7 +126,6 @@ export class Game {
               y2: yTo,
             })
           ) {
-            console.log('shifted');
             gameObj.userMoveAnimations.shift();
             gameObj.user.x = xTo;
             gameObj.user.y = yTo;
