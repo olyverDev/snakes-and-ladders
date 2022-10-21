@@ -1,4 +1,4 @@
-import { ReactElement, useEffect, useMemo, useState } from 'react';
+import { ReactElement, useCallback, useEffect, useMemo, useState } from 'react';
 
 import { GameImagesService } from '../../gameImagesService';
 import GameComponent from '../GameComponent';
@@ -10,7 +10,12 @@ function App() {
 
   const SCREENS = useMemo(
     () => ({
-      MENU: <Menu loading={!imagesLoaded} play={() => setCurrentRoute(SCREENS.GAME)} />,
+      MENU: (
+        <Menu
+          loading={!imagesLoaded}
+          play={() => setCurrentRoute(SCREENS.GAME)}
+        />
+      ),
       GAME: <GameComponent />,
     }),
     [imagesLoaded]
@@ -20,7 +25,7 @@ function App() {
 
   useEffect(() => {
     setCurrentRoute(SCREENS.MENU);
-  }, [SCREENS])
+  }, [SCREENS]);
 
   return <div className="App">{currentRoute}</div>;
 }
