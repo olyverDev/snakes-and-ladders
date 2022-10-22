@@ -4,6 +4,9 @@ import userImage from './assets/giphy-unscreen.gif';
 import ladderLeft from './assets/ladder-left.png';
 import ladderRight from './assets/ladder-right.png';
 import snake from './assets/snake.png';
+import coffin from './assets/coffin.png';
+import praiseHands from './assets/praise-hands.png';
+import snakesNest from './assets/snakes-nest.png';
 
 import { useEffect, useState } from 'react';
 
@@ -14,6 +17,9 @@ const IMAGES_SOURCES = {
   ladderLeft,
   ladderRight,
   snake,
+  coffin,
+  praiseHands,
+  snakesNest,
 };
 
 export type ImageName = keyof typeof IMAGES_SOURCES;
