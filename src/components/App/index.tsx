@@ -1,4 +1,5 @@
-import { ReactElement, useCallback, useEffect, useMemo, useState } from 'react';
+import { ReactElement, useEffect, useMemo, useState } from 'react';
+import { AnalyticsEvent, logAnalyticsEvent } from '../../firebase';
 
 import { GameImagesService } from '../../gameImagesService';
 import GameComponent from '../GameComponent';
@@ -13,7 +14,10 @@ function App() {
       MENU: (
         <Menu
           loading={!imagesLoaded}
-          play={() => setCurrentRoute(SCREENS.GAME)}
+          play={() => {
+            logAnalyticsEvent(AnalyticsEvent.PressPlay);
+            setCurrentRoute(SCREENS.GAME);
+          }}
         />
       ),
       GAME: <GameComponent />,
