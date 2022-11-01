@@ -10,6 +10,7 @@
     "prettier": "prettier --write ."
   },
   "dependencies": {
+    "firebase": "^9.12.1",
     "prettier": "^2.7.1",
     "react": "^18.2.0",
     "react-dice-roll": "^1.2.2",
