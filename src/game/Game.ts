@@ -61,11 +61,11 @@ export class Game {
     this.ladders.push(new Ladder(this.getCellById(23), this.getCellById(9)));
   };
 
-  render = () => {
+  render = (delta: number) => {
     const canvas = Game.canvas;
     if (canvas) {
       this.map.flat().forEach(({ render }) => render(canvas));
-      this.user?.render(canvas);
+      this.user?.render(canvas, delta);
       this.snakes.forEach(({ render }) => render(canvas));
       this.ladders.forEach(({ render }) => render(canvas));
     }
@@ -98,7 +98,7 @@ export class Game {
   };
 
   moveUser({ countMoves = 0, toId }: { countMoves?: number; toId?: number }) {
-    const { user, getCellById, checkGameObject, render } = this;
+    const { user, getCellById, checkGameObject } = this;
     if (user) {
       const currentPosition = user.position;
       const newPosition = getCellById(toId || currentPosition.id + countMoves);
