@@ -7,15 +7,15 @@ export class User {
   y: number;
 
   currentFrame = 0;
-  framesCount = 22;
+  framesCount = 24;
   frameSize = 256;
-  frameDelay = 100;
+  frameDelay = 80;
   timeSinceLastFrame = 0;
 
   constructor(position: Cell) {
     this.position = position;
-    this.x = position.x * Cell.cellSize;
-    this.y = position.y * Cell.cellSize;
+    this.x = position.x;
+    this.y = position.y;
   }
 
   render = (canvas: CanvasRenderingContext2D, delta: number) => {
@@ -35,20 +35,12 @@ export class User {
         0,
         this.frameSize,
         this.frameSize,
-        this.x,
-        this.y,
+        this.x * Cell.cellSize,
+        this.y * Cell.cellSize,
         Cell.cellSize,
         Cell.cellSize
       );
     }
   };
 }
-// GameImagesService.collection.userDance,
-// this.currentFrame * this.frameSize,
-// 0,
-// this.frameSize,
-// this.frameSize,
-// this.x,
-// this.y,
-// Cell.cellSize,
-// Cell.cellSize
+

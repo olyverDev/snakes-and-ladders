@@ -131,14 +131,14 @@ export class Game {
             gameObj.user.y = yTo;
             return;
           }
-          gameObj.user.x -= xVec * speed * delta;
-          gameObj.user.y -= yVec * speed * delta;
+          gameObj.user.x -= xVec * speed * delta * Cell.cellSize;
+          gameObj.user.y -= yVec * speed * delta * Cell.cellSize;
         },
         xVec,
         yVec,
-        xTo: newPosition.x * Cell.cellSize,
-        yTo: newPosition.y * Cell.cellSize,
-        speed: 0.2,
+        xTo: newPosition.x,
+        yTo: newPosition.y,
+        speed: 0.00001,
         gameObj: this,
       });
       this.snakes.forEach(checkGameObject);
