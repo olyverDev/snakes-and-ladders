@@ -33,24 +33,24 @@ export class Cell extends GameObject {
     );
 
     // TODO: remove me ---------------
-    canvas.font = '35px serif';
-    canvas.fillStyle = 'white';
-    const offset = 20;
-    canvas.fillText(
-      '' + this.id,
-      this.x * Cell.cellSize + Cell.cellSize / 2 - offset,
-      this.y * Cell.cellSize + Cell.cellSize / 2
-    );
-    canvas.fillText(
-      'x:' + this.x,
-      this.x * Cell.cellSize + Cell.cellSize / 2 - 30 - offset,
-      this.y * Cell.cellSize + Cell.cellSize / 2 + 40
-    );
-    canvas.fillText(
-      'y:' + this.y,
-      this.x * Cell.cellSize + Cell.cellSize / 2 + 30 - offset,
-      this.y * Cell.cellSize + Cell.cellSize / 2 + 40
-    );
+    // canvas.font = '35px serif';
+    // canvas.fillStyle = 'white';
+    // const offset = 20;
+    // canvas.fillText(
+    //   '' + this.id,
+    //   this.x * Cell.cellSize + Cell.cellSize / 2 - offset,
+    //   this.y * Cell.cellSize + Cell.cellSize / 2
+    // );
+    // canvas.fillText(
+    //   'x:' + this.x,
+    //   this.x * Cell.cellSize + Cell.cellSize / 2 - 30 - offset,
+    //   this.y * Cell.cellSize + Cell.cellSize / 2 + 40
+    // );
+    // canvas.fillText(
+    //   'y:' + this.y,
+    //   this.x * Cell.cellSize + Cell.cellSize / 2 + 30 - offset,
+    //   this.y * Cell.cellSize + Cell.cellSize / 2 + 40
+    // );
     // TODO: remove me ---------------
   };
 }

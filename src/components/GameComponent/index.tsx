@@ -45,10 +45,6 @@ function GameComponent() {
 
   useWindowResize(onResize);
 
-  useEffect(() => {
-    game.render();
-  }, []);
-
   return (
     <div className="GameContainer">
       <div className="GameComponent">

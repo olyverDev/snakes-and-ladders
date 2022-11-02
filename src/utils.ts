@@ -11,7 +11,7 @@ export const useWindowResize = (callback: () => unknown) => {
   }, []);
 };
 
-const matchDistance = 4;
+const matchDistance = 0.1;
 
 export const checkPointsMatch = ({
   x1,
