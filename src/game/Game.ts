@@ -19,6 +19,7 @@ type UserMoveAnimationType = {
 export class Game {
   finishId = 0;
   isInitialized = false;
+  loopInitialized = false;
   map: Cell[][] = [[]];
   snakes: Snake[] = [];
   ladders: Ladder[] = [];
@@ -138,7 +139,7 @@ export class Game {
         yVec,
         xTo: newPosition.x,
         yTo: newPosition.y,
-        speed: 0.00001,
+        speed: 0.00002,
         gameObj: this,
       });
       this.snakes.forEach(checkGameObject);

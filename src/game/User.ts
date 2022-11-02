@@ -9,7 +9,7 @@ export class User {
   currentFrame = 0;
   framesCount = 24;
   frameSize = 256;
-  frameDelay = 80;
+  frameDelay = 50;
   timeSinceLastFrame = 0;
 
   constructor(position: Cell) {
