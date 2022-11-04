@@ -15,11 +15,12 @@ function GameComponent() {
   const game = useMemo(() => Game.object, []);
 
   useEffect(() => {
-    if (!game) return;
+    if (!game || game.loopInitialized) return;
     const gameLoop = gameLoopFactory([game.update, game.render]);
     window.requestAnimationFrame(() => {
       gameLoop(window.performance.now());
     });
+    game.loopInitialized = true;
   }, [game]);
 
   const onRoll = useCallback((countMoves: number) => {
@@ -37,10 +38,9 @@ function GameComponent() {
   }, [game]);
 
   useEffect(() => {
-    if (canvasRef.current && game) {
-      game.init(canvasRef.current);
-      onResize();
-    }
+    if (!canvasRef.current || !game || game.isInitialized) return;
+    game.init(canvasRef.current);
+    onResize();
   }, [onResize]);
 
   useWindowResize(onResize);
