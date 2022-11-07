@@ -6,6 +6,7 @@ export enum GameObjectTypes {
   snake,
   ladder,
   praiseHands,
+  coffin,
 }
 
 type GameObjectProps = {

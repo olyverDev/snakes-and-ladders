@@ -1,6 +1,7 @@
 import { LoopCallbackFunctionType } from '../gameLoop';
 import { checkPointsMatch, normalizeVector } from '../utils';
 import { Cell } from './Cell';
+import { Coffin } from './Coffin';
 import { GameObject, GameObjectTypes } from './GameObject';
 import { Ladder } from './Ladder';
 import { PraiseHands } from './PraiseHands';
@@ -68,6 +69,10 @@ export class Game {
     this.gameObjects.push(new PraiseHands(this.getCellById(15)));
     this.gameObjects.push(new PraiseHands(this.getCellById(16)));
     this.gameObjects.push(new PraiseHands(this.getCellById(19)));
+
+    this.gameObjects.push(new Coffin(this.getCellById(3)));
+    this.gameObjects.push(new Coffin(this.getCellById(4)));
+    this.gameObjects.push(new Coffin(this.getCellById(5)));
   };
 
   render = (delta: number) => {
@@ -159,6 +164,11 @@ export class Game {
       const isSnake = type === GameObjectTypes.snake;
       const isLadder = type === GameObjectTypes.ladder;
       const praiseHands = type === GameObjectTypes.praiseHands;
+      if (type === GameObjectTypes.coffin && fromId === this.user?.position.id) {
+        console.log('here');
+        this.moveUser({ toId: 0 });
+        return;
+      }
       if (isLadder && fromId === this.user?.position.id) {
         this.moveUser({ toId });
       }
