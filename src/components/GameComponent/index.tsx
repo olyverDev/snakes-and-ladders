@@ -38,7 +38,7 @@ function GameComponent() {
   }, [game]);
 
   useEffect(() => {
-    if (!canvasRef.current || !game || game.isInitialized) return;
+    if (game.isInitialized || !canvasRef.current || !game) return;
     game.init(canvasRef.current);
     onResize();
   }, [onResize]);

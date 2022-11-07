@@ -1,5 +1,5 @@
 import { Cell } from './Cell';
-import { GameObject } from './GameObject';
+import { GameObject, GameObjectTypes } from './GameObject';
 import { GameImagesService } from '../gameImagesService';
 import { orientations } from './constants';
 
@@ -20,6 +20,7 @@ export class Ladder extends GameObject {
     const image = isLeft ? images.ladderLeft : images.ladderRight;
     super(
      { image: image,
+      type: GameObjectTypes.ladder,
       x: Math.min(from?.x, to?.x),
       y: to?.y,
       sizeX: Math.abs(from?.x - to?.x) + 1,

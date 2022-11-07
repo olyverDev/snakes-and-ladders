@@ -1,7 +1,16 @@
 import { Cell } from './Cell';
 import { orientations } from './constants';
+import { Snake } from './Snake';
+
+export enum GameObjectTypes {
+  snake,
+  ladder,
+  praiseHands,
+}
+
 type GameObjectProps = {
   image: HTMLImageElement;
+  type: GameObjectTypes;
   x?: number;
   y?: number;
   sizeX?: number;
@@ -10,6 +19,7 @@ type GameObjectProps = {
   fromId?: number;
   toId?: number;
 };
+
 export abstract class GameObject {
   private X = 0;
   private Y = 0;
@@ -19,6 +29,7 @@ export abstract class GameObject {
   private ORIENTATION: orientations;
   private FROM_ID: number;
   private TO_ID: number;
+  private TYPE: GameObjectTypes;
 
   constructor({
     image,
@@ -29,6 +40,7 @@ export abstract class GameObject {
     orientation = orientations.left,
     fromId = 0,
     toId = 0,
+    type,
   }: GameObjectProps) {
     this.X = x || 0;
     this.Y = y || 0;
@@ -38,6 +50,7 @@ export abstract class GameObject {
     this.ORIENTATION = orientation;
     this.FROM_ID = fromId;
     this.TO_ID = toId;
+    this.TYPE = type;
   }
 
   abstract render: (canvas: CanvasRenderingContext2D) => void;
@@ -57,21 +70,6 @@ export abstract class GameObject {
   get image() {
     return this.IMAGE;
   }
-  set sizeX(sizeX: number) {
-    this.SIZE_X = sizeX;
-  }
-  set sizeY(sizeY: number) {
-    this.SIZE_Y = sizeY;
-  }
-  set x(x: number) {
-    this.X = x;
-  }
-  set y(y: number) {
-    this.Y = y;
-  }
-  set image(image: HTMLImageElement) {
-    this.IMAGE = image;
-  }
   get isLeft() {
     return this.ORIENTATION === orientations.left;
   }
@@ -86,5 +84,23 @@ export abstract class GameObject {
   }
   get toId() {
     return this.TO_ID;
+  }
+  get type() {
+    return this.TYPE;
+  }
+  set sizeX(sizeX: number) {
+    this.SIZE_X = sizeX;
+  }
+  set sizeY(sizeY: number) {
+    this.SIZE_Y = sizeY;
+  }
+  set x(x: number) {
+    this.X = x;
+  }
+  set y(y: number) {
+    this.Y = y;
+  }
+  set image(image: HTMLImageElement) {
+    this.IMAGE = image;
   }
 }

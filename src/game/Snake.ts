@@ -1,5 +1,5 @@
 import { Cell } from './Cell';
-import { GameObject } from './GameObject';
+import { GameObject, GameObjectTypes } from './GameObject';
 import { GameImagesService } from '../gameImagesService';
 import { orientations } from './constants';
 
@@ -15,6 +15,7 @@ export class Snake extends GameObject {
 
     super({
       image: images.snake,
+      type: GameObjectTypes.snake,
       x: from?.x,
       y: from?.y,
       sizeX: Math.abs(to?.x - from?.x) + 1,
