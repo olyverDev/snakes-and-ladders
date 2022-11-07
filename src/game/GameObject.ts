@@ -1,11 +1,10 @@
-import { Cell } from './Cell';
 import { orientations } from './constants';
-import { Snake } from './Snake';
 
 export enum GameObjectTypes {
   snake,
   ladder,
   praiseHands,
+  snakesNest,
 }
 
 type GameObjectProps = {
