@@ -1,11 +1,11 @@
 import { orientations } from './constants';
-import { Snake } from './Snake';
 
 export enum GameObjectTypes {
   snake,
   ladder,
   praiseHands,
   snakesNest,
+  coffin,
 }
 
 type GameObjectProps = {
