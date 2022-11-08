@@ -4,9 +4,8 @@ import { Cell } from './Cell';
 import { Coffin } from './Coffin';
 import { UNLUCKY_POSITION } from './constants';
 import { GameObject, GameObjectTypes } from './GameObject';
-import { Ladder } from './Ladder';
 import { PraiseHands } from './PraiseHands';
-import { Snake } from './Snake';
+import { SnakesNest } from './SnakesNest';
 import { User } from './User';
 
 type UserMoveAnimationType = {
@@ -47,12 +46,12 @@ export class Game {
     Game.canvas = canvas?.getContext('2d');
     this.user = new User(this.map[0][0]);
     this.isInitialized = true;
-    this.gameObjects.push(new Snake(this.getCellById(27), this.getCellById(9)));
-    this.gameObjects.push(new Snake(this.getCellById(28), this.getCellById(9)));
-    this.gameObjects.push(new Snake(this.getCellById(24), this.getCellById(9)));
-    this.gameObjects.push(new Snake(this.getCellById(25), this.getCellById(9)));
-    this.gameObjects.push(new Snake(this.getCellById(26), this.getCellById(9)));
-    this.gameObjects.push(new Snake(this.getCellById(29), this.getCellById(9)));
+    // this.gameObjects.push(new Snake(this.getCellById(27), this.getCellById(9)));
+    // this.gameObjects.push(new Snake(this.getCellById(28), this.getCellById(9)));
+    // this.gameObjects.push(new Snake(this.getCellById(24), this.getCellById(9)));
+    // this.gameObjects.push(new Snake(this.getCellById(25), this.getCellById(9)));
+    // this.gameObjects.push(new Snake(this.getCellById(26), this.getCellById(9)));
+    // this.gameObjects.push(new Snake(this.getCellById(29), this.getCellById(9)));
 
     // this.ladders.push(new Ladder(this.getCellById(32), this.getCellById(27)));
     // this.ladders.push(new Ladder(this.getCellById(32), this.getCellById(28)));
@@ -64,14 +63,22 @@ export class Game {
     // this.gameObjects.push(
     //   new Ladder(this.getCellById(23), this.getCellById(9))
     // );
-    this.gameObjects.push(new PraiseHands(this.getCellById(17)));
-    this.gameObjects.push(new PraiseHands(this.getCellById(18)));
-    this.gameObjects.push(new PraiseHands(this.getCellById(14)));
-    this.gameObjects.push(new PraiseHands(this.getCellById(15)));
-    this.gameObjects.push(new PraiseHands(this.getCellById(16)));
-    this.gameObjects.push(new PraiseHands(this.getCellById(19)));
+    // this.gameObjects.push(new PraiseHands(this.getCellById(17)));
+    // this.gameObjects.push(new PraiseHands(this.getCellById(18)));
+    // this.gameObjects.push(new PraiseHands(this.getCellById(14)));
+    // this.gameObjects.push(new PraiseHands(this.getCellById(15)));
+    // this.gameObjects.push(new PraiseHands(this.getCellById(16)));
+    // this.gameObjects.push(new PraiseHands(this.getCellById(19)));
 
     this.gameObjects.push(new Coffin(this.getCellById(UNLUCKY_POSITION)));
+
+    this.gameObjects.push(
+      new SnakesNest({
+        position: this.getCellById(15),
+        snakeFrom: this.getCellById(20),
+        snakeTo: this.getCellById(10),
+      }),
+    );
   };
 
   render = (delta: number) => {
@@ -80,7 +87,7 @@ export class Game {
       this.map.flat().forEach(({ render }) => render(canvas));
       this.user?.render(canvas, delta);
       this.gameObjects.forEach(({ render }) => render(canvas));
-      PraiseHands.renderAsBonuses(canvas, this.praiseHandsCount)
+      PraiseHands.renderAsBonuses(canvas, this.praiseHandsCount);
     }
   };
 
@@ -157,9 +164,19 @@ export class Game {
       checkGameObjects();
     }
   }
-
+  removeGameObject = (removableId: number) => {
+    setTimeout(() => {
+      this.gameObjects = this.gameObjects.filter(
+        ({ id }) => id !== removableId
+      );
+    }, 2000);
+  };
   checkGameObjects = () => {
-    this.gameObjects.forEach(({ fromId, toId, type }, index) => {
+    this.gameObjects.forEach((object) => {
+      const { fromId, toId, type, id } = object;
+  
+      const isSnakeNest = type === GameObjectTypes.snakesNest;
+    
       const isSnake = type === GameObjectTypes.snake;
       const isLadder = type === GameObjectTypes.ladder;
       const praiseHands = type === GameObjectTypes.praiseHands;
@@ -167,9 +184,7 @@ export class Game {
 
       if (moveToStart && fromId === this.user?.position.id) {
         this.moveUser({ toId: 0 });
-        setTimeout(() => {
-          this.gameObjects.splice(index, 1);
-        }, 2000);
+        this.removeGameObject(id);
         return;
       }
       if (isLadder && fromId === this.user?.position.id) {
@@ -184,6 +199,13 @@ export class Game {
       }
       if (praiseHands && fromId === this.user?.position.id) {
         this.praiseHandsCount++;
+      }
+      if (isSnakeNest && fromId === this.user?.position.id) {
+        const snake = (object as SnakesNest).snake;
+        this.gameObjects.push(snake);
+        snake.animate();
+        this.removeGameObject(id);
+        return;
       }
     });
   };
