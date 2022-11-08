@@ -1,6 +1,8 @@
 import { LoopCallbackFunctionType } from '../gameLoop';
 import { checkPointsMatch, normalizeVector } from '../utils';
 import { Cell } from './Cell';
+import { Coffin } from './Coffin';
+import { UNLUCKY_POSITION } from './constants';
 import { GameObject, GameObjectTypes } from './GameObject';
 import { Ladder } from './Ladder';
 import { PraiseHands } from './PraiseHands';
@@ -68,6 +70,8 @@ export class Game {
     this.gameObjects.push(new PraiseHands(this.getCellById(15)));
     this.gameObjects.push(new PraiseHands(this.getCellById(16)));
     this.gameObjects.push(new PraiseHands(this.getCellById(19)));
+
+    this.gameObjects.push(new Coffin(this.getCellById(UNLUCKY_POSITION)));
   };
 
   render = (delta: number) => {
@@ -110,7 +114,7 @@ export class Game {
     const { user, getCellById, checkGameObjects } = this;
     if (user) {
       const currentPosition = user.position;
-      const newPosition = getCellById(toId || currentPosition.id + countMoves);
+      const newPosition = getCellById(toId == null ? currentPosition.id + countMoves : toId);
       user.position = newPosition || currentPosition;
       if (!newPosition) {
         this.moveUser({ toId: this.finishId });
@@ -155,10 +159,19 @@ export class Game {
   }
 
   checkGameObjects = () => {
-    this.gameObjects.forEach(({ fromId, toId, type }) => {
+    this.gameObjects.forEach(({ fromId, toId, type }, index) => {
       const isSnake = type === GameObjectTypes.snake;
       const isLadder = type === GameObjectTypes.ladder;
       const praiseHands = type === GameObjectTypes.praiseHands;
+      const moveToStart = type === GameObjectTypes.coffin;
+
+      if (moveToStart && fromId === this.user?.position.id) {
+        this.moveUser({ toId: 0 });
+        setTimeout(() => {
+          this.gameObjects.splice(index, 1);
+        }, 2000);
+        return;
+      }
       if (isLadder && fromId === this.user?.position.id) {
         this.moveUser({ toId });
       }
