@@ -1,4 +1,5 @@
 import { orientations } from './constants';
+import { Snake } from './Snake';
 
 export enum GameObjectTypes {
   snake,
@@ -29,6 +30,8 @@ export abstract class GameObject {
   private FROM_ID: number;
   private TO_ID: number;
   private TYPE: GameObjectTypes;
+  private ID: number;
+  private static LAST_ID = 0;
 
   constructor({
     image,
@@ -50,10 +53,14 @@ export abstract class GameObject {
     this.FROM_ID = fromId;
     this.TO_ID = toId;
     this.TYPE = type;
+    this.ID = GameObject.LAST_ID++;
   }
 
   abstract render: (canvas: CanvasRenderingContext2D) => void;
 
+  get id() {
+    return this.ID;
+  }
   get x() {
     return this.X;
   }

@@ -2,12 +2,22 @@ import { Cell } from './Cell';
 import { GameObject, GameObjectTypes } from './GameObject';
 import { GameImagesService } from '../gameImagesService';
 import { Game } from './Game';
+import { Snake } from './Snake';
 
 const { collection: images } = GameImagesService;
 
 export class SnakesNest extends GameObject {
-  constructor(position?: Cell) {
-    if (!position) throw new Error('Cell not found!');
+  snake: Snake;
+  constructor({
+    position,
+    snakeFrom,
+    snakeTo,
+  }: {
+    position?: Cell;
+    snakeFrom?: Cell;
+    snakeTo?: Cell;
+  }) {
+    if (!position || !snakeFrom || !snakeTo) throw new Error('Cell not found!');
 
     super({
       image: images.snakesNest,
@@ -18,6 +28,8 @@ export class SnakesNest extends GameObject {
       sizeX: 1,
       sizeY: 1,
     });
+
+    this.snake = new Snake(snakeFrom, snakeTo);
   }
 
   render = (canvas: CanvasRenderingContext2D) => {
@@ -42,7 +54,7 @@ export class SnakesNest extends GameObject {
     for (let i = 0; i < count; i++) {
       canvas.drawImage(
         image,
-        (Game.object.size - 0.5) * Cell.cellSize  - (i * cellSize) / 2,
+        (Game.object.size - 0.5) * Cell.cellSize - (i * cellSize) / 2,
         0,
         cellSize / 2,
         cellSize / 2
