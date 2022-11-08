@@ -71,15 +71,14 @@ export class Game {
     // this.gameObjects.push(new PraiseHands(this.getCellById(19)));
 
     this.gameObjects.push(new Coffin(this.getCellById(UNLUCKY_POSITION)));
-    for (let i = 12; i < 20; i++) {
-      this.gameObjects.push(
-        new SnakesNest({
-          position: this.getCellById(i),
-          snakeFrom: this.getCellById(i + 10),
-          snakeTo: this.getCellById(i - 10),
-        })
-      );
-    }
+
+    this.gameObjects.push(
+      new SnakesNest({
+        position: this.getCellById(15),
+        snakeFrom: this.getCellById(20),
+        snakeTo: this.getCellById(10),
+      }),
+    );
   };
 
   render = (delta: number) => {
