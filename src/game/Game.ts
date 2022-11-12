@@ -35,7 +35,6 @@ export class Game {
   gameObjects: GameObject[] = [];
   userMoveAnimations: UserMoveAnimationType[] = [];
   size = 6;
-  praiseHandsCount = 0;
   activePlayerKey: PlayerConfig['key'];
   players: Record<string, User> = {};
   static object: Game;
@@ -91,9 +90,12 @@ export class Game {
     const canvas = Game.canvas;
     if (canvas) {
       this.map.flat().forEach(({ render }) => render(canvas));
-      Object.values(this.players).forEach(player => player.render(canvas, delta));
+      Object.values(this.players).forEach(player => {
+        player.render(canvas, delta);
+        // TODO: display praise hands bonus (antidotes) by each player
+        PraiseHands.renderAsBonuses(canvas, player.getAntidotesCount());
+      });
       this.gameObjects.forEach(({ render }) => render(canvas));
-      PraiseHands.renderAsBonuses(canvas, this.praiseHandsCount);
     }
   };
 
@@ -205,14 +207,14 @@ export class Game {
         this.moveUser({ toId });
       }
       if (isSnake && fromId === user?.position.id) {
-        if (this.praiseHandsCount > 0) {
-          this.praiseHandsCount--;
+        if (user.getAntidotesCount() > 0) {
+          user.useAntidote();
           return;
         }
         this.moveUser({ toId });
       }
       if (praiseHands && fromId === user?.position.id) {
-        this.praiseHandsCount++; // TODO: assign to particular player
+        user.addAntidote();
         this.removeGameObject(id);
       }
       if (isSnakeNest && fromId === user?.position.id) {

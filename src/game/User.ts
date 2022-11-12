@@ -7,7 +7,7 @@ export class User {
   y: number;
   name?: string;
   imageName?: ImageName;
-
+  antidotesCount: number = 0;
   currentFrame = 0;
   framesCount = 24;
   frameSize = 256;
@@ -20,6 +20,16 @@ export class User {
     this.y = position.y;
     this.name = name;
     this.imageName = imageName;
+  }
+
+  getAntidotesCount = () => this.antidotesCount;
+
+  addAntidote = () => {
+    this.antidotesCount++;
+  }
+
+  useAntidote = () => {
+    this.antidotesCount--;
   }
 
   render = (canvas: CanvasRenderingContext2D, delta: number) => {
