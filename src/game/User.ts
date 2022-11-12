@@ -1,25 +1,42 @@
 import { Cell } from './Cell';
-import { GameImagesService } from '../gameImagesService';
+import { GameImagesService, ImageName } from '../gameImagesService';
 
 export class User {
   position: Cell;
   x: number;
   y: number;
-
+  name?: string;
+  imageName?: ImageName;
+  antidotesCount: number = 0;
   currentFrame = 0;
   framesCount = 24;
   frameSize = 256;
   frameDelay = 50;
   timeSinceLastFrame = 0;
 
-  constructor(position: Cell) {
+  constructor(position: Cell, name?: string, imageName: ImageName = 'userDance') {
     this.position = position;
     this.x = position.x;
     this.y = position.y;
+    this.name = name;
+    this.imageName = imageName;
+  }
+
+  getAntidotesCount = () => this.antidotesCount;
+
+  addAntidote = () => {
+    this.antidotesCount++;
+  }
+
+  useAntidote = () => {
+    this.antidotesCount--;
   }
 
   render = (canvas: CanvasRenderingContext2D, delta: number) => {
-    if (!GameImagesService.collection.userDance) return;
+    const image = this.imageName ? GameImagesService.collection[this.imageName] : null;
+
+    if (!image) return;
+
     this.timeSinceLastFrame += delta;
     if (this.timeSinceLastFrame >= this.frameDelay) {
       this.timeSinceLastFrame = 0;
@@ -30,7 +47,7 @@ export class User {
     }
     if (this.position) {
       canvas.drawImage(
-        GameImagesService.collection.userDance,
+        image,
         this.currentFrame * this.frameSize,
         0,
         this.frameSize,
