@@ -1,6 +1,8 @@
 import { ImageName } from '../gameImagesService';
 import { LoopCallbackFunctionType } from '../gameLoop';
-import { checkPointsMatch, normalizeVector } from '../utils';
+import {
+  PlaySoundCallbacks,
+} from '../utils';
 import { Cell } from './Cell';
 import { Coffin } from './Coffin';
 import { UNLUCKY_POSITION } from './constants';
@@ -41,7 +43,7 @@ export class Game {
   static object: Game;
   static playerConfig: PlayerConfig[];
   static id = 0;
-
+  private static gameSounds: PlaySoundCallbacks;
   private static canvas?: CanvasRenderingContext2D | null = null;
   constructor(playerConfig: PlayerConfig[]) {
     Game.object = this;
@@ -60,7 +62,7 @@ export class Game {
     this.activePlayerKey = activePlayerKey;
   };
 
-  init = (canvas: HTMLCanvasElement | null) => {
+  init = (canvas: HTMLCanvasElement | null, gameSounds: PlaySoundCallbacks) => {
     if (this.isInitialized) return;
     Cell.currentId = 0;
     this.map = Game.generaMap(this.size);
@@ -69,7 +71,7 @@ export class Game {
     Game.playerConfig.forEach(({ key, imageName }) => {
       this.players[key] = new User(this.map[0][0], key, imageName);
     }, {});
-
+    Game.gameSounds = gameSounds;
     this.isInitialized = true;
 
     this.gameObjects.push(
@@ -158,6 +160,7 @@ export class Game {
       if (directMove) {
         this.addMoveUserAnimation({ currentPosition, newPosition });
       } else {
+        Game.gameSounds.userMoveSound();
         new Array(newPosition.id - currentPosition.id)
           .fill(null)
           .forEach((_, index) => {
@@ -237,27 +240,34 @@ export class Game {
       if (moveToStart && fromId === user?.position.id) {
         this.moveUser({ toId: 0, directMove: true });
         this.removeGameObject(id);
+        Game.gameSounds.coffinSound();
         return;
       }
       if (isLadder && fromId === user?.position.id) {
         this.moveUser({ toId, directMove: true });
+        Game.gameSounds.ladderSound();
+        return;
       }
       if (isSnake && fromId === user?.position.id) {
         if (user.getAntidotesCount() > 0) {
           user.useAntidote();
+          Game.gameSounds.usePraiseHandsSound();
           return;
         }
         this.moveUser({ toId, directMove: true });
+        Game.gameSounds.snakeSound();
       }
       if (praiseHands && fromId === user?.position.id) {
         user.addAntidote();
         this.removeGameObject(id);
+        Game.gameSounds.getPraiseHandsSound();
       }
       if (isSnakeNest && fromId === user?.position.id) {
         const snake = (object as SnakesNest).snake;
         this.gameObjects.push(snake);
         snake.animate();
         this.removeGameObject(id);
+        Game.gameSounds.snakesNestSound();
         return;
       }
     });
