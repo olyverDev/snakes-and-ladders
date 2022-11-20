@@ -32,21 +32,4 @@ export class PraiseHands extends GameObject {
       sizeY * cellSize
     );
   };
-
-  static renderAsBonuses = (
-    canvas: CanvasRenderingContext2D,
-    count: number
-  ) => {
-    const image = images.praiseHands;
-    const { cellSize } = Cell;
-    for (let i = 0; i < count; i++) {
-      canvas.drawImage(
-        image,
-        (Game.object.size - 0.5) * Cell.cellSize  - (i * cellSize) / 2,
-        0,
-        cellSize / 2,
-        cellSize / 2
-      );
-    }
-  };
 }

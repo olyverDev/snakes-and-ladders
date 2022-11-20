@@ -14,7 +14,11 @@ export class User {
   frameDelay = 50;
   timeSinceLastFrame = 0;
 
-  constructor(position: Cell, name?: string, imageName: ImageName = 'userDanceBlack') {
+  constructor(
+    position: Cell,
+    name?: string,
+    imageName: ImageName = 'userDanceBlack'
+  ) {
     this.position = position;
     this.x = position.x;
     this.y = position.y;
@@ -26,14 +30,16 @@ export class User {
 
   addAntidote = () => {
     this.antidotesCount++;
-  }
+  };
 
   useAntidote = () => {
     this.antidotesCount--;
-  }
+  };
 
   render = (canvas: CanvasRenderingContext2D, delta: number) => {
-    const image = this.imageName ? GameImagesService.collection[this.imageName] : null;
+    const image = this.imageName
+      ? GameImagesService.collection[this.imageName]
+      : null;
 
     if (!image) return;
 
@@ -58,6 +64,18 @@ export class User {
         Cell.cellSize
       );
     }
+    this.renderBonuses(canvas, this.antidotesCount);
+  };
+  renderBonuses = (canvas: CanvasRenderingContext2D, count: number) => {
+    for (let i = 0; i < count; i++) {
+      const fontSize = Cell.cellSize / 3;
+      canvas.font = `${fontSize}px serif`;
+      canvas.fillStyle = 'white';
+      canvas.fillText(
+        '✚',
+        this.x * Cell.cellSize + (Cell.cellSize / 3) * 2,
+        this.y * Cell.cellSize + Cell.cellSize * 0.95 - (Cell.cellSize / 3) * i
+      );
+    }
   };
 }
-
