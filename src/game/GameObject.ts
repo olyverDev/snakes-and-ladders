@@ -6,6 +6,7 @@ export enum GameObjectTypes {
   praiseHands,
   snakesNest,
   coffin,
+  cell
 }
 
 type GameObjectProps = {
@@ -18,6 +19,7 @@ type GameObjectProps = {
   orientation?: orientations;
   fromId?: number;
   toId?: number;
+  id?: number
 };
 
 export abstract class GameObject {
@@ -43,6 +45,7 @@ export abstract class GameObject {
     fromId = 0,
     toId = 0,
     type,
+    id,
   }: GameObjectProps) {
     this.X = x || 0;
     this.Y = y || 0;
@@ -53,7 +56,7 @@ export abstract class GameObject {
     this.FROM_ID = fromId;
     this.TO_ID = toId;
     this.TYPE = type;
-    this.ID = GameObject.LAST_ID++;
+    this.ID = id != null ? id : GameObject.LAST_ID++;
   }
 
   abstract render: (canvas: CanvasRenderingContext2D) => void;
