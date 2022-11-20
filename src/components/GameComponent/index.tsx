@@ -15,15 +15,17 @@ import './GameComponent.css';
 const Players: PlayerConfig[] = [
   {
     key: 'user',
+    imageName: 'userDanceBlack',
     automatic: false,
   },
   {
     key: 'bot',
+    imageName: 'userDanceWhite',
     automatic: true,
-    // imageName: 'another'
   },
   {
     key: 'user2',
+    imageName: 'userDanceYellow',
     automatic: false,
   },
 ];

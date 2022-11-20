@@ -14,7 +14,7 @@ export class User {
   frameDelay = 50;
   timeSinceLastFrame = 0;
 
-  constructor(position: Cell, name?: string, imageName: ImageName = 'userDance') {
+  constructor(position: Cell, name?: string, imageName: ImageName = 'userDanceBlack') {
     this.position = position;
     this.x = position.x;
     this.y = position.y;

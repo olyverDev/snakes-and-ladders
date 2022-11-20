@@ -1,6 +1,8 @@
 import blueCell from './assets/blue_cell.png';
 import redCell from './assets/red_cell.png';
-import userDance from './assets/user_dance.png';
+import userDanceBlack from './assets/user_dance_black.png';
+import userDanceYellow from './assets/user_dance_yellow.png';
+import userDanceWhite from './assets/user_dance_white.png';
 import ladderLeft from './assets/ladder-left.png';
 import ladderRight from './assets/ladder-right.png';
 import snake from './assets/snake.png';
@@ -19,7 +21,9 @@ const IMAGES_SOURCES = {
   coffin,
   praiseHands,
   snakesNest,
-  userDance,
+  userDanceBlack,
+  userDanceYellow,
+  userDanceWhite,
 };
 
 export type ImageName = keyof typeof IMAGES_SOURCES;
