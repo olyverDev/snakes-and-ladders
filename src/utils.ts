@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useLayoutEffect, useState } from 'react';
 import { GAME_SOUNDS } from './components/AudioPlayer/constants';
+import { PlayerConfig } from './game/Game';
 
 export const useWindowResize = (callback: () => unknown) => {
   useLayoutEffect(() => {
@@ -58,3 +59,34 @@ export const useGameSounds = (): PlaySoundCallbacks => {
 
   return audioEffects;
 };
+
+
+export const SINGLE_PLAYER_CONFIG: PlayerConfig[] = [
+  {
+    key: 'player',
+    imageName: 'userDanceBlack',
+    automatic: false,
+  },
+  {
+    key: 'bot',
+    imageName: 'userDanceWhite',
+    automatic: true,
+  },
+];
+
+export const TWO_PLAYERS_CONFIG: PlayerConfig[] = [
+  {
+    key: 'player',
+    imageName: 'userDanceBlack',
+    automatic: false,
+  },
+  {
+    key: 'player2',
+    imageName: 'userDanceYellow',
+    automatic: false,
+  },
+];
+
+const isPromoGameMode = import.meta.env.VITE_IS_PROMO_GAME_MODE === 'true';
+
+export const getInitialPlayersConfig = () => isPromoGameMode ? SINGLE_PLAYER_CONFIG : TWO_PLAYERS_CONFIG;
