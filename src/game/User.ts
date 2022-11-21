@@ -68,13 +68,13 @@ export class User {
   };
   renderBonuses = (canvas: CanvasRenderingContext2D, count: number) => {
     for (let i = 0; i < count; i++) {
-      const fontSize = Cell.cellSize / 3;
+      const fontSize = Cell.cellSize / 6;
       canvas.font = `${fontSize}px serif`;
       canvas.fillStyle = 'white';
       canvas.fillText(
         '✚',
         this.x * Cell.cellSize + (Cell.cellSize / 3) * 2,
-        this.y * Cell.cellSize + Cell.cellSize * 0.95 - (Cell.cellSize / 3) * i
+        this.y * Cell.cellSize + Cell.cellSize * 0.95 - (Cell.cellSize / 6) * i
       );
     }
   };
