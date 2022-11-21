@@ -29,15 +29,16 @@ export class Cell extends GameObject {
       Cell.cellSize
     );
 
-    const fontSize = Cell.cellSize / 6;
-    canvas.font = `${fontSize}px serif`;
-    canvas.fillStyle = 'white';
-    canvas.globalAlpha = 0.4;
-    canvas.fillText(
-      '' + this.id,
-      this.x * Cell.cellSize + Cell.cellSize / 1.3,
-      this.y * Cell.cellSize + Cell.cellSize / 5
-    );
-    canvas.globalAlpha = 1;
+    // NOTE: cell numeration
+    // const fontSize = Cell.cellSize / 6;
+    // canvas.font = `${fontSize}px serif`;
+    // canvas.fillStyle = 'white';
+    // canvas.globalAlpha = 0.4;
+    // canvas.fillText(
+    //   '' + this.id + 1,
+    //   this.x * Cell.cellSize + Cell.cellSize / 1.3,
+    //   this.y * Cell.cellSize + Cell.cellSize / 5
+    // );
+    // canvas.globalAlpha = 1;
   };
 }

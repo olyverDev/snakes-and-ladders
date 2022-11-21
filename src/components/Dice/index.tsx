@@ -1,5 +1,6 @@
 import DiceComponent from 'react-dice-roll';
 import { createRef } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import './Dice.css';
 
@@ -16,11 +17,14 @@ type DicePropsType = {
 
 export const DiceRef = createRef<TDiceRef>();
 
-const Dice = ({ disabled = false, onRoll }: DicePropsType) => (
-  <div className="DiceContainer">
-    <DiceComponent disabled={disabled} ref={DiceRef} onRoll={onRoll} size={100} />
-    <div className="DiceLabel">Tap to roll the Dice</div>
-  </div>
-);
+const Dice = ({ disabled = false, onRoll }: DicePropsType) => {
+  const { t } = useTranslation();
+  return (
+    <div className="DiceContainer">
+      <DiceComponent disabled={disabled} ref={DiceRef} onRoll={onRoll} size={100} />
+      <div className="DiceLabel">{t('rollDice')}</div>
+    </div>
+  );
+}
 
 export default Dice;

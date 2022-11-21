@@ -1,3 +1,5 @@
+import { useTranslation } from 'react-i18next';
+
 import './Menu.css';
 
 type MenuProps = {
@@ -6,9 +8,10 @@ type MenuProps = {
 };
 
 function Menu({ loading, play }: MenuProps) {
+  const { t } = useTranslation();
   return (
     <div className="Menu">
-      <button disabled={loading} onClick={play}>{loading ? 'Loading...' : 'Play'}</button>
+      <button disabled={loading} onClick={play}>{loading ? t('loading') : t('play')}</button>
     </div>
   );
 }
