@@ -1,5 +1,5 @@
 import { GameImagesService } from '../gameImagesService';
-import { GameObject } from './GameObject';
+import { GameObject, GameObjectTypes } from './GameObject';
 
 const { collection: images } = GameImagesService;
 
@@ -11,14 +11,11 @@ export class Cell extends GameObject {
     } else {
       image = y % 2 !== 0 ? images.redCell : images.blueCell;
     }
-    super({ image, x, y });
-    this.id = Cell.currentId++;
+    super({ image, x, y, id: Cell.currentId++, type: GameObjectTypes.cell });
   }
 
   static cellSize = 0;
   static currentId = 0;
-
-  id = 0;
   color = images.redCell;
 
   render = (canvas: CanvasRenderingContext2D) => {
@@ -32,25 +29,15 @@ export class Cell extends GameObject {
       Cell.cellSize
     );
 
-    // TODO: remove me ---------------
-    // canvas.font = '35px serif';
-    // canvas.fillStyle = 'white';
-    // const offset = 20;
-    // canvas.fillText(
-    //   '' + this.id,
-    //   this.x * Cell.cellSize + Cell.cellSize / 2 - offset,
-    //   this.y * Cell.cellSize + Cell.cellSize / 2
-    // );
-    // canvas.fillText(
-    //   'x:' + this.x,
-    //   this.x * Cell.cellSize + Cell.cellSize / 2 - 30 - offset,
-    //   this.y * Cell.cellSize + Cell.cellSize / 2 + 40
-    // );
-    // canvas.fillText(
-    //   'y:' + this.y,
-    //   this.x * Cell.cellSize + Cell.cellSize / 2 + 30 - offset,
-    //   this.y * Cell.cellSize + Cell.cellSize / 2 + 40
-    // );
-    // TODO: remove me ---------------
+    const fontSize = Cell.cellSize / 6;
+    canvas.font = `${fontSize}px serif`;
+    canvas.fillStyle = 'white';
+    canvas.globalAlpha = 0.4;
+    canvas.fillText(
+      '' + this.id,
+      this.x * Cell.cellSize + Cell.cellSize / 1.3,
+      this.y * Cell.cellSize + Cell.cellSize / 5
+    );
+    canvas.globalAlpha = 1;
   };
 }

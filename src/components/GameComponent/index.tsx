@@ -6,7 +6,7 @@ import Game from '../../game';
 import { PlayerConfig } from '../../game/Game';
 import { Cell } from '../../game/Cell';
 import { gameLoopFactory } from '../../gameLoop';
-import { useWindowResize } from '../../utils';
+import { useGameSounds, useWindowResize } from '../../utils';
 import './GameComponent.css';
 
 /**
@@ -15,15 +15,17 @@ import './GameComponent.css';
 const Players: PlayerConfig[] = [
   {
     key: 'user',
+    imageName: 'userDanceBlack',
     automatic: false,
   },
   {
     key: 'bot',
+    imageName: 'userDanceWhite',
     automatic: true,
-    // imageName: 'another'
   },
   {
     key: 'user2',
+    imageName: 'userDanceYellow',
     automatic: false,
   },
 ];
@@ -36,10 +38,14 @@ function GameComponent() {
   const game = useMemo(() => Game.object, []);
   const [turnIndex, setTurnIndex] = useState(0);
   const activePlayer = useMemo(() => Players[turnIndex], [turnIndex]);
+  const gameSounds = useGameSounds();
 
   useEffect(() => {
     if (activePlayer.automatic) {
-      if (DiceRef.current) setTimeout(() => { DiceRef.current?.rollDice(); }, 2000);
+      if (DiceRef.current)
+        setTimeout(() => {
+          DiceRef.current?.rollDice();
+        }, 2000);
     }
   }, [activePlayer]);
 
@@ -52,16 +58,19 @@ function GameComponent() {
     game.loopInitialized = true;
   }, [game]);
 
-  const onRoll = useCallback((countMoves: number) => {
-    const isLastPlayer = turnIndex === Players.length - 1;
-    const nextIndex = isLastPlayer ? 0 : turnIndex + 1;
-    const nextPlayer = Players[nextIndex];
+  const onRoll = useCallback(
+    (countMoves: number) => {
+      const isLastPlayer = turnIndex === Players.length - 1;
+      const nextIndex = isLastPlayer ? 0 : turnIndex + 1;
+      const nextPlayer = Players[nextIndex];
 
-    game.setActivePlayerKey(nextPlayer.key);
-    setTurnIndex(nextIndex);
-    setHistory((previous) => [...previous, countMoves]);
-    game.moveUser({ countMoves });
-  }, [turnIndex]);
+      game.setActivePlayerKey(nextPlayer.key);
+      setTurnIndex(nextIndex);
+      setHistory((previous) => [...previous, countMoves]);
+      game.moveUser({ countMoves });
+    },
+    [turnIndex]
+  );
 
   const onResize = useCallback(() => {
     if (canvasRef.current && game) {
@@ -73,10 +82,10 @@ function GameComponent() {
   }, [game]);
 
   useEffect(() => {
-    if (game.isInitialized || !canvasRef.current || !game) return;
-    game.init(canvasRef.current);
+    if (game.isInitialized || !canvasRef.current || !game || !gameSounds) return;
+    game.init(canvasRef.current, gameSounds);
     onResize();
-  }, [onResize]);
+  }, [onResize, gameSounds]);
 
   useWindowResize(onResize);
 
