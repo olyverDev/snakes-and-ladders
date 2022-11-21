@@ -6,29 +6,10 @@ import Game from '../../game';
 import { PlayerConfig } from '../../game/Game';
 import { Cell } from '../../game/Cell';
 import { gameLoopFactory } from '../../gameLoop';
-import { useGameSounds, useWindowResize } from '../../utils';
+import { getInitialPlayersConfig, useGameSounds, useWindowResize } from '../../utils';
 import './GameComponent.css';
 
-/**
- * can be dynamic in future (configured from menu)
- */
-const Players: PlayerConfig[] = [
-  {
-    key: 'user',
-    imageName: 'userDanceBlack',
-    automatic: false,
-  },
-  {
-    key: 'bot',
-    imageName: 'userDanceWhite',
-    automatic: true,
-  },
-  {
-    key: 'user2',
-    imageName: 'userDanceYellow',
-    automatic: false,
-  },
-];
+const Players = getInitialPlayersConfig();
 
 new Game(Players);
 
