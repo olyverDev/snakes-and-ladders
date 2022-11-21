@@ -45,10 +45,11 @@ function GameComponent() {
       const nextIndex = isLastPlayer ? 0 : turnIndex + 1;
       const nextPlayer = Players[nextIndex];
 
-      game.setActivePlayerKey(nextPlayer.key);
-      setTurnIndex(nextIndex);
       setHistory((previous) => [...previous, countMoves]);
       game.moveUser({ countMoves });
+      // TODO: wait until 'game.moveUser' ended
+      setTurnIndex(nextIndex);
+      game.setActivePlayerKey(nextPlayer.key);
     },
     [turnIndex]
   );
