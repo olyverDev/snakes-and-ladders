@@ -8,10 +8,22 @@ import { Cell } from '../../game/Cell';
 import { gameLoopFactory } from '../../gameLoop';
 import { getInitialPlayersConfig, useGameSounds, useWindowResize } from '../../utils';
 import './GameComponent.css';
+import GameRuleModal from '../GameRuleModal';
 
 const Players = getInitialPlayersConfig();
 
 new Game(Players);
+
+enum Modals {
+  GameRuleModal = 'gameRuleModal',
+}
+
+const ModalsLinkedList = {
+  [Modals.GameRuleModal]: {
+    id: Modals.GameRuleModal,
+    next: null,
+  },
+};
 
 function GameComponent() {
   const [history, setHistory] = useState([0]);
@@ -20,6 +32,12 @@ function GameComponent() {
   const [turnIndex, setTurnIndex] = useState(0);
   const activePlayer = useMemo(() => Players[turnIndex], [turnIndex]);
   const gameSounds = useGameSounds();
+
+  const [activeModal, setActiveModal] = useState<Modals | null>(Modals.GameRuleModal);
+
+  const handleCloseRulesModal = () => {
+    setActiveModal(ModalsLinkedList[Modals.GameRuleModal].next);
+  };
 
   useEffect(() => {
     if (activePlayer.automatic) {
@@ -80,6 +98,8 @@ function GameComponent() {
         <AudioPlayer />
         <Dice disabled={activePlayer.automatic} onRoll={onRoll} />
       </div>
+
+      {activeModal === Modals.GameRuleModal && <GameRuleModal onClose={handleCloseRulesModal} />}
     </div>
   );
 }
