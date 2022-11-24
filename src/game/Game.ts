@@ -86,20 +86,7 @@ export class Game {
     this.gameObjects.push(
       new Ladder(this.getCellById(34), this.getCellById(21))
     );
-    this.gameObjects.push(new PraiseHands(this.getCellById(11)));
-    this.gameObjects.push(new PraiseHands(this.getCellById(12)));
-    this.gameObjects.push(new PraiseHands(this.getCellById(13)));
-    this.gameObjects.push(new PraiseHands(this.getCellById(14)));
-    this.gameObjects.push(new PraiseHands(this.getCellById(15)));
     this.gameObjects.push(new PraiseHands(this.getCellById(16)));
-    this.gameObjects.push(new PraiseHands(this.getCellById(17)));
-    this.gameObjects.push(new PraiseHands(this.getCellById(21)));
-    this.gameObjects.push(new PraiseHands(this.getCellById(22)));
-    this.gameObjects.push(new PraiseHands(this.getCellById(23)));
-    this.gameObjects.push(new PraiseHands(this.getCellById(24)));
-    this.gameObjects.push(new PraiseHands(this.getCellById(25)));
-    this.gameObjects.push(new PraiseHands(this.getCellById(26)));
-    this.gameObjects.push(new PraiseHands(this.getCellById(27)));
     this.gameObjects.push(new Coffin(this.getCellById(UNLUCKY_POSITION)));
     this.gameObjects.push(
       new SnakesNest({
