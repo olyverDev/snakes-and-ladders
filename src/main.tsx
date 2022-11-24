@@ -15,6 +15,7 @@ i18n
       en: {
         translation: {
           rollDice: 'Roll the Dice',
+          wait: 'Wait...',
           play: 'Play',
           loading: 'Loading...',
           rules: {
@@ -31,6 +32,7 @@ i18n
       ru: {
         translation: {
           rollDice: 'Бросить кубик',
+          wait: 'Подождите...',
           play: 'Начать игру',
           loading: 'Подождите...',
           rules: {
