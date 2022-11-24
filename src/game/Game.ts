@@ -1,11 +1,10 @@
 import { ImageName } from '../gameImagesService';
 import { LoopCallbackFunctionType } from '../gameLoop';
-import {
-  PlaySoundCallbacks,
-} from '../utils';
+import { PlaySoundCallbacks } from '../utils';
 import { Cell } from './Cell';
 import { Coffin } from './Coffin';
 import { UNLUCKY_POSITION } from './constants';
+import { GameEvent } from './GameEvent';
 import { GameObject, GameObjectTypes } from './GameObject';
 import { Ladder } from './Ladder';
 import { PraiseHands } from './PraiseHands';
@@ -22,6 +21,7 @@ type UserMoveAnimationType = {
   duration: number;
   gameObj: Game;
   currentDuration: number;
+  isLastStep: boolean;
 };
 
 export type PlayerConfig = {
@@ -158,12 +158,16 @@ export class Game {
         return;
       }
       if (directMove) {
-        this.addMoveUserAnimation({ currentPosition, newPosition });
+        this.addMoveUserAnimation({
+          currentPosition,
+          newPosition,
+          isLastStep: true,
+        });
       } else {
         Game.gameSounds.userMoveSound();
         new Array(newPosition.id - currentPosition.id)
           .fill(null)
-          .forEach((_, index) => {
+          .forEach((_, index, { length }) => {
             const currentAnimationPosition = this.getCellById(
               currentPosition.id + index
             );
@@ -174,6 +178,7 @@ export class Game {
             this.addMoveUserAnimation({
               currentPosition: currentAnimationPosition,
               newPosition: newAnimationPosition,
+              isLastStep: index === length - 1,
             });
           });
       }
@@ -184,15 +189,25 @@ export class Game {
   addMoveUserAnimation = ({
     currentPosition,
     newPosition,
+    isLastStep = false,
   }: {
     currentPosition: Cell;
     newPosition: Cell;
+    isLastStep?: boolean;
   }) => {
     this.userMoveAnimations.push({
       callback: function (delta) {
         this.currentDuration += delta;
-        const { xFrom, yFrom, xTo, yTo, duration, gameObj, currentDuration } =
-          this || {};
+        const {
+          xFrom,
+          yFrom,
+          xTo,
+          yTo,
+          duration,
+          gameObj,
+          currentDuration,
+          isLastStep,
+        } = this || {};
         if (!gameObj) return;
 
         const gameObjUser = gameObj.players[gameObj.activePlayerKey];
@@ -203,6 +218,7 @@ export class Game {
           gameObj.userMoveAnimations.shift();
           gameObjUser.x = xTo;
           gameObjUser.y = yTo;
+          if (isLastStep) GameEvent.fire('userEndMove');
           return;
         }
         gameObjUser.x = xFrom + ((xTo - xFrom) * currentDuration) / duration;
@@ -215,6 +231,7 @@ export class Game {
       duration: 500,
       gameObj: this,
       currentDuration: 0,
+      isLastStep,
     });
   };
   removeGameObject = (removableId: number) => {
