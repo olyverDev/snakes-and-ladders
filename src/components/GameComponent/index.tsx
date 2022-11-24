@@ -9,6 +9,7 @@ import { gameLoopFactory } from '../../gameLoop';
 import { getInitialPlayersConfig, useGameSounds, useWindowResize } from '../../utils';
 import './GameComponent.css';
 import GameRuleModal from '../GameRuleModal';
+import { GameEvent } from '../../game/GameEvent';
 
 const Players = getInitialPlayersConfig();
 
@@ -29,8 +30,6 @@ function GameComponent() {
   const [history, setHistory] = useState([0]);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const game = useMemo(() => Game.object, []);
-  const [turnIndex, setTurnIndex] = useState(0);
-  const activePlayer = useMemo(() => Players[turnIndex], [turnIndex]);
   const gameSounds = useGameSounds();
 
   const [activeModal, setActiveModal] = useState<Modals | null>(Modals.GameRuleModal);
@@ -39,14 +38,39 @@ function GameComponent() {
     setActiveModal(ModalsLinkedList[Modals.GameRuleModal].next);
   };
 
+  const [moving, setMoving] = useState(false);
+
   useEffect(() => {
-    if (activePlayer.automatic) {
-      if (DiceRef.current)
-        setTimeout(() => {
-          DiceRef.current?.rollDice();
-        }, 2000);
-    }
-  }, [activePlayer]);
+    const userStartMoveId = GameEvent.addListener('userStartMove', () => {
+      setMoving(true);
+    });
+    const userEndMoveId = GameEvent.addListener('userEndMove', () => {
+      setMoving(false);
+    });
+
+    return () => {
+      GameEvent.removeListener(userStartMoveId);
+      GameEvent.removeListener(userEndMoveId);
+    };
+  }, []);
+
+  useEffect(() => {
+    const eventId = GameEvent.addListener('nextTurn', () => {
+      const turnIndex = Players.map(p => p.key).indexOf(game.activePlayerKey);
+      const isLastPlayer = turnIndex === Players.length - 1;
+      const nextIndex = isLastPlayer ? 0 : turnIndex + 1;
+      const nextPlayer = Players[nextIndex];
+      game.setActivePlayerKey(nextPlayer.key);
+
+      if (nextPlayer.automatic && DiceRef.current) {
+        DiceRef.current?.rollDice();
+      }
+    });
+
+    return () => {
+      GameEvent.removeListener(eventId);
+    };
+  }, []);
 
   useEffect(() => {
     if (!game || game.loopInitialized) return;
@@ -59,17 +83,11 @@ function GameComponent() {
 
   const onRoll = useCallback(
     (countMoves: number) => {
-      const isLastPlayer = turnIndex === Players.length - 1;
-      const nextIndex = isLastPlayer ? 0 : turnIndex + 1;
-      const nextPlayer = Players[nextIndex];
-
+      GameEvent.fire('userStartMove');
       setHistory((previous) => [...previous, countMoves]);
       game.moveUser({ countMoves });
-      // TODO: wait until 'game.moveUser' ended
-      setTurnIndex(nextIndex);
-      game.setActivePlayerKey(nextPlayer.key);
     },
-    [turnIndex]
+    [],
   );
 
   const onResize = useCallback(() => {
@@ -96,7 +114,7 @@ function GameComponent() {
       </div>
       <div className="SideControls">
         <AudioPlayer />
-        <Dice disabled={activePlayer.automatic} onRoll={onRoll} />
+        <Dice disabled={moving} onRoll={onRoll} />
       </div>
 
       {activeModal === Modals.GameRuleModal && <GameRuleModal onClose={handleCloseRulesModal} />}

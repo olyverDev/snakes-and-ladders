@@ -21,7 +21,7 @@ type UserMoveAnimationType = {
   duration: number;
   gameObj: Game;
   currentDuration: number;
-  isLastStep: boolean;
+  isTurnEnd: boolean;
 };
 
 export type PlayerConfig = {
@@ -29,6 +29,8 @@ export type PlayerConfig = {
   automatic: boolean;
   imageName?: ImageName;
 };
+
+type VoidFn = () => void;
 
 export class Game {
   finishId = 0;
@@ -145,7 +147,7 @@ export class Game {
     toId?: number;
     directMove?: boolean;
   }) {
-    const { getCellById, checkGameObjects, addMoveUserAnimation } = this;
+    const { getCellById, createGameObjectsHandlers, addMoveUserAnimation } = this;
     const user = this.getActivePlayer();
     if (user) {
       const currentPosition = user.position;
@@ -157,11 +159,16 @@ export class Game {
         this.moveUser({ toId: this.finishId });
         return;
       }
+
+      const { extraAction, isExtraMove } = createGameObjectsHandlers(newPosition);
+
       if (directMove) {
-        this.addMoveUserAnimation({
+
+        addMoveUserAnimation({
           currentPosition,
           newPosition,
-          isLastStep: true,
+          isTurnEnd: !isExtraMove,
+          extraAction,
         });
       } else {
         Game.gameSounds.userMoveSound();
@@ -175,25 +182,36 @@ export class Game {
               currentPosition.id + index + 1
             );
             if (!currentAnimationPosition || !newAnimationPosition) return;
-            this.addMoveUserAnimation({
-              currentPosition: currentAnimationPosition,
-              newPosition: newAnimationPosition,
-              isLastStep: index === length - 1,
-            });
+
+            const isLastStep = index === length - 1;
+
+            if (isLastStep) {
+              addMoveUserAnimation({
+                currentPosition: currentAnimationPosition,
+                newPosition: newAnimationPosition,
+                isTurnEnd: !isExtraMove,
+                extraAction,
+              });
+            } else {
+              addMoveUserAnimation({
+                currentPosition: currentAnimationPosition,
+                newPosition: newAnimationPosition,
+              });
+            }
           });
       }
-
-      checkGameObjects();
     }
   }
   addMoveUserAnimation = ({
     currentPosition,
     newPosition,
-    isLastStep = false,
+    isTurnEnd = false,
+    extraAction,
   }: {
     currentPosition: Cell;
     newPosition: Cell;
-    isLastStep?: boolean;
+    isTurnEnd?: boolean;
+    extraAction?: VoidFn;
   }) => {
     this.userMoveAnimations.push({
       callback: function (delta) {
@@ -206,7 +224,7 @@ export class Game {
           duration,
           gameObj,
           currentDuration,
-          isLastStep,
+          isTurnEnd,
         } = this || {};
         if (!gameObj) return;
 
@@ -218,7 +236,16 @@ export class Game {
           gameObj.userMoveAnimations.shift();
           gameObjUser.x = xTo;
           gameObjUser.y = yTo;
-          if (isLastStep) GameEvent.fire('userEndMove');
+
+          if (extraAction) {
+            extraAction();
+          }
+
+          if (isTurnEnd) {
+            GameEvent.fire('userEndMove');
+            GameEvent.fire('nextTurn');
+          }
+
           return;
         }
         gameObjUser.x = xFrom + ((xTo - xFrom) * currentDuration) / duration;
@@ -231,7 +258,7 @@ export class Game {
       duration: 500,
       gameObj: this,
       currentDuration: 0,
-      isLastStep,
+      isTurnEnd,
     });
   };
   removeGameObject = (removableId: number) => {
@@ -242,52 +269,88 @@ export class Game {
     }, 2000);
   };
 
-  checkGameObjects = () => {
-    this.gameObjects.forEach((object) => {
+  createGameObjectsHandlers = (position: Cell): { extraAction?: VoidFn; isExtraMove: boolean } => {
+    const user = this.getActivePlayer();
+    const positionId = position?.id;
+    let isExtraMove = false;
+
+    const handlers = this.gameObjects.reduce<VoidFn[]>((acc, object) => {
       const { fromId, toId, type, id } = object;
 
-      const isSnakeNest = type === GameObjectTypes.snakesNest;
+      const isPositionMatch = fromId === positionId;
 
+      if (!isPositionMatch) return acc;
+
+      const isSnakeNest = type === GameObjectTypes.snakesNest;
       const isSnake = type === GameObjectTypes.snake;
       const isLadder = type === GameObjectTypes.ladder;
       const praiseHands = type === GameObjectTypes.praiseHands;
       const moveToStart = type === GameObjectTypes.coffin;
-      const user = this.getActivePlayer();
 
-      if (moveToStart && fromId === user?.position.id) {
-        this.moveUser({ toId: 0, directMove: true });
-        this.removeGameObject(id);
-        Game.gameSounds.coffinSound();
-        return;
+      if (moveToStart) {
+        isExtraMove = true;
+        acc.push(() => {
+          this.moveUser({ toId: 0, directMove: true });
+          this.removeGameObject(id);
+          Game.gameSounds.coffinSound();
+        });
+        return acc;
       }
-      if (isLadder && fromId === user?.position.id) {
-        this.moveUser({ toId, directMove: true });
-        Game.gameSounds.ladderSound();
-        return;
+
+      if (isLadder) {
+        isExtraMove = true;
+        acc.push(() => {
+          this.moveUser({ toId, directMove: true });
+          Game.gameSounds.ladderSound();
+        });
+        return acc;
       }
-      if (isSnake && fromId === user?.position.id) {
+
+      if (isSnake) {
         if (user.getAntidotesCount() > 0) {
-          user.useAntidote();
-          Game.gameSounds.usePraiseHandsSound();
-          return;
+          acc.push(() => {
+            user.useAntidote();
+            Game.gameSounds.usePraiseHandsSound();
+          });
+          return acc;
         }
-        this.moveUser({ toId, directMove: true });
-        Game.gameSounds.snakeSound();
+
+        isExtraMove = true;
+        acc.push(() => {
+          this.moveUser({ toId, directMove: true });
+          Game.gameSounds.snakeSound();
+        });
+        return acc;
       }
-      if (praiseHands && fromId === user?.position.id) {
-        user.addAntidote();
-        this.removeGameObject(id);
-        Game.gameSounds.getPraiseHandsSound();
+
+      if (praiseHands) {
+        acc.push(() => {
+          user.addAntidote();
+          this.removeGameObject(id);
+          Game.gameSounds.getPraiseHandsSound();
+        });
+        return acc;
       }
-      if (isSnakeNest && fromId === user?.position.id) {
-        const snake = (object as SnakesNest).snake;
-        this.gameObjects.push(snake);
-        snake.animate();
-        this.removeGameObject(id);
-        Game.gameSounds.snakesNestSound();
-        return;
+
+      if (isSnakeNest) {
+        acc.push(() => {
+          const snake = (object as SnakesNest).snake;
+          this.gameObjects.push(snake);
+          this.removeGameObject(id);
+          snake.animate();
+          Game.gameSounds.snakesNestSound();
+        });
+        return acc;
       }
-    });
+
+      return acc;
+    }, []);
+
+    const extraAction = handlers.length ? () => {
+      handlers.forEach(handler => handler());
+    } : undefined;
+
+    return { extraAction, isExtraMove };
   };
 
   getCellById = (searchId: number) =>
