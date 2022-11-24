@@ -19,25 +19,25 @@ export class GameEvent {
   private static lastListenerId = 0;
   private static EVENTS: Record<EventType, EventRecordType> = {
     gameStart: {
-      listeners: [],
+      listeners: {},
     },
     gameEnd: {
-      listeners: [],
+      listeners: {},
     },
     userMove: {
-      listeners: [],
+      listeners: {},
     },
     userStartMove: {
-      listeners: [],
+      listeners: {},
     },
     userEndMove: {
-      listeners: [],
+      listeners: {},
     },
     nextTurn: {
-      listeners: [],
+      listeners: {},
     },
     userOnGameObject: {
-      listeners: [],
+      listeners: {},
     },
   };
 
