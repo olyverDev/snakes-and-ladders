@@ -8,6 +8,15 @@ import './reset.css';
 import './global.css';
 import { logAnalyticsEvent, AnalyticsEvent } from './firebase';
 
+const detectSupportedLanguage = () => {
+  // @ts-expect-error no 'userLanguage' property in Navigator
+  const language = navigator.language || navigator.userLanguage;
+  
+  if (!language) return 'ru';
+
+  return language.toLowerCase().startsWith('en') ? 'en' : 'ru';
+};
+
 i18n
   .use(initReactI18next)
   .init({
@@ -47,7 +56,7 @@ i18n
         }
       },
     },
-    lng: 'ru', // if you're using a language detector, do not define the lng option
+    lng: detectSupportedLanguage(),
     fallbackLng: 'ru',
     interpolation: {
       escapeValue: false,
