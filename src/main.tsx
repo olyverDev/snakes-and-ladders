@@ -17,7 +17,6 @@ i18n
           rollDice: 'Roll the Dice',
           wait: 'Wait...',
           play: 'Play',
-          loading: 'Loading...',
           rules: {
             base: 'Snakes & Ladders is a fancy board game! Players are rolling the dice and moving on board. The winner is the one who gets to the finish cell faster than the others.',
             ladder: 'The player moves from the beginning of the ladder to its top',
@@ -34,7 +33,6 @@ i18n
           rollDice: 'Бросить кубик',
           wait: 'Подождите...',
           play: 'Начать игру',
-          loading: 'Подождите...',
           rules: {
             base: 'Змеи и лестницы — увлекательная настольная игра! Игроки кидают кубик и ходят по игровому полю. Победит тот, кто быстрее остальных доберется до финиша.',
             ladder: 'Игрок передвигается от начала лестницы к ее верху',

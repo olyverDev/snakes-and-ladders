@@ -14,7 +14,7 @@ function App() {
       MENU: (
         <Menu
           loading={!imagesLoaded}
-          play={() => {
+          onPlayPress={() => {
             logAnalyticsEvent(AnalyticsEvent.PressPlay);
             setCurrentRoute(SCREENS.GAME);
           }}

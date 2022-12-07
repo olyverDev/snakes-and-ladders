@@ -15,7 +15,7 @@ const PlatformButton = ({ active = false, id, label, onClick }: PlatformButtonPr
   const handleClick = useCallback(() => {
     onClick(id)
   }, [id]);
-  const className = active ? 'button button-active' : 'button';
+  const className = active ? 'Button Button-active' : 'Button';
 
   return (
     <button className={className} onClick={handleClick}>{label}</button>
