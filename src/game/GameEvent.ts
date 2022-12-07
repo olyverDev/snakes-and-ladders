@@ -7,7 +7,7 @@ type EventType =
   | 'nextTurn'
   | 'userOnGameObject';
 
-type EventPayloadType = { type: EventType };
+type EventPayloadType = Record<string, unknown>;
 
 type EventListenerCallbackType = (payload: EventPayloadType) => void;
 

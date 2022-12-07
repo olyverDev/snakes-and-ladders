@@ -9,7 +9,9 @@ import { gameLoopFactory } from '../../gameLoop';
 import { getInitialPlayersConfig, useGameSounds, useWindowResize } from '../../utils';
 import './GameComponent.css';
 import GameRuleModal from '../GameRuleModal';
+import EndGameModal from '../EndGameModal';
 import { GameEvent } from '../../game/GameEvent';
+import { useTranslation } from 'react-i18next';
 
 const Players = getInitialPlayersConfig();
 
@@ -17,6 +19,7 @@ new Game(Players);
 
 enum Modals {
   GameRuleModal = 'gameRuleModal',
+  EndGameModal = 'endGameModal',
 }
 
 const ModalsLinkedList = {
@@ -24,21 +27,41 @@ const ModalsLinkedList = {
     id: Modals.GameRuleModal,
     next: null,
   },
+  [Modals.EndGameModal]: {
+    id: Modals.EndGameModal,
+    next: null,
+  },
 };
 
 function GameComponent() {
   const [history, setHistory] = useState([0]);
+  const { t } = useTranslation();
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const game = useMemo(() => Game.object, []);
   const gameSounds = useGameSounds();
 
   const [activeModal, setActiveModal] = useState<Modals | null>(Modals.GameRuleModal);
 
-  const handleCloseRulesModal = () => {
-    setActiveModal(ModalsLinkedList[Modals.GameRuleModal].next);
-  };
-
   const [moving, setMoving] = useState(false);
+  const [isGameEnd, setGameEnd] = useState(false);
+
+
+  useEffect(() => {
+    const eventId = GameEvent.addListener('gameEnd', (payload) => {
+      alert(t('endGame.forPlayer', { name: payload.player }));
+
+      const realPlayers = Game.playerConfig.filter(player => !player.automatic);
+
+      if (realPlayers.length === 0) {
+        setGameEnd(true);
+        setActiveModal(Modals.EndGameModal);
+      }
+    });
+
+    return () => {
+      GameEvent.removeListener(eventId);
+    };
+  }, []);
 
   useEffect(() => {
     const userStartMoveId = GameEvent.addListener('userStartMove', () => {
@@ -56,11 +79,18 @@ function GameComponent() {
 
   useEffect(() => {
     const eventId = GameEvent.addListener('nextTurn', () => {
-      const turnIndex = Players.map(p => p.key).indexOf(game.activePlayerKey);
-      const isLastPlayer = turnIndex === Players.length - 1;
+      const turnIndex = Game.playerConfig.map(p => p.key).indexOf(game.activePlayerKey);
+      const isLastPlayer = turnIndex === Game.playerConfig.length - 1;
       const nextIndex = isLastPlayer ? 0 : turnIndex + 1;
-      const nextPlayer = Players[nextIndex];
+      const nextPlayer = Game.playerConfig[nextIndex];
       game.setActivePlayerKey(nextPlayer.key);
+
+      const realPlayers = Game.playerConfig.filter(player => !player.automatic);
+
+      if (realPlayers.length === 0) {
+        // NOTE: no need to roll dice as only bots left
+        return;
+      }
 
       if (nextPlayer.automatic && DiceRef.current) {
         DiceRef.current?.rollDice();
@@ -107,6 +137,18 @@ function GameComponent() {
 
   useWindowResize(onResize);
 
+  const handleCloseRulesModal = () => {
+    setActiveModal(ModalsLinkedList[Modals.GameRuleModal].next);
+  };
+
+  const handleCloseEndGameModal = () => {
+    setActiveModal(ModalsLinkedList[Modals.EndGameModal].next);
+    // TODO: restart game properly
+    Game.playerConfig = Players;
+    onResize();
+    setGameEnd(false);
+  };
+
   return (
     <div className="GameContainer">
       <div className="GameComponent">
@@ -114,10 +156,11 @@ function GameComponent() {
       </div>
       <div className="SideControls">
         <AudioPlayer />
-        <Dice disabled={moving} onRoll={onRoll} />
+        {!isGameEnd && <Dice disabled={moving} onRoll={onRoll} />}
       </div>
 
       {activeModal === Modals.GameRuleModal && <GameRuleModal onClose={handleCloseRulesModal} />}
+      {activeModal === Modals.EndGameModal && <EndGameModal onClose={handleCloseEndGameModal} />}
     </div>
   );
 }

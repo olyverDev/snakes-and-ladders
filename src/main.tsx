@@ -35,6 +35,11 @@ i18n
             snakesNest: 'If you hit a nest of snakes, an additional snake appears on the board',
             continueButton: 'Sure',
           },
+          endGame: {
+            title: 'Game is ended',
+            restart: 'Play again',
+            forPlayer: 'Player "{{name}} reached the finish!"',
+          },
         }
       },
       ru: {
@@ -50,6 +55,11 @@ i18n
             praiseHands: 'Игрок получает дополнительную жизнь-антидот, спасающую его от змеи',
             snakesNest: 'При попадании на гнездо змей на доске появляется дополнительная змея',
             continueButton: 'Понял-принял',
+          },
+          endGame: {
+            title: 'Игра окончена',
+            restart: 'Начать заново',
+            forPlayer: 'Игрок "{{name}}" добрался до финиша!',
           },
         }
       },

@@ -10,6 +10,7 @@ import snakesNest from '../../assets/snakes-nest.png';
 import Modal from '../Modal';
 
 import './styles.css';
+import { ModalButton } from '../ModalButton';
 
 type GameObjectExplanationProps = {
   src: string;
@@ -46,7 +47,7 @@ const GameRuleModal = ({ onClose }: Props) => {
           <GameObjectExplanation src={snakesNest}>{t('rules.snakesNest')}</GameObjectExplanation>
           <GameObjectExplanation src={coffin}>{t('rules.coffin')}</GameObjectExplanation>
         </div>
-        <button className='ContinueButton' onClick={handleClose}>{t('rules.continueButton')}</button>
+        <ModalButton onClick={handleClose}>{t('rules.continueButton')}</ModalButton>
       </div>
     </Modal>
   )
