@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import ladder from '../../assets/ladder-right.png';
@@ -7,10 +7,8 @@ import coffin from '../../assets/coffin.png';
 import praiseHands from '../../assets/praise-hands.png';
 import snakesNest from '../../assets/snakes-nest.png';
 
-import Modal from '../Modal';
-
 import './styles.css';
-import { ModalButton } from '../ModalButton';
+import GameModal from '../GameModal';
 
 type GameObjectExplanationProps = {
   src: string;
@@ -29,27 +27,19 @@ type Props = {
 
 const GameRuleModal = ({ onClose }: Props) => {
   const { t } = useTranslation();
-  const [isOpen, setIsOpen] = useState(true);
-
-  const handleClose = () => {
-    setIsOpen(false);
-    onClose();
-  }
+  const buttonLabel = t('modals.continueButton');
 
   return (
-    <Modal isOpen={isOpen} onClose={handleClose}>
-      <div className='GameRuleModalContent'>
-        <span className='GameRuleModalTitle'>{t('rules.base')} </span>
+    <GameModal buttonLabel={buttonLabel} onClose={onClose}>
+        <span>{t('modals.rules.title')} </span>
         <div className='GameObjectsGrid'>
-          <GameObjectExplanation src={ladder}>{t('rules.ladder')}</GameObjectExplanation>
-          <GameObjectExplanation src={snake}>{t('rules.snake')}</GameObjectExplanation>
-          <GameObjectExplanation src={praiseHands}>{t('rules.praiseHands')}</GameObjectExplanation>
-          <GameObjectExplanation src={snakesNest}>{t('rules.snakesNest')}</GameObjectExplanation>
-          <GameObjectExplanation src={coffin}>{t('rules.coffin')}</GameObjectExplanation>
+          <GameObjectExplanation src={ladder}>{t('modals.rules.ladder')}</GameObjectExplanation>
+          <GameObjectExplanation src={snake}>{t('modals.rules.snake')}</GameObjectExplanation>
+          <GameObjectExplanation src={praiseHands}>{t('modals.rules.praiseHands')}</GameObjectExplanation>
+          <GameObjectExplanation src={snakesNest}>{t('modals.rules.snakesNest')}</GameObjectExplanation>
+          <GameObjectExplanation src={coffin}>{t('modals.rules.coffin')}</GameObjectExplanation>
         </div>
-        <ModalButton onClick={handleClose}>{t('rules.continueButton')}</ModalButton>
-      </div>
-    </Modal>
+    </GameModal>
   )
 }
 

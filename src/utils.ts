@@ -87,6 +87,46 @@ export const TWO_PLAYERS_CONFIG: PlayerConfig[] = [
   },
 ];
 
-const isPromoGameMode = import.meta.env.VITE_IS_PROMO_GAME_MODE === 'true';
+export const isPromoGameVersion = import.meta.env.VITE_IS_PROMO_GAME_VERSION === 'true';
 
-export const getInitialPlayersConfig = () => isPromoGameMode ? SINGLE_PLAYER_CONFIG : TWO_PLAYERS_CONFIG;
+export const getInitialPlayersConfig = () => isPromoGameVersion ? SINGLE_PLAYER_CONFIG : TWO_PLAYERS_CONFIG;
+
+export enum Modals {
+  GameRuleModal = 'gameRuleModal',
+  EndGameModal = 'endGameModal',
+  SelectGameModeModal = 'selectGameModeModal',
+  PromoGreetingModal = 'promoGreetingModal',
+  PromoEndGameModal = 'promoEndGameModal'
+}
+
+export const MODALS_LINKED_LIST = isPromoGameVersion ? {
+  [Modals.PromoGreetingModal]: {
+    id: Modals.PromoGreetingModal,
+    next: Modals.GameRuleModal,
+  },
+  [Modals.GameRuleModal]: {
+    id: Modals.GameRuleModal,
+    next: null,
+  },
+  [Modals.PromoEndGameModal]: {
+    id: Modals.PromoGreetingModal,
+    next: Modals.SelectGameModeModal,
+  },
+  [Modals.SelectGameModeModal]: {
+    id: Modals.GameRuleModal,
+    next: null,
+  },
+} : {
+  [Modals.GameRuleModal]: {
+    id: Modals.GameRuleModal,
+    next: Modals.SelectGameModeModal,
+  },
+  [Modals.SelectGameModeModal]: {
+    id: Modals.GameRuleModal,
+    next: null,
+  },
+  [Modals.EndGameModal]: {
+    id: Modals.EndGameModal,
+    next: Modals.SelectGameModeModal,
+  },
+};

@@ -1,7 +1,7 @@
 /// <reference types="vite/client" />
 
 interface ImportMetaEnv {
-  readonly VITE_IS_PROMO_GAME_MODE: string
+  readonly VITE_IS_PROMO_GAME_VERSION: string
   // more env variables...
 }
 

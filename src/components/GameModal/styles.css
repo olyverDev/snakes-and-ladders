@@ -1,12 +1,12 @@
-.EndGameModalContent {
+.GameModalContent {
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
   padding: 50px;
+  font-size: 17px;
 }
 
-.EndGameModalTitle {
-  font-size: 17px;
-  padding-bottom: 20px;
+.ModalButtonWrap {
+  padding-top: 20px;
 }

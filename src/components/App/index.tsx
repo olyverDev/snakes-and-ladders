@@ -1,3 +1,6 @@
+import '@fontsource/nunito';
+import '@fontsource/jost/300.css';
+
 import { ReactElement, useEffect, useMemo, useState } from 'react';
 import { AnalyticsEvent, logAnalyticsEvent } from '../../firebase';
 

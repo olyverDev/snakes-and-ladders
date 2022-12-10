@@ -6,32 +6,19 @@ import Game from '../../game';
 import { PlayerConfig } from '../../game/Game';
 import { Cell } from '../../game/Cell';
 import { gameLoopFactory } from '../../gameLoop';
-import { getInitialPlayersConfig, useGameSounds, useWindowResize } from '../../utils';
+import { getInitialPlayersConfig, isPromoGameVersion, Modals, MODALS_LINKED_LIST, SINGLE_PLAYER_CONFIG, TWO_PLAYERS_CONFIG, useGameSounds, useWindowResize } from '../../utils';
 import './GameComponent.css';
 import GameRuleModal from '../GameRuleModal';
 import EndGameModal from '../EndGameModal';
+import PromoGreetingModal from '../PromoGreetingModal';
 import { GameEvent } from '../../game/GameEvent';
 import { useTranslation } from 'react-i18next';
+import PromoEndGameModal from '../PromoEndGameModal';
+import SelectGameModeModal from '../SelectGameModeModal';
 
 const Players = getInitialPlayersConfig();
 
 new Game(Players);
-
-enum Modals {
-  GameRuleModal = 'gameRuleModal',
-  EndGameModal = 'endGameModal',
-}
-
-const ModalsLinkedList = {
-  [Modals.GameRuleModal]: {
-    id: Modals.GameRuleModal,
-    next: null,
-  },
-  [Modals.EndGameModal]: {
-    id: Modals.EndGameModal,
-    next: null,
-  },
-};
 
 function GameComponent() {
   const [history, setHistory] = useState([0]);
@@ -40,7 +27,7 @@ function GameComponent() {
   const game = useMemo(() => Game.object, []);
   const gameSounds = useGameSounds();
 
-  const [activeModal, setActiveModal] = useState<Modals | null>(Modals.GameRuleModal);
+  const [activeModal, setActiveModal] = useState<Modals | null | undefined>(isPromoGameVersion ? Modals.PromoGreetingModal : Modals.GameRuleModal);
 
   const [moving, setMoving] = useState(false);
   const [isGameEnd, setGameEnd] = useState(false);
@@ -48,13 +35,13 @@ function GameComponent() {
 
   useEffect(() => {
     const eventId = GameEvent.addListener('gameEnd', (payload) => {
-      alert(t('endGame.forPlayer', { name: payload.player }));
+      alert(t('gameEndedForPlayer', { name: payload.player }));
 
       const realPlayers = Game.playerConfig.filter(player => !player.automatic);
 
       if (realPlayers.length === 0) {
         setGameEnd(true);
-        setActiveModal(Modals.EndGameModal);
+        setActiveModal(isPromoGameVersion ? Modals.PromoEndGameModal : Modals.EndGameModal);
       }
     });
 
@@ -137,17 +124,29 @@ function GameComponent() {
 
   useWindowResize(onResize);
 
-  const handleCloseRulesModal = () => {
-    setActiveModal(ModalsLinkedList[Modals.GameRuleModal].next);
+
+  const closeModalFactory = (callback?: (result?: unknown) => unknown) => (result?: unknown) => {
+    if (activeModal && MODALS_LINKED_LIST[activeModal]) {
+      setActiveModal(MODALS_LINKED_LIST[activeModal]?.next);
+    }
+
+    if (callback) callback(result);
   };
 
-  const handleCloseEndGameModal = () => {
-    setActiveModal(ModalsLinkedList[Modals.EndGameModal].next);
+  const handleCloseEndGameModal = closeModalFactory(() => {
     // TODO: restart game properly
     Game.playerConfig = Players;
     onResize();
     setGameEnd(false);
-  };
+  });
+
+  const handleCloseSelectGameModeModal = closeModalFactory((result) => {
+    // TODO: restart game properly
+    const newPlayersConfig = result === 'vsBot' ? SINGLE_PLAYER_CONFIG : TWO_PLAYERS_CONFIG;
+    Game.playerConfig = newPlayersConfig;
+    onResize();
+    setGameEnd(false);
+  });
 
   return (
     <div className="GameContainer">
@@ -159,8 +158,11 @@ function GameComponent() {
         {!isGameEnd && <Dice disabled={moving} onRoll={onRoll} />}
       </div>
 
-      {activeModal === Modals.GameRuleModal && <GameRuleModal onClose={handleCloseRulesModal} />}
+      {activeModal === Modals.GameRuleModal && <GameRuleModal onClose={closeModalFactory()} />}
       {activeModal === Modals.EndGameModal && <EndGameModal onClose={handleCloseEndGameModal} />}
+      {activeModal === Modals.PromoGreetingModal && <PromoGreetingModal onClose={closeModalFactory()} />}
+      {activeModal === Modals.PromoEndGameModal && <PromoEndGameModal isWinner onClose={closeModalFactory()} />}
+      {activeModal === Modals.SelectGameModeModal && <SelectGameModeModal onClose={handleCloseSelectGameModeModal} />}
     </div>
   );
 }
