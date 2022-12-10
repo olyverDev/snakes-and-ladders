@@ -6,7 +6,18 @@ import Game from '../../game';
 import { PlayerConfig } from '../../game/Game';
 import { Cell } from '../../game/Cell';
 import { gameLoopFactory } from '../../gameLoop';
-import { DEFALT_MODALS_LINKED_LIST, getInitialPlayersConfig, isPromoGameVersion, Modals, PROMO_VERSION_MODALS_LINKED_LIST, SINGLE_PLAYER_CONFIG, TWO_PLAYERS_CONFIG, useGameSounds, useWindowResize } from '../../utils';
+import {
+  getInitialPlayersConfig,
+  isPromoGameVersion,
+  Modals,
+  getInitialModalsLinkedList,
+  PROMO_VERSION_MODALS_LINKED_LIST,
+  DEFALT_MODALS_LINKED_LIST,
+  SINGLE_PLAYER_CONFIG,
+  TWO_PLAYERS_CONFIG,
+  useGameSounds,
+  useWindowResize,
+} from '../../utils';
 import './GameComponent.css';
 import GameRuleModal from '../GameRuleModal';
 import EndGameModal from '../EndGameModal';
@@ -27,12 +38,13 @@ function GameComponent() {
   const game = useMemo(() => Game.object, []);
   const gameSounds = useGameSounds();
 
-  const [activeModal, setActiveModal] = useState<Modals | null | undefined>(isPromoGameVersion ? Modals.PromoGreetingModal : Modals.GameRuleModal);
 
   const [moving, setMoving] = useState(false);
   const [isGameEnd, setGameEnd] = useState(false);
-  const [modalsLinkedList, setModalsLinkedList] = useState(isPromoGameVersion ? PROMO_VERSION_MODALS_LINKED_LIST : DEFALT_MODALS_LINKED_LIST);
 
+  const [modalsLinkedList, setModalsLinkedList] = useState(getInitialModalsLinkedList());
+  const initialActiveModal = Object.keys(modalsLinkedList).find(key => Boolean(modalsLinkedList[key].initial));
+  const [activeModal, setActiveModal] = useState<Modals | null | undefined>(initialActiveModal);
 
   useEffect(() => {
     const eventId = GameEvent.addListener('gameEnd', (payload) => {

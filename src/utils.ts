@@ -103,6 +103,7 @@ export const PROMO_VERSION_MODALS_LINKED_LIST = {
   [Modals.PromoGreetingModal]: {
     id: Modals.PromoGreetingModal,
     next: Modals.GameRuleModal,
+    initial: true,
   },
   [Modals.GameRuleModal]: {
     id: Modals.GameRuleModal,
@@ -122,6 +123,7 @@ export const DEFALT_MODALS_LINKED_LIST = {
   [Modals.GameRuleModal]: {
     id: Modals.GameRuleModal,
     next: Modals.SelectGameModeModal,
+    initial: true,
   },
   [Modals.SelectGameModeModal]: {
     id: Modals.GameRuleModal,
@@ -132,3 +134,5 @@ export const DEFALT_MODALS_LINKED_LIST = {
     next: Modals.SelectGameModeModal,
   },
 };
+
+export const getInitialModalsLinkedList = () => isPromoGameVersion ? PROMO_VERSION_MODALS_LINKED_LIST : DEFALT_MODALS_LINKED_LIST;
