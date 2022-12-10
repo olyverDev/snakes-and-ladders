@@ -25,8 +25,8 @@ import PromoGreetingModal from '../Modals/PromoGreetingModal';
 import PromoEndGameModal from '../Modals/PromoEndGameModal';
 import SelectGameModeModal from '../Modals/SelectGameModeModal';
 
+// FIXME: start game only after game mode selectino and assigning needed players config OR greeting in promo mode
 const Players = getInitialPlayersConfig();
-
 new Game(Players);
 
 function GameComponent() {
@@ -156,11 +156,11 @@ function GameComponent() {
 
   const handleCloseSelectGameModeModal = closeModalFactory((result) => {
     // TODO: restart game properly
-    modalsLinkedListRef.current = DEFALT_MODALS_LINKED_LIST;
-    const newPlayersConfig = result === 'vsBot' ? SINGLE_PLAYER_CONFIG : TWO_PLAYERS_CONFIG;
-    Game.playerConfig = newPlayersConfig;
-    onResize();
-    setGameEnd(false);
+    // modalsLinkedListRef.current = DEFALT_MODALS_LINKED_LIST;
+    // const newPlayersConfig = result === 'vsBot' ? SINGLE_PLAYER_CONFIG : TWO_PLAYERS_CONFIG;
+    // Game.playerConfig = newPlayersConfig;
+    // onResize();
+    // setGameEnd(false);
   });
 
   return (
