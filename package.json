@@ -10,6 +10,8 @@
     "prettier": "prettier --write ."
   },
   "dependencies": {
+    "@fontsource/jost": "^4.5.12",
+    "@fontsource/nunito": "^4.5.11",
     "firebase": "^9.12.1",
     "i18next": "^22.0.6",
     "prettier": "^2.7.1",

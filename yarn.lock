@@ -626,6 +626,16 @@
   resolved "https://registry.yarnpkg.com/@firebase/webchannel-wrapper/-/webchannel-wrapper-0.8.0.tgz#88dfc717fb950276fd0fdee879fad2c041e33475"
   integrity sha512-Q8erQds5LuAUgNuFOt/tu/abffYUHYxN+Ogp2V5EOssfFG7Ja4ce324Sqyq41u/vB5CSr+tfYS3JzTDrDxCvdw==
 
+"@fontsource/jost@^4.5.12":
+  version "4.5.12"
+  resolved "https://registry.yarnpkg.com/@fontsource/jost/-/jost-4.5.12.tgz#78a9e308495b4bd19873f16f31d95aa1b0d9c2c4"
+  integrity sha512-189cCCMxj7YGZXsAh4WJyDfPhxs9aJ8ZAE7SqMv2o2c6AqvwSWn92Opnv57gsmiXY/eNnG0DodOSpggNo9MW0w==
+
+"@fontsource/nunito@^4.5.11":
+  version "4.5.11"
+  resolved "https://registry.yarnpkg.com/@fontsource/nunito/-/nunito-4.5.11.tgz#0992075ddc3f3ed8e3e83bf5944b1b0efd4c24dd"
+  integrity sha512-j2WIvzsI+6wjbJ/gQjyHJL/SYZxyg1qomvRswMZAWj2lvv+eX4kzJOSbr9YhZLYywoMspYb0643EO4cHRy6zpQ==
+
 "@grpc/grpc-js@^1.3.2":
   version "1.7.3"
   resolved "https://registry.yarnpkg.com/@grpc/grpc-js/-/grpc-js-1.7.3.tgz#f2ea79f65e31622d7f86d4b4c9ae38f13ccab99a"

@@ -35,6 +35,7 @@
 }
 
 .Button-active {
-  background: #b5b3a0;
+  color: #dbd4d4;
+  background: #264F53;
   pointer-events: none;
 }

@@ -5,9 +5,10 @@
 }
 
 .DiceLabel {
-    color: antiquewhite;
-    font-family: system-ui;
-    font-size: 1.5em;
-    line-height: 40px;
-    height: 40px;
+  color: antiquewhite;
+  font-family: "Nunito", sans-serif;
+  font-weight: 200;
+  font-size: 1.5em;
+  line-height: 40px;
+  height: 40px;
 }

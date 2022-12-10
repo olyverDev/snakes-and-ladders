@@ -17,6 +17,8 @@ button {
 	-moz-osx-font-smoothing: inherit;
 	overflow: visible;
   cursor: pointer;
+  font-family: "Nunito", sans-serif;
+  font-weight: 200;
 }
 
 .App {
