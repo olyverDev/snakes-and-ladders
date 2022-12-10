@@ -99,7 +99,7 @@ export enum Modals {
   PromoEndGameModal = 'promoEndGameModal'
 }
 
-export const MODALS_LINKED_LIST = isPromoGameVersion ? {
+export const PROMO_VERSION_MODALS_LINKED_LIST = {
   [Modals.PromoGreetingModal]: {
     id: Modals.PromoGreetingModal,
     next: Modals.GameRuleModal,
@@ -116,7 +116,9 @@ export const MODALS_LINKED_LIST = isPromoGameVersion ? {
     id: Modals.GameRuleModal,
     next: null,
   },
-} : {
+};
+
+export const DEFALT_MODALS_LINKED_LIST = {
   [Modals.GameRuleModal]: {
     id: Modals.GameRuleModal,
     next: Modals.SelectGameModeModal,

@@ -6,7 +6,7 @@ import Game from '../../game';
 import { PlayerConfig } from '../../game/Game';
 import { Cell } from '../../game/Cell';
 import { gameLoopFactory } from '../../gameLoop';
-import { getInitialPlayersConfig, isPromoGameVersion, Modals, MODALS_LINKED_LIST, SINGLE_PLAYER_CONFIG, TWO_PLAYERS_CONFIG, useGameSounds, useWindowResize } from '../../utils';
+import { DEFALT_MODALS_LINKED_LIST, getInitialPlayersConfig, isPromoGameVersion, Modals, PROMO_VERSION_MODALS_LINKED_LIST, SINGLE_PLAYER_CONFIG, TWO_PLAYERS_CONFIG, useGameSounds, useWindowResize } from '../../utils';
 import './GameComponent.css';
 import GameRuleModal from '../GameRuleModal';
 import EndGameModal from '../EndGameModal';
@@ -31,6 +31,7 @@ function GameComponent() {
 
   const [moving, setMoving] = useState(false);
   const [isGameEnd, setGameEnd] = useState(false);
+  const [modalsLinkedList, setModalsLinkedList] = useState(isPromoGameVersion ? PROMO_VERSION_MODALS_LINKED_LIST : DEFALT_MODALS_LINKED_LIST);
 
 
   useEffect(() => {
@@ -126,8 +127,8 @@ function GameComponent() {
 
 
   const closeModalFactory = (callback?: (result?: unknown) => unknown) => (result?: unknown) => {
-    if (activeModal && MODALS_LINKED_LIST[activeModal]) {
-      setActiveModal(MODALS_LINKED_LIST[activeModal]?.next);
+    if (activeModal && modalsLinkedList[activeModal]) {
+      setActiveModal(modalsLinkedList[activeModal]?.next);
     }
 
     if (callback) callback(result);
@@ -135,6 +136,7 @@ function GameComponent() {
 
   const handleCloseEndGameModal = closeModalFactory(() => {
     // TODO: restart game properly
+    setModalsLinkedList(DEFALT_MODALS_LINKED_LIST);
     Game.playerConfig = Players;
     onResize();
     setGameEnd(false);
@@ -142,6 +144,7 @@ function GameComponent() {
 
   const handleCloseSelectGameModeModal = closeModalFactory((result) => {
     // TODO: restart game properly
+    setModalsLinkedList(DEFALT_MODALS_LINKED_LIST);
     const newPlayersConfig = result === 'vsBot' ? SINGLE_PLAYER_CONFIG : TWO_PLAYERS_CONFIG;
     Game.playerConfig = newPlayersConfig;
     onResize();
