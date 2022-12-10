@@ -20,7 +20,7 @@ const GameModal = ({ buttonLabel, children, onClose }: Props) => {
   }
 
   return (
-    <Modal isOpen={isOpen} onClose={handleClose}>
+    <Modal isOpen={isOpen}>
       <div className='GameModalContent'>
         {children}
         <div className='ModalButtonWrap'>

@@ -1,11 +1,11 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import ladder from '../../assets/ladder-right.png';
-import snake from '../../assets/snake.png';
-import coffin from '../../assets/coffin.png';
-import praiseHands from '../../assets/praise-hands.png';
-import snakesNest from '../../assets/snakes-nest.png';
+import ladder from '../../../assets/ladder-right.png';
+import snake from '../../../assets/snake.png';
+import coffin from '../../../assets/coffin.png';
+import praiseHands from '../../../assets/praise-hands.png';
+import snakesNest from '../../../assets/snakes-nest.png';
 
 import './styles.css';
 import GameModal from '../GameModal';

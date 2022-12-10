@@ -12,4 +12,5 @@
 
 .ModalButton:hover {
   background: rgb(242, 241, 241);
+  box-shadow: #a25b5f 0px 5px 15px;
 }
