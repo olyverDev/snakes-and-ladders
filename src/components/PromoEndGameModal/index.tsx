@@ -3,6 +3,8 @@ import { useTranslation } from 'react-i18next';
 
 import GameModal from '../GameModal';
 
+import './styles.css';
+
 type Props = {
   isWinner: boolean;
   onClose: () => void;
@@ -14,16 +16,15 @@ const PromoEndGameModal = ({ isWinner, onClose }: Props) => {
 
   return (
     <GameModal buttonLabel={buttonLabel} onClose={onClose}>
-      <h4>{t('modals.endGame.title')} </h4>
-      <h3>{isWinner ? t('modals.promo.endGame.grats') : t('modals.promo.endGame.relief')}</h3>
-      <h2>{t('modals.promo.endGame.contest.conditions.title')}</h2>
-      <ul>
+      <div className='GratsTitle'>{isWinner ? t('modals.promo.endGame.grats') : t('modals.promo.endGame.relief')}</div>
+      <div className='Subtitle'>{t('modals.promo.endGame.contest.conditions.title')}</div>
+      <ol className='List'>
         <li>{t('modals.promo.endGame.contest.conditions.first')}</li>
         <li>{t('modals.promo.endGame.contest.conditions.second')}</li>
         <li>{t('modals.promo.endGame.contest.conditions.third')}</li>
-      </ul>
-      <h2>{t('modals.promo.endGame.contest.prize.title')}</h2>
-      <ul>
+      </ol>
+      <div className='Subtitle'>{t('modals.promo.endGame.contest.prize.title')}</div>
+      <ul className='List'>
         <li>{t('modals.promo.endGame.contest.prize.gold')}</li>
         <li>{t('modals.promo.endGame.contest.prize.silver')}</li>
         <li>{t('modals.promo.endGame.contest.prize.bronze')}</li>
