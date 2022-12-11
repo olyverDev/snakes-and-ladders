@@ -102,12 +102,12 @@ export class Game {
     const canvas = Game.canvas;
     if (canvas) {
       this.map.flat().forEach(({ render }) => render(canvas));
+      this.gameObjects.forEach(({ render }) => render(canvas));
       Object.values(this.players).forEach((player) => {
         player.render(canvas, delta);
         // TODO: display praise hands bonus (antidotes) by each player
         // PraiseHands.renderAsBonuses(canvas, player.getAntidotesCount());
       });
-      this.gameObjects.forEach(({ render }) => render(canvas));
     }
   };
 
@@ -146,7 +146,8 @@ export class Game {
     toId?: number;
     directMove?: boolean;
   }) {
-    const { getCellById, createGameObjectsHandlers, addMoveUserAnimation } = this;
+    const { getCellById, createGameObjectsHandlers, addMoveUserAnimation } =
+      this;
     const user = this.getActivePlayer();
     if (user) {
       const currentPosition = user.position;
@@ -161,17 +162,25 @@ export class Game {
 
       const isEnd = newPosition.id === this.finishId;
 
-      const { extraAction, isExtraMove } = createGameObjectsHandlers(newPosition);
+      const { extraAction, isExtraMove } =
+        createGameObjectsHandlers(newPosition);
 
       const callback = () => {
         if (isEnd) {
-          const turnIndex = Game.playerConfig.map(p => p.key).indexOf(this.activePlayerKey);
+          const turnIndex = Game.playerConfig
+            .map((p) => p.key)
+            .indexOf(this.activePlayerKey);
           const isLastPlayer = turnIndex === Game.playerConfig.length - 1;
           const nextIndex = isLastPlayer ? 0 : turnIndex + 1;
           const nextPlayer = Game.playerConfig[nextIndex];
 
-          Game.playerConfig = Game.playerConfig.filter(({ key }) => key !== this.activePlayerKey);
-          GameEvent.fire('gameEnd', { player: this.activePlayerKey, data: user });
+          Game.playerConfig = Game.playerConfig.filter(
+            ({ key }) => key !== this.activePlayerKey
+          );
+          GameEvent.fire('gameEnd', {
+            player: this.activePlayerKey,
+            data: user,
+          });
           this.setActivePlayerKey(nextPlayer?.key);
         }
 
@@ -186,7 +195,6 @@ export class Game {
       };
 
       if (directMove) {
-
         addMoveUserAnimation({
           currentPosition,
           newPosition,
@@ -226,7 +234,7 @@ export class Game {
   addMoveUserAnimation = ({
     currentPosition,
     newPosition,
-    callback = () => {}
+    callback = () => {},
   }: {
     currentPosition: Cell;
     newPosition: Cell;
@@ -235,15 +243,8 @@ export class Game {
     this.userMoveAnimations.push({
       callback: function (delta) {
         this.currentDuration += delta;
-        const {
-          xFrom,
-          yFrom,
-          xTo,
-          yTo,
-          duration,
-          gameObj,
-          currentDuration,
-        } = this || {};
+        const { xFrom, yFrom, xTo, yTo, duration, gameObj, currentDuration } =
+          this || {};
         if (!gameObj) return;
 
         const gameObjUser = gameObj.players[gameObj.activePlayerKey];
@@ -278,7 +279,9 @@ export class Game {
     }, 2000);
   };
 
-  createGameObjectsHandlers = (position: Cell): { extraAction?: VoidFn; isExtraMove: boolean } => {
+  createGameObjectsHandlers = (
+    position: Cell
+  ): { extraAction?: VoidFn; isExtraMove: boolean } => {
     const user = this.getActivePlayer();
     const positionId = position?.id;
     let isExtraMove = false;
@@ -355,9 +358,11 @@ export class Game {
       return acc;
     }, []);
 
-    const extraAction = handlers.length ? () => {
-      handlers.forEach(handler => handler());
-    } : undefined;
+    const extraAction = handlers.length
+      ? () => {
+          handlers.forEach((handler) => handler());
+        }
+      : undefined;
 
     return { extraAction, isExtraMove };
   };
