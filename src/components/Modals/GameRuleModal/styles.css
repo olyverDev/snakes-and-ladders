@@ -1,0 +1,15 @@
+.GameObjectsGrid {
+  display: flex;
+  flex-direction: column;
+  padding-top: 10px;
+}
+
+.GameObjectWrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.GameObjectLabel {
+  padding-left: 10px;
+}

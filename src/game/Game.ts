@@ -21,7 +21,6 @@ type UserMoveAnimationType = {
   duration: number;
   gameObj: Game;
   currentDuration: number;
-  isTurnEnd: boolean;
 };
 
 export type PlayerConfig = {
@@ -103,12 +102,12 @@ export class Game {
     const canvas = Game.canvas;
     if (canvas) {
       this.map.flat().forEach(({ render }) => render(canvas));
+      this.gameObjects.forEach(({ render }) => render(canvas));
       Object.values(this.players).forEach((player) => {
         player.render(canvas, delta);
         // TODO: display praise hands bonus (antidotes) by each player
         // PraiseHands.renderAsBonuses(canvas, player.getAntidotesCount());
       });
-      this.gameObjects.forEach(({ render }) => render(canvas));
     }
   };
 
@@ -147,7 +146,8 @@ export class Game {
     toId?: number;
     directMove?: boolean;
   }) {
-    const { getCellById, createGameObjectsHandlers, addMoveUserAnimation } = this;
+    const { getCellById, createGameObjectsHandlers, addMoveUserAnimation } =
+      this;
     const user = this.getActivePlayer();
     if (user) {
       const currentPosition = user.position;
@@ -160,15 +160,45 @@ export class Game {
         return;
       }
 
-      const { extraAction, isExtraMove } = createGameObjectsHandlers(newPosition);
+      const isEnd = newPosition.id === this.finishId;
+
+      const { extraAction, isExtraMove } =
+        createGameObjectsHandlers(newPosition);
+
+      const callback = () => {
+        if (isEnd) {
+          const turnIndex = Game.playerConfig
+            .map((p) => p.key)
+            .indexOf(this.activePlayerKey);
+          const isLastPlayer = turnIndex === Game.playerConfig.length - 1;
+          const nextIndex = isLastPlayer ? 0 : turnIndex + 1;
+          const nextPlayer = Game.playerConfig[nextIndex];
+
+          Game.playerConfig = Game.playerConfig.filter(
+            ({ key }) => key !== this.activePlayerKey
+          );
+          GameEvent.fire('gameEnd', {
+            player: this.activePlayerKey,
+            data: user,
+          });
+          this.setActivePlayerKey(nextPlayer?.key);
+        }
+
+        if (extraAction) {
+          extraAction();
+        }
+
+        if (!isExtraMove) {
+          GameEvent.fire('userEndMove');
+          GameEvent.fire('nextTurn');
+        }
+      };
 
       if (directMove) {
-
         addMoveUserAnimation({
           currentPosition,
           newPosition,
-          isTurnEnd: !isExtraMove,
-          extraAction,
+          callback,
         });
       } else {
         Game.gameSounds.userMoveSound();
@@ -189,8 +219,7 @@ export class Game {
               addMoveUserAnimation({
                 currentPosition: currentAnimationPosition,
                 newPosition: newAnimationPosition,
-                isTurnEnd: !isExtraMove,
-                extraAction,
+                callback,
               });
             } else {
               addMoveUserAnimation({
@@ -205,27 +234,17 @@ export class Game {
   addMoveUserAnimation = ({
     currentPosition,
     newPosition,
-    isTurnEnd = false,
-    extraAction,
+    callback = () => {},
   }: {
     currentPosition: Cell;
     newPosition: Cell;
-    isTurnEnd?: boolean;
-    extraAction?: VoidFn;
+    callback?: VoidFn;
   }) => {
     this.userMoveAnimations.push({
       callback: function (delta) {
         this.currentDuration += delta;
-        const {
-          xFrom,
-          yFrom,
-          xTo,
-          yTo,
-          duration,
-          gameObj,
-          currentDuration,
-          isTurnEnd,
-        } = this || {};
+        const { xFrom, yFrom, xTo, yTo, duration, gameObj, currentDuration } =
+          this || {};
         if (!gameObj) return;
 
         const gameObjUser = gameObj.players[gameObj.activePlayerKey];
@@ -236,15 +255,7 @@ export class Game {
           gameObj.userMoveAnimations.shift();
           gameObjUser.x = xTo;
           gameObjUser.y = yTo;
-
-          if (extraAction) {
-            extraAction();
-          }
-
-          if (isTurnEnd) {
-            GameEvent.fire('userEndMove');
-            GameEvent.fire('nextTurn');
-          }
+          callback();
 
           return;
         }
@@ -258,7 +269,6 @@ export class Game {
       duration: 500,
       gameObj: this,
       currentDuration: 0,
-      isTurnEnd,
     });
   };
   removeGameObject = (removableId: number) => {
@@ -269,7 +279,9 @@ export class Game {
     }, 2000);
   };
 
-  createGameObjectsHandlers = (position: Cell): { extraAction?: VoidFn; isExtraMove: boolean } => {
+  createGameObjectsHandlers = (
+    position: Cell
+  ): { extraAction?: VoidFn; isExtraMove: boolean } => {
     const user = this.getActivePlayer();
     const positionId = position?.id;
     let isExtraMove = false;
@@ -346,9 +358,11 @@ export class Game {
       return acc;
     }, []);
 
-    const extraAction = handlers.length ? () => {
-      handlers.forEach(handler => handler());
-    } : undefined;
+    const extraAction = handlers.length
+      ? () => {
+          handlers.forEach((handler) => handler());
+        }
+      : undefined;
 
     return { extraAction, isExtraMove };
   };

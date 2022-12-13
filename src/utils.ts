@@ -87,6 +87,57 @@ export const TWO_PLAYERS_CONFIG: PlayerConfig[] = [
   },
 ];
 
-const isPromoGameMode = import.meta.env.VITE_IS_PROMO_GAME_MODE === 'true';
+const isPromoGameVersion = import.meta.env.VITE_IS_PROMO_GAME_VERSION === 'true';
 
-export const getInitialPlayersConfig = () => isPromoGameMode ? SINGLE_PLAYER_CONFIG : TWO_PLAYERS_CONFIG;
+export const getInitialPlayersConfig = () => isPromoGameVersion ? SINGLE_PLAYER_CONFIG : TWO_PLAYERS_CONFIG;
+
+export enum Modals {
+  GameRuleModal = 'gameRuleModal',
+  EndGameModal = 'endGameModal',
+  SelectGameModeModal = 'selectGameModeModal',
+  PromoGreetingModal = 'promoGreetingModal',
+  PromoEndGameModal = 'promoEndGameModal'
+}
+
+type ModalConfigListItemT = { id: Modals; next?: Modals | null; gameEnding?: boolean; initial?: boolean };
+type ModalsLinkedListT = Record<string, ModalConfigListItemT>;
+
+export const PROMO_VERSION_MODALS_LINKED_LIST: ModalsLinkedListT = {
+  [Modals.PromoGreetingModal]: {
+    id: Modals.PromoGreetingModal,
+    next: Modals.GameRuleModal,
+    initial: true,
+  },
+  [Modals.GameRuleModal]: {
+    id: Modals.GameRuleModal,
+    next: null,
+  },
+  [Modals.PromoEndGameModal]: {
+    id: Modals.PromoGreetingModal,
+    next: Modals.SelectGameModeModal,
+    gameEnding: true,
+  },
+  [Modals.SelectGameModeModal]: {
+    id: Modals.GameRuleModal,
+    next: null,
+  },
+};
+
+export const DEFALT_MODALS_LINKED_LIST: ModalsLinkedListT = {
+  [Modals.GameRuleModal]: {
+    id: Modals.GameRuleModal,
+    next: Modals.SelectGameModeModal,
+    initial: true,
+  },
+  [Modals.SelectGameModeModal]: {
+    id: Modals.GameRuleModal,
+    next: null,
+  },
+  [Modals.EndGameModal]: {
+    id: Modals.EndGameModal,
+    next: Modals.SelectGameModeModal,
+    gameEnding: true,
+  },
+};
+
+export const getInitialModalsLinkedList = (): ModalsLinkedListT => isPromoGameVersion ? PROMO_VERSION_MODALS_LINKED_LIST : DEFALT_MODALS_LINKED_LIST;
