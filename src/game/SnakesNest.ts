@@ -1,7 +1,6 @@
 import { Cell } from './Cell';
 import { GameObject, GameObjectTypes } from './GameObject';
 import { GameImagesService } from '../gameImagesService';
-import { Game } from './Game';
 import { Snake } from './Snake';
 
 const { collection: images } = GameImagesService;

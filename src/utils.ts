@@ -123,7 +123,7 @@ export const PROMO_VERSION_MODALS_LINKED_LIST: ModalsLinkedListT = {
   },
 };
 
-export const DEFALT_MODALS_LINKED_LIST: ModalsLinkedListT = {
+export const DEFAULT_MODALS_LINKED_LIST: ModalsLinkedListT = {
   [Modals.GameRuleModal]: {
     id: Modals.GameRuleModal,
     next: Modals.SelectGameModeModal,
@@ -140,4 +140,4 @@ export const DEFALT_MODALS_LINKED_LIST: ModalsLinkedListT = {
   },
 };
 
-export const getInitialModalsLinkedList = (): ModalsLinkedListT => isPromoGameVersion ? PROMO_VERSION_MODALS_LINKED_LIST : DEFALT_MODALS_LINKED_LIST;
+export const getInitialModalsLinkedList = (): ModalsLinkedListT => isPromoGameVersion ? PROMO_VERSION_MODALS_LINKED_LIST : DEFAULT_MODALS_LINKED_LIST;
