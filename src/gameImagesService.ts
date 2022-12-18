@@ -9,6 +9,7 @@ import snake from './assets/snake.png';
 import coffin from './assets/coffin.png';
 import praiseHands from './assets/praise-hands.png';
 import snakesNest from './assets/snakes-nest.png';
+import cloud from './assets/cloud.png';
 
 import { useEffect, useState } from 'react';
 
@@ -24,6 +25,7 @@ const IMAGES_SOURCES = {
   userDanceBlack,
   userDanceYellow,
   userDanceWhite,
+  cloud,
 };
 
 export type ImageName = keyof typeof IMAGES_SOURCES;

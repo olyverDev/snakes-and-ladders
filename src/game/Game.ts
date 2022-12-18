@@ -2,6 +2,7 @@ import { ImageName } from '../gameImagesService';
 import { LoopCallbackFunctionType } from '../gameLoop';
 import { PlaySoundCallbacks } from '../utils';
 import { Cell } from './Cell';
+import { Cloud } from './Cloud';
 import { Coffin } from './Coffin';
 import { UNLUCKY_POSITION } from './constants';
 import { GameEvent } from './GameEvent';
@@ -45,6 +46,8 @@ export class Game {
   static playerConfig: PlayerConfig[];
   private static gameSounds: PlaySoundCallbacks;
   private static canvas?: CanvasRenderingContext2D | null = null;
+  clouds: Cloud[] = [];
+
   constructor(playerConfig: PlayerConfig[]) {
     Game.object = this;
     Game.playerConfig = playerConfig;
@@ -95,6 +98,7 @@ export class Game {
         snakeTo: this.getCellById(10),
       })
     );
+    this.clouds.push(new Cloud({ fromUser: this.players['player'] }));
   };
 
   render = (delta: number) => {
@@ -107,6 +111,7 @@ export class Game {
         // TODO: display praise hands bonus (antidotes) by each player
         // PraiseHands.renderAsBonuses(canvas, player.getAntidotesCount());
       });
+      this.clouds.forEach(({ render }) => render(canvas));
     }
   };
 
