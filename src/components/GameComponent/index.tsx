@@ -18,10 +18,8 @@ import {
 import './GameComponent.css';
 import { GameEvent } from '../../game/GameEvent';
 
-import { PlayerConfig } from '../../game/Game';
 
 type GameComponentPropsType = {
-  players: PlayerConfig[];
   isGameEnd: boolean;
 };
 

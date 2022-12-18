@@ -98,12 +98,11 @@ function App() {
       ),
       GAME: (
         <GameComponent
-          players={players}
           isGameEnd={isGameEnd}
         />
       ),
     }),
-    [imagesLoaded, players, isGameEnd, setGameEnd]
+    [imagesLoaded, isGameEnd, setGameEnd]
   );
   const [currentRoute, setCurrentRoute] = useState<ReactElement>(SCREENS.MENU);
   useEffect(() => {

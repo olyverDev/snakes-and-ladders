@@ -43,7 +43,6 @@ export class Game {
   players: Record<string, User> = {};
   static object: Game;
   static playerConfig: PlayerConfig[];
-  static id = 0;
   private static gameSounds: PlaySoundCallbacks;
   private static canvas?: CanvasRenderingContext2D | null = null;
   constructor(playerConfig: PlayerConfig[]) {
