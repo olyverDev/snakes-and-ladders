@@ -18,14 +18,7 @@ import {
 import './GameComponent.css';
 import { GameEvent } from '../../game/GameEvent';
 
-
-type GameComponentPropsType = {
-  isGameEnd: boolean;
-};
-
-function GameComponent({
-  isGameEnd,
-}: GameComponentPropsType) {
+function GameComponent() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const game = useMemo(() => Game.object, []);
   const gameSounds = useGameSounds();
@@ -60,10 +53,8 @@ function GameComponent({
         (player) => !player.automatic
       );
 
-      if (realPlayers.length === 0) {
-        // NOTE: no need to roll dice as only bots left
-        return;
-      }
+      // NOTE: no need to roll dice as only bots left
+      if (realPlayers.length === 0) return;
 
       if (nextPlayer.automatic && DiceRef.current) {
         DiceRef.current?.rollDice();
@@ -113,7 +104,7 @@ function GameComponent({
       </div>
       <div className="SideControls">
         <AudioPlayer />
-        {!isGameEnd && <Dice disabled={moving} onRoll={onRoll} />}
+        <Dice disabled={moving} onRoll={onRoll} />
       </div>
     </div>
   );

@@ -1,5 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { GameModeSelection } from '../../../utils';
 
 import GameModal from '../GameModal';
 import { ModalButton } from '../ModalButton';
@@ -7,18 +8,18 @@ import { ModalButton } from '../ModalButton';
 import './styles.css';
 
 type Props = {
-  onClose: (mode: string) => void;
+  onClose: (mode: GameModeSelection) => void;
 }
 
 const SelectGameModeModal = ({ onClose }: Props) => {
   const { t } = useTranslation();
 
   const handleSelectVsBot = () => {
-    onClose('vsBot');
+    onClose(GameModeSelection.VsBot);
   }
 
   const handleSelectVsPlayer = () => {
-    onClose('vsPlayer');
+    onClose(GameModeSelection.VsPlayer);
   }
 
   return (

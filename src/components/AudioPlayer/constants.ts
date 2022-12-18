@@ -19,19 +19,20 @@ export const PLATFORMS: Record<
   soundcloud: {
     id: Platform.Soundcloud,
     label: 'SoundCloud',
-    url: 'https://soundcloud.com/lofi_girl/sets/lofi-hiphop',
+    url: import.meta.env.VITE_SOUNDCLOUD_URL,
   },
   youtube: {
     id: Platform.Youtube,
     label: 'YouTube',
-    url: '',
+    url: import.meta.env.VITE_YOUTUBE_URL,
   },
   chill: {
     id: Platform.Chill,
     label: 'Chill',
-    url: 'https://www.youtube.com/watch?v=jfKfPfyJRdk',
+    url: import.meta.env.VITE_YOUTUBE_URL_CHILL,
   },
 };
+
 export const GAME_SOUNDS = {
   coffinSound,
   getPraiseHandsSound,

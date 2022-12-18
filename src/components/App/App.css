@@ -23,5 +23,12 @@ button {
 
 .App {
   width: 100%;
+  height: 100%;
+  background-image: linear-gradient(to left, #AF4A4F 0%, #24454A 50%);
+}
+
+.GameWrapper {
+  width: 100%;
+  height: 100%;
   background-image: linear-gradient(to bottom, #80585a 0%, #518189 80%);
 }
