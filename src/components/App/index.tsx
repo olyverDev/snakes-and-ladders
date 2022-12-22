@@ -1,7 +1,7 @@
 import '@fontsource/nunito';
 import '@fontsource/jost/300.css';
 
-import { ReactElement, useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { AnalyticsEvent, logAnalyticsEvent } from '../../firebase';
 
 import { GameImagesService } from '../../gameImagesService';
@@ -10,10 +10,14 @@ import Menu from '../Menu';
 import './App.css';
 import Game from '../../game';
 import {
-  DEFAULT_MODALS_LINKED_LIST,
+  GameModeSelection,
   getInitialModalsLinkedList,
   getInitialPlayersConfig,
+  IS_PROMO_GAME_VERSION,
   Modals,
+  RESTART_MODALS_LINKED_LIST,
+  SINGLE_PLAYER_CONFIG,
+  TWO_PLAYERS_CONFIG,
 } from '../../utils';
 import GameRuleModal from '../Modals/GameRuleModal';
 import EndGameModal from '../Modals/EndGameModal';
@@ -23,28 +27,28 @@ import SelectGameModeModal from '../Modals/SelectGameModeModal';
 import { GameEvent } from '../../game/GameEvent';
 import { useTranslation } from 'react-i18next';
 
-// FIXME: start game only after game mode selection and assigning needed players config OR greeting in promo mode
-const players = getInitialPlayersConfig();
-new Game(players);
+enum Screens {
+  Menu = 'menu',
+  Game = 'game',
+}
 
 function App() {
   const modalsLinkedListRef = useRef(getInitialModalsLinkedList());
-  const availableModals = Object.keys(modalsLinkedListRef.current);
   const { loaded: imagesLoaded } = GameImagesService.useLoad();
   const [isGameEnd, setGameEnd] = useState(false);
-  const initialActiveModalId = availableModals.find((key) =>
-    Boolean(modalsLinkedListRef.current[key]?.initial)
-  );
   const [activeModalId, setActiveModalId] = useState<string | null | undefined>();
+  const [isPromoWin, setPromoWin] = useState<boolean>(false);
 
-  useEffect(() => {
-    if (isGameEnd) {
-      new Game(players);
-      setGameEnd(false);
-    }
-  }, [isGameEnd]);
 
   const { t } = useTranslation();
+
+  const getInitialModalId = () => {
+    const availableModals = Object.keys(modalsLinkedListRef.current);
+
+    return availableModals.find((key) =>
+      Boolean(modalsLinkedListRef.current[key]?.initial)
+    );
+  }
 
   useEffect(() => {
     const eventId = GameEvent.addListener('gameEnd', (payload) => {
@@ -52,10 +56,14 @@ function App() {
 
       const realPlayers = Game.playerConfig.filter(player => !player.automatic);
 
-      if (realPlayers.length === 0) {
-        setGameEnd(true);
+      if (realPlayers.length <= 1) {
+        logAnalyticsEvent(AnalyticsEvent.Finish);
+
+        const availableModals = Object.keys(modalsLinkedListRef.current);
         const endGameModalId = availableModals.find(key => Boolean(modalsLinkedListRef.current[key]?.gameEnding));
         setActiveModalId(endGameModalId);
+
+        if (IS_PROMO_GAME_VERSION && realPlayers.length === 0)  setPromoWin(true);
       }
     });
 
@@ -63,6 +71,24 @@ function App() {
       GameEvent.removeListener(eventId);
     };
   }, []);
+
+  const SCREENS = useMemo(
+    () => ({
+      [Screens.Menu]: (
+        <Menu
+          loading={!imagesLoaded}
+          onPlayPress={() => {
+            logAnalyticsEvent(AnalyticsEvent.PressPlay);
+            setActiveModalId(getInitialModalId());
+          }}
+        />
+      ),
+      [Screens.Game]: isGameEnd ? null : <GameComponent />,
+    }),
+    [imagesLoaded, isGameEnd]
+  );
+
+  const [currentScreen, setCurrentScreen] = useState<Screens | null>(Screens.Menu);
 
   const closeModalFactory =
     (callback?: (result?: unknown) => unknown) => (result?: unknown) => {
@@ -73,48 +99,32 @@ function App() {
       if (callback) callback(result);
     };
 
+  const handleCloseGameRuleModal = closeModalFactory(() => {
+    if (modalsLinkedListRef.current?.[Modals.GameRuleModal]?.next) return;
+  
+    new Game(getInitialPlayersConfig());
+    setCurrentScreen(Screens.Game);
+  });
+
+  const handleCloseSelectGameModeModal = closeModalFactory((gameModeResponse) => {
+    const players = gameModeResponse === GameModeSelection.VsBot ? SINGLE_PLAYER_CONFIG : TWO_PLAYERS_CONFIG;
+    new Game(players);
+    setCurrentScreen(Screens.Game);
+
+    if (isGameEnd) setGameEnd(false);
+  });
+
   const handleCloseEndGameModal = closeModalFactory(() => {
-    modalsLinkedListRef.current = DEFAULT_MODALS_LINKED_LIST;
-    Game.playerConfig = players;
-    setGameEnd(false);
+    setGameEnd(true);
+    setCurrentScreen(null);
+    modalsLinkedListRef.current = RESTART_MODALS_LINKED_LIST;
+    setActiveModalId(getInitialModalId());
   });
-
-  const handleCloseSelectGameModeModal = closeModalFactory((result) => {
-    // Game.playerConfig = players;
-    // setGameEnd(false);
-  });
-
-  const SCREENS = useMemo(
-    () => ({
-      MENU: (
-        <Menu
-          loading={!imagesLoaded}
-          onPlayPress={() => {
-            logAnalyticsEvent(AnalyticsEvent.PressPlay);
-            setCurrentRoute(SCREENS.GAME);
-            setActiveModalId(initialActiveModalId);
-          }}
-        />
-      ),
-      GAME: (
-        <GameComponent
-          isGameEnd={isGameEnd}
-        />
-      ),
-    }),
-    [imagesLoaded, isGameEnd, setGameEnd]
-  );
-  const [currentRoute, setCurrentRoute] = useState<ReactElement>(SCREENS.MENU);
-  useEffect(() => {
-    setCurrentRoute(SCREENS.MENU);
-  }, [SCREENS]);
-
-  if (isGameEnd) return null;
 
   return (
-    <>
+    <div className="App">
       {activeModalId === Modals.GameRuleModal && (
-        <GameRuleModal onClose={closeModalFactory()} />
+        <GameRuleModal onClose={handleCloseGameRuleModal} />
       )}
       {activeModalId === Modals.SelectGameModeModal && (
         <SelectGameModeModal onClose={handleCloseSelectGameModeModal} />
@@ -126,10 +136,10 @@ function App() {
         <EndGameModal onClose={handleCloseEndGameModal} />
       )}
       {activeModalId === Modals.PromoEndGameModal && (
-        <PromoEndGameModal isWinner onClose={closeModalFactory()} />
+        <PromoEndGameModal isWinner={isPromoWin} onClose={handleCloseEndGameModal} />
       )}
-      <div className="App">{currentRoute}</div>;
-    </>
+      {currentScreen && <div className="GameWrapper">{SCREENS[currentScreen]}</div>}
+    </div>
   );
 }
 
