@@ -13,7 +13,10 @@ const PromoGreetingModal = ({ onClose }: Props) => {
 
   return (
     <GameModal buttonLabel={buttonLabel} onClose={onClose}>
-      <span>{t('modals.promo.greeting.title')} </span>
+      <span style={{ fontSize: 19 }}>{t('modals.promo.greeting.title')}
+        <a style={{ fontSize: 20 }} href="https://band.link/abchiphop" target="_blank">abc хип-хоп</a>
+        <span>{t('modals.promo.greeting.titleEnd')} </span>
+      </span>
     </GameModal>
   )
 }

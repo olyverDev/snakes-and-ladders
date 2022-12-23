@@ -19,29 +19,28 @@ export default {
         restart: 'Play again',
       },
       selectGameMode: {
-        title: 'Выбери режим',
+        title: 'Choose a mode:',
         vsBot: 'VS bot',
-        vsPlayer: 'VS player',
+        vsPlayer: 'VS friend',
       },
       promo: {
         greeting: {
-          title: 'Hey, дружище! Тебя приветствует abc хип-хоп и команда. Мы написали эту игру в поддержку моего первого микстейпа «Змеи и Лестницы». Предлагаю тебе ПАРИ! Сейчас мы сыграем одну партейку, параллельно можно будет слушать треки релиза... Если выиграешь ты — я предложу тебе поучаствовать в конкурсе с денежными призами и не только. Если же победа будет за мной — ты поддержишь микстейп «Змеи и Лестницы» лайком и репостом. После этого можно будет сыграть еще раз, если захочешь. Будем рады, если найдешь баги ;)',
+          title: 'Hello, my friend! ',
+          titleEnd: ' & Ко is greeting you. We wrote this game in support of my first mixtape "Snakes and Ladders". I\'m offering you a BET! Now we will play one part, in parallel it will be possible to listen to the snippet of the release... If you win, I will offer you to participate in a contest with money prizes and not only. If I win, you will support me and my mixtape "Snakes and Ladders". After that, you can play again if you want. We will be glad if you find it and inform us about bugs ;)',
         },
         endGame: {
-          grats: 'Ты победил!',
-          relief: 'Ты проиграл, но не беда! С тебя, конечно же, обещанный лайк, репост, комментарий, и что самое важное, прослушивание! НО мы хотели бы, чтобы ты тоже мог принять участие в конкурсе.',
+          grats: "You've won, HOORAAY! As promised, the CONTEST",
+          relief: "You lost, but it doesn't matter! Of course, I wait for the promised support, BUT we would like you to be able to participate in the contest as well.",
           contest: {
             conditions: {
-              title: 'Условия конкурса:',
-              first: 'Быть подписанным на паблик abc хип-хоп VK',
-              second: 'Лайк и репост записи с микстейпом',
-              third: 'Комментарий под записью с микстейпом',
+              title: 'The terms of the contest will be described in the VK public.',
+              subscribe: 'Subscribe!',
             },
             prize: {
-              title: 'Призы:',
-              gold: '1 место: $$$ — смотри сумму в паблике; настольная игра «Змеи и лестницы» (вышлем почтой); и стихотворение на заказ от меня!',
-              silver: '2 место: настольная игра «Змеи и лестницы» (вышлем почтой); и стихотворение на заказ от меня!',
-              bronze: '3 место: cтикерпак (?); и стихотворение от меня!',
+              title: 'Prize:',
+              gold: '1st place: $$$',
+              silver: '2nd place: $$ and the board game "Snakes and Ladders" (we will send it by post)',
+              bronze: '3rd place: $ and a poem / text from me',
             },
           }
         },
