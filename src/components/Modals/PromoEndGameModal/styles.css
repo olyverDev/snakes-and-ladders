@@ -2,16 +2,25 @@
 .GratsTitle {
   padding-bottom: 5px;
   font-weight: 300;
-  font-size: 22px;
+  font-size: 19px;
 }
 
 .Subtitle {
   padding-bottom: 10px;
   padding-top: 10px;
-  font-weight: 400;
-  font-size: 20px;
+  font-size: 19px;
+}
+
+.Conditions {
+  padding-bottom: 15px;
 }
 
 .List {
   width: 80%;
+  font-size: 19px;
+  padding-bottom: 20px;
+}
+
+li {
+  font-size: 19px;
 }
