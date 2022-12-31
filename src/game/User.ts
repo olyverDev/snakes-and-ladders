@@ -5,7 +5,7 @@ export class User {
   position: Cell;
   x: number;
   y: number;
-  name?: string;
+  name: string;
   imageName?: ImageName;
   antidotesCount: number = 0;
   currentFrame = 0;
@@ -16,7 +16,7 @@ export class User {
 
   constructor(
     position: Cell,
-    name?: string,
+    name: string = 'defaultName',
     imageName: ImageName = 'userDanceBlack'
   ) {
     this.position = position;
@@ -36,7 +36,11 @@ export class User {
     this.antidotesCount--;
   };
 
-  render = (canvas: CanvasRenderingContext2D, delta: number) => {
+  render = (
+    canvas: CanvasRenderingContext2D,
+    delta: number,
+    onCellIndx: number
+  ) => {
     const image = this.imageName
       ? GameImagesService.collection[this.imageName]
       : null;
@@ -51,6 +55,7 @@ export class User {
     if (this.currentFrame > this.framesCount) {
       this.currentFrame = 0;
     }
+    
     if (this.position) {
       canvas.drawImage(
         image,
@@ -58,7 +63,7 @@ export class User {
         0,
         this.frameSize,
         this.frameSize,
-        this.x * Cell.cellSize,
+        this.x * Cell.cellSize + onCellIndx * 0.1 * Cell.cellSize,
         this.y * Cell.cellSize,
         Cell.cellSize,
         Cell.cellSize

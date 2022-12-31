@@ -1,6 +1,6 @@
 import { ImageName } from '../gameImagesService';
 import { LoopCallbackFunctionType } from '../gameLoop';
-import { PlaySoundCallbacks } from '../utils';
+import { calcPlayersOnCells, PlaySoundCallbacks } from '../utils';
 import { Cell } from './Cell';
 import { Cloud } from './Cloud';
 import { Coffin } from './Coffin';
@@ -42,6 +42,7 @@ export class Game {
   size = 6;
   activePlayerKey: PlayerConfig['key'];
   players: Record<string, User> = {};
+  playersOnCells: Record<string, number> = {};
   static object: Game;
   static playerConfig: PlayerConfig[];
   private static gameSounds: PlaySoundCallbacks;
@@ -74,6 +75,7 @@ export class Game {
     Game.playerConfig.forEach(({ key, imageName }) => {
       this.players[key] = new User(this.map[0][0], key, imageName);
     }, {});
+    this.playersOnCells = calcPlayersOnCells(Object.values(this.players))
     Game.gameSounds = gameSounds;
     this.isInitialized = true;
 
@@ -107,9 +109,11 @@ export class Game {
       this.map.flat().forEach(({ render }) => render(canvas));
       this.gameObjects.forEach(({ render }) => render(canvas));
       Object.values(this.players).forEach((player) => {
-        player.render(canvas, delta);
-        // TODO: display praise hands bonus (antidotes) by each player
-        // PraiseHands.renderAsBonuses(canvas, player.getAntidotesCount());
+        player.render(
+          canvas,
+          delta,
+          this.playersOnCells[player.name]
+        );
       });
       this.clouds.forEach(({ render }) => render(canvas));
     }
@@ -234,6 +238,7 @@ export class Game {
           });
       }
     }
+    this.playersOnCells = calcPlayersOnCells(Object.values(this.players));
   }
   addMoveUserAnimation = ({
     currentPosition,
