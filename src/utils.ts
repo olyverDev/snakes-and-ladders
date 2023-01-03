@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useLayoutEffect, useState } from 'react';
 import { GAME_SOUNDS } from './components/AudioPlayer/constants';
 import { PlayerConfig } from './game/Game';
+import { User } from './game/User';
 
 export const useWindowResize = (callback: () => unknown) => {
   useLayoutEffect(() => {
@@ -60,7 +61,6 @@ export const useGameSounds = (): PlaySoundCallbacks => {
   return audioEffects;
 };
 
-
 export const SINGLE_PLAYER_CONFIG: PlayerConfig[] = [
   {
     key: 'player',
@@ -87,19 +87,26 @@ export const TWO_PLAYERS_CONFIG: PlayerConfig[] = [
   },
 ];
 
-export const IS_PROMO_GAME_VERSION = import.meta.env.VITE_IS_PROMO_GAME_VERSION === 'true';
+export const IS_PROMO_GAME_VERSION =
+  import.meta.env.VITE_IS_PROMO_GAME_VERSION === 'true';
 
-export const getInitialPlayersConfig = () => IS_PROMO_GAME_VERSION ? SINGLE_PLAYER_CONFIG : TWO_PLAYERS_CONFIG;
+export const getInitialPlayersConfig = () =>
+  IS_PROMO_GAME_VERSION ? SINGLE_PLAYER_CONFIG : TWO_PLAYERS_CONFIG;
 
 export enum Modals {
   GameRuleModal = 'gameRuleModal',
   EndGameModal = 'endGameModal',
   SelectGameModeModal = 'selectGameModeModal',
   PromoGreetingModal = 'promoGreetingModal',
-  PromoEndGameModal = 'promoEndGameModal'
+  PromoEndGameModal = 'promoEndGameModal',
 }
 
-type ModalConfigListItemT = { id: Modals; next?: Modals | null; gameEnding?: boolean; initial?: boolean };
+type ModalConfigListItemT = {
+  id: Modals;
+  next?: Modals | null;
+  gameEnding?: boolean;
+  initial?: boolean;
+};
 type ModalsLinkedListT = Record<string, ModalConfigListItemT>;
 
 export const PROMO_VERSION_MODALS_LINKED_LIST: ModalsLinkedListT = {
@@ -149,10 +156,33 @@ export const RESTART_MODALS_LINKED_LIST: ModalsLinkedListT = {
   },
 };
 
-
-export const getInitialModalsLinkedList = (): ModalsLinkedListT => IS_PROMO_GAME_VERSION ? PROMO_VERSION_MODALS_LINKED_LIST : DEFAULT_MODALS_LINKED_LIST;
+export const getInitialModalsLinkedList = (): ModalsLinkedListT =>
+  IS_PROMO_GAME_VERSION
+    ? PROMO_VERSION_MODALS_LINKED_LIST
+    : DEFAULT_MODALS_LINKED_LIST;
 
 export enum GameModeSelection {
   VsBot = 'vsBot',
   VsPlayer = 'vsPlayer',
 }
+
+export const calcPlayersOnCells = (players: User[]) => {
+  const playersPositions = players.reduce(
+    (positions, player) => ({
+      ...positions,
+      [player.position.id]: [
+        ...(positions[player.position.id] || []),
+        player?.name,
+      ],
+    }),
+    {} as Record<number, Array<string | undefined>>
+  );
+
+  return players.reduce(
+    (playersOnCells, player) => ({
+      ...playersOnCells,
+      [player.name]: playersPositions[player.position.id].indexOf(player.name),
+    }),
+    {} as Record<string, number>
+  );
+};
