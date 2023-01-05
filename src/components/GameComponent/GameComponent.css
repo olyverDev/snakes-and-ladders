@@ -16,17 +16,18 @@ canvas {
   flex-direction: row;
   justify-content: space-evenly;
   height: 100%;
+  overflow: auto;
 }
 
 .SideControls {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
 }
 
 @media only screen and (max-width: 1024px) {
   .GameComponent {
     flex-direction: column;
+    padding: 0;
   }
 
   .GameContainer {

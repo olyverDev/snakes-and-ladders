@@ -52,8 +52,6 @@ function App() {
 
   useEffect(() => {
     const eventId = GameEvent.addListener('gameEnd', (payload) => {
-      alert(t('gameEndedForPlayer', { name: payload.player }));
-
       const realPlayers = Game.playerConfig.filter(player => !player.automatic);
 
       if (realPlayers.length <= 1) {

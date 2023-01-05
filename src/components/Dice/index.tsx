@@ -23,7 +23,7 @@ const Dice = ({ disabled = false, onRoll }: DicePropsType) => {
   const { t } = useTranslation();
   return (
     <div className="DiceContainer">
-      <DiceComponent sound={sound} disabled={disabled} ref={DiceRef} onRoll={onRoll} size={100} />
+      <DiceComponent sound={sound} disabled={disabled} ref={DiceRef} onRoll={onRoll} size={90} />
       <div className="DiceLabel">{disabled ? t('wait') : t('rollDice')}</div>
     </div>
   );
