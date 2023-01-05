@@ -39,7 +39,7 @@ export class Game {
   map: Cell[][] = [[]];
   gameObjects: GameObject[] = [];
   userMoveAnimations: UserMoveAnimationType[] = [];
-  size = 6;
+  size = 8;
   activePlayerKey: PlayerConfig['key'];
   players: Record<string, User> = {};
   playersOnCells: Record<string, number> = {};
@@ -80,27 +80,56 @@ export class Game {
     this.isInitialized = true;
 
     this.gameObjects.push(
-      new Snake(this.getCellById(32), this.getCellById(18))
+      new Snake(this.getCellById(62), this.getCellById(35))
     );
+
     this.gameObjects.push(
-      new Snake(this.getCellById(26), this.getCellById(12))
+      new Snake(this.getCellById(55), this.getCellById(21))
     );
+
     this.gameObjects.push(
-      new Ladder(this.getCellById(17), this.getCellById(4))
+      new Snake(this.getCellById(31), this.getCellById(14))
     );
+
     this.gameObjects.push(
-      new Ladder(this.getCellById(34), this.getCellById(21))
+      new Snake(this.getCellById(43), this.getCellById(29))
     );
-    this.gameObjects.push(new PraiseHands(this.getCellById(16)));
-    this.gameObjects.push(new Coffin(this.getCellById(UNLUCKY_POSITION)));
+
+    this.gameObjects.push(
+      new Ladder(this.getCellById(21), this.getCellById(4))
+    );
+
+    this.gameObjects.push(
+      new Ladder(this.getCellById(36), this.getCellById(21))
+    );
+
+    this.gameObjects.push(
+      new Ladder(this.getCellById(61), this.getCellById(33))
+    );
+
+
+    this.gameObjects.push(
+      new Ladder(this.getCellById(58), this.getCellById(41))
+    );
+
+    this.gameObjects.push(
+      new Ladder(this.getCellById(28), this.getCellById(13))
+    );
+
+    this.gameObjects.push(new PraiseHands(this.getCellById(20)));
+    this.gameObjects.push(new PraiseHands(this.getCellById(38)));
+    this.gameObjects.push(new PraiseHands(this.getCellById(52)));
+  
+    this.gameObjects.push(new Coffin(this.getCellById(UNLUCKY_POSITION - 1)));
+    this.gameObjects.push(new Coffin(this.getCellById(47)));
+
     this.gameObjects.push(
       new SnakesNest({
-        position: this.getCellById(15),
-        snakeFrom: this.getCellById(20),
-        snakeTo: this.getCellById(10),
+        position: this.getCellById(30),
+        snakeFrom: this.getCellById(45),
+        snakeTo: this.getCellById(30),
       })
     );
-    this.clouds.push(new Cloud({ fromUser: this.players['player'] }));
   };
 
   render = (delta: number) => {
