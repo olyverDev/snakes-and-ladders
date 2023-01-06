@@ -26,6 +26,7 @@ import PromoEndGameModal from '../Modals/PromoEndGameModal';
 import SelectGameModeModal from '../Modals/SelectGameModeModal';
 import { GameEvent } from '../../game/GameEvent';
 import { useTranslation } from 'react-i18next';
+import SoundCheckModal from '../Modals/SoundCheckModal';
 
 enum Screens {
   Menu = 'menu',
@@ -70,6 +71,8 @@ function App() {
     };
   }, []);
 
+  const [muted, setMuted] = useState(false);
+
   const SCREENS = useMemo(
     () => ({
       [Screens.Menu]: (
@@ -81,9 +84,9 @@ function App() {
           }}
         />
       ),
-      [Screens.Game]: isGameEnd ? null : <GameComponent />,
+      [Screens.Game]: isGameEnd ? null : <GameComponent muted={muted} />,
     }),
-    [imagesLoaded, isGameEnd]
+    [imagesLoaded, isGameEnd, muted]
   );
 
   const [currentScreen, setCurrentScreen] = useState<Screens | null>(Screens.Menu);
@@ -97,9 +100,11 @@ function App() {
       if (callback) callback(result);
     };
 
-  const handleCloseGameRuleModal = closeModalFactory(() => {
-    if (modalsLinkedListRef.current?.[Modals.GameRuleModal]?.next) return;
-  
+  const handleCloseSoundCheckModal = closeModalFactory((withSound) => {
+    setMuted(!withSound);
+
+    if (modalsLinkedListRef.current?.[Modals.SoundCheckModal]?.next) return;
+
     new Game(getInitialPlayersConfig());
     setCurrentScreen(Screens.Game);
   });
@@ -122,16 +127,19 @@ function App() {
   return (
     <div className="App">
       {activeModalId === Modals.GameRuleModal && (
-        <GameRuleModal onClose={handleCloseGameRuleModal} />
+        <GameRuleModal onClose={closeModalFactory()} />
+      )}
+      {activeModalId === Modals.SoundCheckModal && (
+        <SoundCheckModal onClose={handleCloseSoundCheckModal} />
       )}
       {activeModalId === Modals.SelectGameModeModal && (
         <SelectGameModeModal onClose={handleCloseSelectGameModeModal} />
       )}
-      {activeModalId === Modals.PromoGreetingModal && (
-        <PromoGreetingModal onClose={closeModalFactory()} />
-      )}
       {activeModalId === Modals.EndGameModal && (
         <EndGameModal onClose={handleCloseEndGameModal} />
+      )}
+      {activeModalId === Modals.PromoGreetingModal && (
+        <PromoGreetingModal onClose={closeModalFactory()} />
       )}
       {activeModalId === Modals.PromoEndGameModal && (
         <PromoEndGameModal isWinner={isPromoWin} onClose={handleCloseEndGameModal} />

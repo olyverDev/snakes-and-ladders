@@ -18,10 +18,10 @@ import {
 import './GameComponent.css';
 import { GameEvent } from '../../game/GameEvent';
 
-function GameComponent() {
+function GameComponent({ muted }: { muted: boolean }) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const game = useMemo(() => Game.object, []);
-  const gameSounds = useGameSounds();
+  const gameSounds = useGameSounds(muted);
 
   const [moving, setMoving] = useState(false);
 
@@ -103,8 +103,8 @@ function GameComponent() {
         <canvas ref={canvasRef} className="Canvas" />
       </div>
       <div className="SideControls">
-        <AudioPlayer />
-        <Dice disabled={moving} onRoll={onRoll} />
+        <AudioPlayer muted={muted} />
+        <Dice muted={muted} disabled={moving} onRoll={onRoll} />
       </div>
     </div>
   );

@@ -22,7 +22,7 @@ const PlatformButton = ({ active = false, id, label, onClick }: PlatformButtonPr
   );
 }
 
-function AudioPlayer() {
+function AudioPlayer({ muted = false }: { muted?: boolean }) {
   const [activePlatform, setActivePlatform] = useState<Platform>(Platform.Chill);
   const currentUrl = PLATFORMS[activePlatform].url;
 
@@ -43,6 +43,7 @@ function AudioPlayer() {
         loop
         playing
         controls
+        muted={muted}
         volume={0.8}
         url={currentUrl}
         width="100%"
