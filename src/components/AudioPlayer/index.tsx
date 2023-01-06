@@ -1,6 +1,5 @@
 import { useCallback, useState } from 'react';
 import ReactPlayer from 'react-player';
-import { mobilecheck } from '../../utils';
 
 import { Platform, PLATFORMS } from './constants';
 import './styles.css';
