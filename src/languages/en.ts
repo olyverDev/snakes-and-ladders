@@ -33,6 +33,7 @@ export default {
         greeting: {
           title: 'Hello, my friend! ',
           titleEnd: ' & Ко is greeting you. We wrote this game in support of my first mixtape "Snakes and Ladders". I\'m offering you a BET! Now we will play one part, in parallel it will be possible to listen to the snippet of the release... If you win, I will offer you to participate in a contest with money prizes and not only. If I win, you will support me and my mixtape "Snakes and Ladders". After that, you can play again if you want. We will be glad if you find it and inform us about bugs ;)',
+          go: 'Let\s go!',
         },
         endGame: {
           grats: "You've won, HOORAAY! As promised, the CONTEST",

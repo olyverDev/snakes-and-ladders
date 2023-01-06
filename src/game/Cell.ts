@@ -42,15 +42,16 @@ export class Cell extends GameObject {
     /**
      * NOTE: there is no smart text rendering, just hardcoded values for Start / Finish words
      */
-    const fontSize = Cell.cellSize / 3.5;
-    canvas.font = `${fontSize}px serif`;
+    const fontSize = Cell.cellSize / 3.7;
+    canvas.font = `${fontSize}px Nunito`;
 
     if (this.id === 0) {
       canvas.fillStyle = 'white';
       canvas.globalAlpha = 0.7;
       canvas.fillText(
         'Start',
-        this.x * Cell.cellSize + Cell.cellSize / 4.4,
+
+        this.x * Cell.cellSize + Cell.cellSize / 5.7,
         this.y * Cell.cellSize + Cell.cellSize / 1.6
       );
       canvas.globalAlpha = 1;
@@ -61,7 +62,7 @@ export class Cell extends GameObject {
       canvas.globalAlpha = 0.8;
       canvas.fillText(
         'Finish',
-        this.x * Cell.cellSize + Cell.cellSize / 6.2,
+        this.x * Cell.cellSize + Cell.cellSize / 7.2,
         this.y * Cell.cellSize + Cell.cellSize / 1.6
       );
       canvas.globalAlpha = 1;
