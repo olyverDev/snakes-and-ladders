@@ -22,6 +22,7 @@ canvas {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  padding: 25px;
 }
 
 @media only screen and (max-width: 1024px) {
@@ -36,6 +37,8 @@ canvas {
   }
 
   .SideControls {
+    padding: 0;
+    padding-bottom: 15px;
     flex-direction: column-reverse;
   }
 }

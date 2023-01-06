@@ -33,11 +33,11 @@ const SoundCheckModal = ({ onClose }: Props) => {
     <GameModal onClose={handleClose}>
       <span className='SoundRecommendation'>{isMobile ? t('modals.soundCheck.muted') : t('modals.soundCheck.title')} </span>
       <div className='HeadphonesImageWrap'>
-        <img width={100} height={100} style={{ opacity: 0.8 }} src={headphones} />
+        <img className='Headphones' width={100} height={100} style={{ opacity: 0.8 }} src={headphones} />
       </div>
       {isMobile ? (
         <>
-          <ModalButton onClick={handleTurnSoundOn}>{t('modals.soundCheck.soundOn')}</ModalButton>
+          <ModalButton className='MainButton' onClick={handleTurnSoundOn}>{t('modals.soundCheck.soundOn')}</ModalButton>
           <ModalButton onClick={handleClose}>{t('modals.soundCheck.ignore')}</ModalButton>
         </>
       ) : (

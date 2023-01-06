@@ -25,7 +25,7 @@ const SelectGameModeModal = ({ onClose }: Props) => {
   return (
     <GameModal onClose={() => {}}>
       <span style={{ fontSize: 18 }}>{t('modals.selectGameMode.title')} </span>
-      <div>
+      <div className='ButtonsWrap'>
         <ModalButton onClick={handleSelectVsBot}>{t('modals.selectGameMode.vsBot')}</ModalButton>
         <span className='BetweenButtonsSpace' />
         <ModalButton onClick={handleSelectVsPlayer}>{t('modals.selectGameMode.vsPlayer')}</ModalButton>

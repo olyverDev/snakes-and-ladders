@@ -6,6 +6,7 @@ import GameModal from '../GameModal';
 import './styles.css';
 
 import vkLogo from '../../../assets/vk-logo.png';
+import { Link } from '../../Link';
 
 type Props = {
   isWinner: boolean;
@@ -28,10 +29,10 @@ const PromoEndGameModal = ({ isWinner, onClose }: Props) => {
       <div className='Subtitle Conditions'>
         {t('modals.promo.endGame.contest.conditions.title')}
         {' '}
-        <a href="https://vk.com/abchiphop" target="_blank">{t('modals.promo.endGame.contest.conditions.subscribe')}</a>
+        <Link href="https://vk.com/abchiphop">{t('modals.promo.endGame.contest.conditions.subscribe')}</Link>
       </div>
       <a href="https://vk.com/abchiphop" target="_blank">
-        <img width={50} height={50} src={vkLogo} />
+        <img width={60} height={60} src={vkLogo} />
       </a>
     </GameModal>
   )
