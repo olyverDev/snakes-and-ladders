@@ -1,6 +1,6 @@
 import { ImageName } from '../gameImagesService';
 import { LoopCallbackFunctionType } from '../gameLoop';
-import { calcPlayersOnCells, PlaySoundCallbacks } from '../utils';
+import { calcPlayersOnCells, GAME_SIZE, PlaySoundCallbacks } from '../utils';
 import { Cell } from './Cell';
 import { Cloud } from './Cloud';
 import { Coffin } from './Coffin';
@@ -39,7 +39,7 @@ export class Game {
   map: Cell[][] = [[]];
   gameObjects: GameObject[] = [];
   userMoveAnimations: UserMoveAnimationType[] = [];
-  size = 8;
+  size = GAME_SIZE;
   activePlayerKey: PlayerConfig['key'];
   players: Record<string, User> = {};
   playersOnCells: Record<string, number> = {};
@@ -54,9 +54,6 @@ export class Game {
     Game.playerConfig = playerConfig;
     this.activePlayerKey = playerConfig[0].key;
   }
-  setSize = (size: number) => {
-    this.size = size;
-  };
 
   getActivePlayer() {
     return this.players[this.activePlayerKey];

@@ -44,6 +44,7 @@ export const useGameSounds = (): PlaySoundCallbacks => {
       [key as SoundKeyType]: useCallback(() => {
         audio.pause();
         audio.setAttribute('src', value);
+        audio.volume = 0.6;
         audio.play();
       }, []) as () => void,
     }),
@@ -186,3 +187,5 @@ export const calcPlayersOnCells = (players: User[]) => {
     {} as Record<string, number>
   );
 };
+
+export const GAME_SIZE = 8;
