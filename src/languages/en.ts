@@ -23,6 +23,12 @@ export default {
         vsBot: 'VS bot',
         vsPlayer: 'VS friend',
       },
+      soundCheck: {
+        title: 'We recommend playing with headphones for maximum immersion.',
+        muted: 'Apparently, you opened the game through a mobile browser. For maximum immersion, we recommend playing with headphones and on the computer. Now the sound is turned off so that you don\'t end up in an awkward situation ;)',
+        soundOn: 'Play with sound!',
+        ignore: 'Continue without sound',
+      },
       promo: {
         greeting: {
           title: 'Hello, my friend! ',
