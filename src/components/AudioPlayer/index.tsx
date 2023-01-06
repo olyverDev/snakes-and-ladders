@@ -23,8 +23,8 @@ const PlatformButton = ({ active = false, id, label, onClick }: PlatformButtonPr
 }
 
 function AudioPlayer({ muted = false }: { muted?: boolean }) {
-  const [activePlatform, setActivePlatform] = useState<Platform>(Platform.Chill);
-  const currentUrl = PLATFORMS[activePlatform].url;
+  const [activePlatform, setActivePlatform] = useState<Platform>(Platform.Youtube);
+  const currentUrl = PLATFORMS[activePlatform]?.url;
 
   return (
     <div className="Container">
