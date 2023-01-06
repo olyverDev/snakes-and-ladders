@@ -3,7 +3,7 @@ import { createRef } from 'react';
 import { useTranslation } from 'react-i18next';
 
 
-import sound from '../../assets/roll-dice.mp3';
+import sound from '../../assets/roll-dice-lower.mp3';
 import './Dice.css';
 
 type TValue = 1 | 2 | 3 | 4 | 5 | 6;

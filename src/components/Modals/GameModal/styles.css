@@ -5,6 +5,7 @@
   flex-direction: column;
   padding: 50px;
   font-size: 17px;
+  overflow: auto;
 }
 
 .ModalButtonWrap {

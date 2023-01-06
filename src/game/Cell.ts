@@ -1,10 +1,14 @@
 import { GameImagesService } from '../gameImagesService';
+import { GAME_SIZE } from '../utils';
 import { GameObject, GameObjectTypes } from './GameObject';
 
 const { collection: images } = GameImagesService;
 
 export class Cell extends GameObject {
+  isLast = false;
+
   constructor(x: number, y: number) {
+
     let image = null;
     if (x % 2 !== 0) {
       image = y % 2 === 0 ? images.redCell : images.blueCell;
@@ -12,11 +16,57 @@ export class Cell extends GameObject {
       image = y % 2 !== 0 ? images.redCell : images.blueCell;
     }
     super({ image, x, y, id: Cell.currentId++, type: GameObjectTypes.cell });
+
+    this.isLast = Cell.currentId === Math.pow(GAME_SIZE, 2);
   }
 
   static cellSize = 0;
   static currentId = 0;
   color = images.redCell;
+
+  // renderCellNumeration = () => {
+    // NOTE: cell numeration
+    // const fontSize = Cell.cellSize / 6;
+    // canvas.font = `${fontSize}px serif`;
+    // canvas.fillStyle = 'white';
+    // canvas.globalAlpha = 0.4;
+    // canvas.fillText(
+    //   '' + this.id + 1,
+    //   this.x * Cell.cellSize + Cell.cellSize / 1.3,
+    //   this.y * Cell.cellSize + Cell.cellSize / 5
+    // );
+    // canvas.globalAlpha = 1;
+  // }
+
+  renderLabels = (canvas: CanvasRenderingContext2D) => {
+    /**
+     * NOTE: there is no smart text rendering, just hardcoded values for Start / Finish words
+     */
+    const fontSize = Cell.cellSize / 3.5;
+    canvas.font = `${fontSize}px serif`;
+
+    if (this.id === 0) {
+      canvas.fillStyle = 'white';
+      canvas.globalAlpha = 0.7;
+      canvas.fillText(
+        'Start',
+        this.x * Cell.cellSize + Cell.cellSize / 4.4,
+        this.y * Cell.cellSize + Cell.cellSize / 1.6
+      );
+      canvas.globalAlpha = 1;
+    }
+
+    if (this.isLast) {
+      canvas.fillStyle = '#C7C4B1';
+      canvas.globalAlpha = 0.8;
+      canvas.fillText(
+        'Finish',
+        this.x * Cell.cellSize + Cell.cellSize / 6.2,
+        this.y * Cell.cellSize + Cell.cellSize / 1.6
+      );
+      canvas.globalAlpha = 1;
+    }
+  }
 
   render = (canvas: CanvasRenderingContext2D) => {
     if (!this.image) return;
@@ -29,16 +79,6 @@ export class Cell extends GameObject {
       Cell.cellSize
     );
 
-    // NOTE: cell numeration
-    // const fontSize = Cell.cellSize / 6;
-    // canvas.font = `${fontSize}px serif`;
-    // canvas.fillStyle = 'white';
-    // canvas.globalAlpha = 0.4;
-    // canvas.fillText(
-    //   '' + this.id + 1,
-    //   this.x * Cell.cellSize + Cell.cellSize / 1.3,
-    //   this.y * Cell.cellSize + Cell.cellSize / 5
-    // );
-    // canvas.globalAlpha = 1;
+    this.renderLabels(canvas);
   };
 }
