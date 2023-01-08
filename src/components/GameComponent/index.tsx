@@ -1,20 +1,11 @@
-import {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import AudioPlayer from '../AudioPlayer';
 import Dice, { DiceRef } from '../Dice';
 import Game from '../../game';
 import { Cell } from '../../game/Cell';
 import { gameLoopFactory } from '../../gameLoop';
-import {
-  useGameSounds,
-  useWindowResize,
-} from '../../utils';
+import { isMobileBrowser, useGameSounds, useWindowResize } from '../../utils';
 import './GameComponent.css';
 import { GameEvent } from '../../game/GameEvent';
 
@@ -82,7 +73,9 @@ function GameComponent({ muted }: { muted: boolean }) {
 
   const onResize = useCallback(() => {
     if (canvasRef.current && game) {
-      const canvasSize = canvasRef.current.scrollWidth;
+      const canvasSize = isMobileBrowser()
+        ? canvasRef.current.scrollWidth * 2
+        : canvasRef.current.scrollWidth;
       canvasRef.current.width = canvasSize;
       canvasRef.current.height = canvasSize;
       Cell.cellSize = canvasSize / game.size;
