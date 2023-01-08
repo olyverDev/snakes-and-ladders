@@ -53,10 +53,10 @@ export class Snake extends GameObject {
     const { image, isRight, x, y, sizeX, sizeY } = this;
     const { cellSize } = Cell;
     const sizeMultipliedOffsets = {
-      x: (sizeX - imageSize.x) * offsets.x,
-      y: (sizeY - imageSize.y) * offsets.y,
-      sizeX: (sizeX - imageSize.x) * offsets.sizeX,
-      sizeY: (sizeY - imageSize.y) * offsets.sizeY,
+      x: (sizeX - imageSize.x) * offsets.x * cellSize * 0.008,
+      y: (sizeY - imageSize.y) * offsets.y * cellSize * 0.008,
+      sizeX: (sizeX - imageSize.x) * offsets.sizeX * cellSize * 0.008,
+      sizeY: (sizeY - imageSize.y) * offsets.sizeY * cellSize * 0.008,
     };
 
     canvas.drawImage(
