@@ -1,3 +1,4 @@
+import i18next from 'i18next';
 import { ImageName } from '../gameImagesService';
 import { LoopCallbackFunctionType } from '../gameLoop';
 import { calcPlayersOnCells, GAME_SIZE, PlaySoundCallbacks } from '../utils';
@@ -127,6 +128,16 @@ export class Game {
         snakeTo: this.getCellById(30),
       })
     );
+
+    this.gameObjects.push(
+      new SnakesNest({
+        position: this.getCellById(9),
+        snakeFrom: this.getCellById(22),
+        snakeTo: this.getCellById(7),
+      })
+    );
+
+    this.clouds.push(new Cloud({ fromUser: this.players['player'], label: i18next.t('clouds.start') as string }));
   };
 
   render = (delta: number) => {
@@ -340,6 +351,7 @@ export class Game {
           this.moveUser({ toId: 0, directMove: true });
           this.removeGameObject(id);
           Game.gameSounds.coffinSound();
+          this.clouds.push(new Cloud({ fromUser: this.players[this.activePlayerKey], label: i18next.t('clouds.coffin') as string }));
         });
         return acc;
       }
@@ -349,6 +361,7 @@ export class Game {
         acc.push(() => {
           this.moveUser({ toId, directMove: true });
           Game.gameSounds.ladderSound();
+          this.clouds.push(new Cloud({ fromUser: this.players[this.activePlayerKey], label: i18next.t('clouds.ladder') as string }));
         });
         return acc;
       }
@@ -358,6 +371,7 @@ export class Game {
           acc.push(() => {
             user.useAntidote();
             Game.gameSounds.usePraiseHandsSound();
+            this.clouds.push(new Cloud({ fromUser: this.players[this.activePlayerKey], label: i18next.t('clouds.useAntidote') as string }));
           });
           return acc;
         }
@@ -366,6 +380,7 @@ export class Game {
         acc.push(() => {
           this.moveUser({ toId, directMove: true });
           Game.gameSounds.snakeSound();
+          this.clouds.push(new Cloud({ fromUser: this.players[this.activePlayerKey], label: i18next.t('clouds.snake') as string }));
         });
         return acc;
       }
@@ -375,6 +390,7 @@ export class Game {
           user.addAntidote();
           this.removeGameObject(id);
           Game.gameSounds.getPraiseHandsSound();
+          this.clouds.push(new Cloud({ fromUser: this.players[this.activePlayerKey], label: i18next.t('clouds.antidote') as string }));
         });
         return acc;
       }

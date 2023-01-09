@@ -9,13 +9,25 @@ import { gameLoopFactory } from '../../gameLoop';
 import { isMobileBrowser, useGameSounds, useWindowResize } from '../../utils';
 import './GameComponent.css';
 import { GameEvent } from '../../game/GameEvent';
+import { Cloud } from '../../game/Cloud';
 
 function GameComponent({ muted }: { muted: boolean }) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const game = useMemo(() => Game.object, []);
   const gameSounds = useGameSounds(muted);
+  const { t } = useTranslation();
 
   const [moving, setMoving] = useState(false);
+
+  useEffect(() => {
+    const eventId = GameEvent.addListener('gameEnd', (payload) => {
+      game.clouds.push(new Cloud({ fromUser: game.players[game.activePlayerKey], label: t('clouds.finish') as string }));
+    });
+
+    return () => {
+      GameEvent.removeListener(eventId);
+    };
+  }, []);
 
   useEffect(() => {
     const userStartMoveId = GameEvent.addListener('userStartMove', () => {
@@ -32,7 +44,6 @@ function GameComponent({ muted }: { muted: boolean }) {
   }, []);
 
   const [botLabel, setBotLabel] = useState('');
-  const { t } = useTranslation();
 
   useEffect(() => {
     const eventId = GameEvent.addListener('nextTurn', () => {
@@ -75,6 +86,8 @@ function GameComponent({ muted }: { muted: boolean }) {
   }, [game]);
 
   const onRoll = useCallback((countMoves: number) => {
+    if (game.clouds?.length) game.clouds = [];
+      
     GameEvent.fire('userStartMove');
     game.moveUser({ countMoves });
   }, []);

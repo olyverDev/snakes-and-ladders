@@ -2,7 +2,7 @@ export default {
   translation: {
     dice: {
       roll: 'Roll the Dice',
-      bot: 'Bot\s turn',
+      bot: 'Bot\'s turn',
     },
     wait: 'Wait...',
     play: 'Play',
@@ -65,6 +65,15 @@ export default {
           }
         },
       },
+    },
+    clouds: {
+      start: 'Roll the dice!',
+      coffin: 'Oh no-o-o-o~...',
+      ladder: 'Yeaaah, babe!',
+      useAntidote: 'My antidote!',
+      snake: 'Why me-e-e~ !?',
+      antidote: 'Wow, antidote!',
+      finish: 'Hooray, I won!',
     },
   },
 };
