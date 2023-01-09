@@ -31,7 +31,11 @@ const SoundCheckModal = ({ onClose }: Props) => {
 
   return (
     <GameModal onClose={handleClose}>
-      <span className='SoundRecommendation'>{isMobile ? t('modals.soundCheck.muted') : t('modals.soundCheck.title')} </span>
+      {isMobile ? (
+        <span className='SoundRecommendationMobile'>{t('modals.soundCheck.muted')} </span>
+      ) : (
+        <span className='SoundRecommendation'>{t('modals.soundCheck.title')} </span>
+      )}
       <div className='HeadphonesImageWrap'>
         <img className='Headphones' width={100} height={100} style={{ opacity: 0.8 }} src={headphones} />
       </div>

@@ -5,10 +5,10 @@ import './Menu.css';
 
 type MenuProps = {
   loading: boolean;
-  onPlayPress: () => unknown;
+  onPlayStart: () => unknown;
 };
 
-function Menu({ loading, onPlayPress }: MenuProps) {
+function Menu({ loading, onPlayStart }: MenuProps) {
   const { t } = useTranslation();
   const [coverVisibility, setCoverVisibility] = useState<'hidden' | 'visible'>('visible');
 
@@ -16,6 +16,7 @@ function Menu({ loading, onPlayPress }: MenuProps) {
     setTimeout(() => {
       if (loading) return;
       setCoverVisibility('hidden');
+      onPlayStart();
     }, 2500);
   }, [loading]);
 
@@ -26,7 +27,6 @@ function Menu({ loading, onPlayPress }: MenuProps) {
   return (
     <div className="Menu">
       <div style={coverInlineStyles} className="Cover" />
-      {coverVisibility === 'hidden' && <button className="PlayButton" onClick={onPlayPress}>{t('play')}</button>}
     </div>
   );
 }

@@ -23,9 +23,11 @@ const GameModal = ({ buttonLabel, children, onClose }: Props) => {
     <Modal isOpen={isOpen}>
       <div className='GameModalContent'>
         {children}
-        <div className='ModalButtonWrap'>
-          {buttonLabel && <ModalButton onClick={handleClose}>{buttonLabel}</ModalButton>}
-        </div>
+        {buttonLabel && (
+          <div className='ModalButtonWrap'>
+            <ModalButton onClick={handleClose}>{buttonLabel}</ModalButton>
+          </div>
+        )}
       </div>
     </Modal>
   )

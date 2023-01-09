@@ -1,17 +1,20 @@
-.Link {
-  display: inline-block;
-  text-decoration: none;
-  color: cornflowerblue;
-  font-size: 23px;
-  font-weight: bold;
-  transition: .5s ease-out;
+.Para {
+  align-self: flex-start;
+  font-size: 19px;
+  padding-bottom: 15px;
 }
 
-.Link:hover {
-  padding: 6px 10px;
-  -webkit-transform: rotate(-2deg);
-  transform: rotate(-2deg);
-  color: #F6D95A;
-  background-color: #353535;
-  transition: color background-color .9s;
+.TextWinCondition {
+  display: inline-block;
+  font-weight: bold;
+  font-size: 105%;
+  padding: 0 5px;
+  background-color: rgb(212, 209, 209);
+  opacity: 80%;
+}
+
+.TextContest {
+  font-weight: bold;
+  font-size: 110%;
+  color: rgb(156, 200, 90)
 }

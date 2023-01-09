@@ -1,10 +1,13 @@
 .Link {
   display: inline-block;
-  text-decoration: none;
   color: cornflowerblue;
-  font-size: 23px;
+  font-size: 20px;
   font-weight: bold;
   transition: .5s ease-out;
+
+  text-decoration: none;
+  border-bottom: 1px solid cornflowerblue;
+  padding-bottom: 1px;
 }
 
 .Link:hover {

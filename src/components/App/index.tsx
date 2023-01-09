@@ -78,8 +78,8 @@ function App() {
       [Screens.Menu]: (
         <Menu
           loading={!imagesLoaded}
-          onPlayPress={() => {
-            logAnalyticsEvent(AnalyticsEvent.PressPlay);
+          onPlayStart={() => {
+            logAnalyticsEvent(AnalyticsEvent.PlayStart);
             setActiveModalId(getInitialModalId());
           }}
         />

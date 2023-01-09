@@ -19,7 +19,7 @@ const analyticsInstance = getAnalytics(firebaseApp);
 
 export enum AnalyticsEvent {
   Visit = 'visit',
-  PressPlay = 'pressPlay',
+  PlayStart = 'playStart',
   LeaveGame = 'leaveGame',
   Finish = 'finish',
 }
