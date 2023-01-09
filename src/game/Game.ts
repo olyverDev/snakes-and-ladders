@@ -49,6 +49,8 @@ export class Game {
   private static gameSounds: PlaySoundCallbacks;
   private static canvas?: CanvasRenderingContext2D | null = null;
   clouds: Cloud[] = [];
+  ladders = 0;
+  snakes = 0;
 
   constructor(playerConfig: PlayerConfig[]) {
     Game.object = this;
@@ -137,7 +139,9 @@ export class Game {
       })
     );
 
-    this.clouds.push(new Cloud({ fromUser: this.players['player'], label: i18next.t('clouds.start') as string }));
+    setTimeout(() => {
+      this.showActivePlayerCloud({ label: i18next.t('clouds.start') as string })
+    }, 750);
   };
 
   render = (delta: number) => {
@@ -325,6 +329,13 @@ export class Game {
     }, 2000);
   };
 
+  showActivePlayerCloud = ({ label }: { label: string }) => {
+    this.clouds.push(new Cloud({ fromUser: this.players[this.activePlayerKey], label }));
+    setTimeout(() => {
+      this.clouds.splice(this.clouds.length -1, 1);
+    }, 3000);
+  }
+
   createGameObjectsHandlers = (
     position: Cell
   ): { extraAction?: VoidFn; isExtraMove: boolean } => {
@@ -351,17 +362,22 @@ export class Game {
           this.moveUser({ toId: 0, directMove: true });
           this.removeGameObject(id);
           Game.gameSounds.coffinSound();
-          this.clouds.push(new Cloud({ fromUser: this.players[this.activePlayerKey], label: i18next.t('clouds.coffin') as string }));
+          this.showActivePlayerCloud({ label: i18next.t('clouds.coffin') as string });
         });
         return acc;
       }
 
       if (isLadder) {
         isExtraMove = true;
+        this.ladders++;
+        const oneLadder = this.ladders === 1;
         acc.push(() => {
           this.moveUser({ toId, directMove: true });
           Game.gameSounds.ladderSound();
-          this.clouds.push(new Cloud({ fromUser: this.players[this.activePlayerKey], label: i18next.t('clouds.ladder') as string }));
+
+          if (oneLadder) {
+            this.showActivePlayerCloud({ label: i18next.t('clouds.ladder') as string });
+          }
         });
         return acc;
       }
@@ -371,16 +387,20 @@ export class Game {
           acc.push(() => {
             user.useAntidote();
             Game.gameSounds.usePraiseHandsSound();
-            this.clouds.push(new Cloud({ fromUser: this.players[this.activePlayerKey], label: i18next.t('clouds.useAntidote') as string }));
+            this.showActivePlayerCloud({ label: i18next.t('clouds.useAntidote') as string });
           });
           return acc;
         }
 
         isExtraMove = true;
+        this.snakes++;
         acc.push(() => {
           this.moveUser({ toId, directMove: true });
           Game.gameSounds.snakeSound();
-          this.clouds.push(new Cloud({ fromUser: this.players[this.activePlayerKey], label: i18next.t('clouds.snake') as string }));
+
+          if (this.snakes === 1) {
+            this.showActivePlayerCloud({ label: i18next.t('clouds.snake') as string });
+          }
         });
         return acc;
       }
@@ -390,7 +410,10 @@ export class Game {
           user.addAntidote();
           this.removeGameObject(id);
           Game.gameSounds.getPraiseHandsSound();
-          this.clouds.push(new Cloud({ fromUser: this.players[this.activePlayerKey], label: i18next.t('clouds.antidote') as string }));
+
+          if (user.getAntidotesCount() <= 1) {
+            this.showActivePlayerCloud({ label: i18next.t('clouds.antidote') as string });
+          }
         });
         return acc;
       }

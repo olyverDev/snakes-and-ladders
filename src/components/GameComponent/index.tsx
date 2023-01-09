@@ -85,9 +85,7 @@ function GameComponent({ muted }: { muted: boolean }) {
     game.loopInitialized = true;
   }, [game]);
 
-  const onRoll = useCallback((countMoves: number) => {
-    if (game.clouds?.length) game.clouds = [];
-      
+  const onRoll = useCallback((countMoves: number) => {      
     GameEvent.fire('userStartMove');
     game.moveUser({ countMoves });
   }, []);

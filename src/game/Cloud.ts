@@ -98,8 +98,8 @@ export class Cloud {
           y: y + cellSize / 1.2,
         },
         isLeftBottom: {
-          x: x - cellSize * 2,
-          y: y + cellSize / 2,
+          x: x - cellSize * 1.2,
+          y: y + cellSize / 1.2,
         },
       }
       const textPosition = textStartPosition[position];

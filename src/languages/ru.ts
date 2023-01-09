@@ -72,7 +72,7 @@ export default {
       useAntidote: 'Колю антидот!',
       snake: 'Почему я !?',
       antidote: 'Ух ты, антидот!',
-      finish: 'Ура, я первее!',
+      finish: 'Ура, я первый!',
     },
   },
 };
