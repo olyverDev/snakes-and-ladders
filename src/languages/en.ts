@@ -19,7 +19,7 @@ export default {
         restart: 'Play again',
       },
       selectGameMode: {
-        title: 'Choose a mode:',
+        title: 'Choose a mode',
         vsBot: 'VS bot',
         vsPlayer: 'VS friend',
       },
@@ -27,12 +27,20 @@ export default {
         title: 'We recommend playing with headphones for maximum immersion.',
         muted: 'Apparently, you opened the game through a mobile browser. For maximum immersion, we recommend playing with headphones and on the computer. Now the sound is turned off so that you don\'t end up in an awkward situation ;)',
         soundOn: 'Play with sound!',
-        ignore: 'Continue without sound',
+        ignore: 'Play silently',
       },
       promo: {
         greeting: {
           title: 'Hello, my friend! ',
-          titleEnd: ' & Ко is greeting you. We wrote this game in support of my first mixtape "Snakes and Ladders". I\'m offering you a BET! Now we will play one part, in parallel it will be possible to listen to the snippet of the release... If you win, I will offer you to participate in a contest with money prizes and not only. If I win, you will support me and my mixtape "Snakes and Ladders". After that, you can play again if you want. We will be glad if you find it and inform us about bugs ;)',
+          part1: '',
+          part2: ' & Cо greeting you. We wrote this game in support of my first mixtape "Snakes and Ladders".',
+          part3: 'I\'m offering you a BET! Now we will play one game, in parallel it will be possible to listen to the snippet of the release... If',
+
+          part4: 'you win',
+          part5: 'I will offer you to participate in a',
+          part6: 'contest with money prizes',
+          part7: 'and not only. If I win, you will support me and my mixtape "Snakes and Ladders". After that, you can play again if you want.',
+          part8: 'We will be glad if you find it and inform us about bugs ;)',
           go: 'Let\s go!',
         },
         endGame: {
@@ -44,7 +52,7 @@ export default {
               subscribe: 'Subscribe!',
             },
             prize: {
-              title: 'Prize:',
+              title: 'Prize',
               gold: '1st place: $$$',
               silver: '2nd place: $$ and the board game "Snakes and Ladders" (we will send it by post)',
               bronze: '3rd place: $ and a poem / text from me',

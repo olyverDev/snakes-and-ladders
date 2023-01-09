@@ -16,10 +16,21 @@ const PromoGreetingModal = ({ onClose }: Props) => {
 
   return (
     <GameModal buttonLabel={buttonLabel} onClose={onClose}>
-      <span style={{ fontSize: 19 }}>{t('modals.promo.greeting.title')}
-        <Link href="https://band.link/abchiphop">abc хип-хоп</Link>
-        <span>{t('modals.promo.greeting.titleEnd')} </span>
-      </span>
+        <p className='Para'>{t('modals.promo.greeting.title')}</p>
+        <p className='Para'>
+          {t('modals.promo.greeting.part1')}
+          {' '}
+          <Link href="https://band.link/abchiphop">abc хип-хоп</Link>
+          {t('modals.promo.greeting.part2')}
+        </p>
+        <p className='Para'>
+          {t('modals.promo.greeting.part3')}{' '}
+          <span className='TextWinCondition'>{t('modals.promo.greeting.part4')}</span>{' '}
+          {t('modals.promo.greeting.part5')}{' '}
+          <span className='TextContest'>{t('modals.promo.greeting.part6')}</span>{' '}
+          {t('modals.promo.greeting.part7')}
+        </p>
+        <p className='Para'>{t('modals.promo.greeting.part8')}</p>
     </GameModal>
   )
 }

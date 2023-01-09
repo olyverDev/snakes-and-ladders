@@ -16,8 +16,10 @@ type GameObjectExplanationProps = {
 }
 const GameObjectExplanation = ({ src, children }: GameObjectExplanationProps) => (
   <div className='GameObjectWrapper'>
-    <img width={60} height={60} src={src} />
-    <div className='GameObjectLabel'>{children}</div>
+    <div className='GameObjectImageWrap'>
+      <img width={60} height={60} src={src} />
+    </div>
+    <div>{children}</div>
   </div>
 );
 

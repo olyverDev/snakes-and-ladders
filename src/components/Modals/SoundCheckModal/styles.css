@@ -5,6 +5,12 @@
 .SoundRecommendation {
   font-weight: 300;
   font-size: 19px;
+  text-align: center;
+}
+
+.SoundRecommendationMobile {
+  font-weight: 300;
+  font-size: 19px;
 }
 
 .MainButton {

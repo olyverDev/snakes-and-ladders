@@ -12,7 +12,7 @@ const EndGameModal = ({ onClose }: Props) => {
 
   return (
     <GameModal buttonLabel={buttonLabel} onClose={onClose}>
-      <span>{t('modals.endGame.title')} </span>
+      <span style={{ fontSize: 19 }}>{t('modals.endGame.title')} </span>
     </GameModal>
   )
 }
