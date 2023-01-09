@@ -27,6 +27,7 @@ import SelectGameModeModal from '../Modals/SelectGameModeModal';
 import { GameEvent } from '../../game/GameEvent';
 import { useTranslation } from 'react-i18next';
 import SoundCheckModal from '../Modals/SoundCheckModal';
+import LanguageSwitcher from './LanguageSwitcher';
 
 enum Screens {
   Menu = 'menu',
@@ -74,6 +75,7 @@ function App() {
     };
   }, []);
 
+  const [isGameStarted, setGameStarted]  = useState(false);
   const [muted, setMuted] = useState(false);
 
   const SCREENS = useMemo(
@@ -84,6 +86,7 @@ function App() {
           onPlayStart={() => {
             logAnalyticsEvent(AnalyticsEvent.PlayStart);
             setActiveModalId(getInitialModalId());
+            setGameStarted(true);
           }}
         />
       ),
@@ -129,6 +132,7 @@ function App() {
 
   return (
     <div className="App">
+      {isGameStarted && <LanguageSwitcher />}
       {activeModalId === Modals.GameRuleModal && (
         <GameRuleModal onClose={closeModalFactory()} />
       )}
