@@ -22,9 +22,9 @@ const PromoEndGameModal = ({ isWinner, onClose }: Props) => {
       <div className='GratsTitle'>{isWinner ? t('modals.promo.endGame.grats') : t('modals.promo.endGame.relief')}</div>
       <div className='Subtitle'>{t('modals.promo.endGame.contest.prize.title')}</div>
       <ul className='List'>
-        <li><span>{t('modals.promo.endGame.contest.prize.gold')}</span></li>
-        <li><span>{t('modals.promo.endGame.contest.prize.silver')}</span></li>
-        <li><span>{t('modals.promo.endGame.contest.prize.bronze')}</span></li>
+        <li><span>{t('modals.promo.endGame.contest.prize.gold')} &#128176;&#128176;&#128176;</span></li>
+        <li><span>{t('modals.promo.endGame.contest.prize.silver')} &#128176;&#128176; {t('modals.promo.endGame.contest.prize.silverTail')}</span></li>
+        <li><span>{t('modals.promo.endGame.contest.prize.bronze')} &#128176; {t('modals.promo.endGame.contest.prize.bronzeTail')}</span></li>
       </ul>
       <div className='Subtitle Conditions'>
         {t('modals.promo.endGame.contest.conditions.title')}
