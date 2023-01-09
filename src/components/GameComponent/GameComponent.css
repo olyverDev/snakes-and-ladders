@@ -6,7 +6,6 @@
 }
 
 canvas {
-  background-color: rebeccapurple;
   width: var(--canvas-width);
   aspect-ratio: 1;
 }

@@ -16,19 +16,20 @@ type TDiceRef = {
 type DicePropsType = {
   muted?: boolean;
   disabled?: boolean;
+  botLabel?: string;
   onRoll: (newValue: number) => void;
 };
 
 export const DiceRef = createRef<TDiceRef>();
 
-const Dice = ({ muted = false, disabled = false, onRoll }: DicePropsType) => {
+const Dice = ({ muted = false, disabled = false, botLabel = '', onRoll }: DicePropsType) => {
   const { t } = useTranslation();
   const isMobile = useMemo(() => isMobileBrowser(), []);
   const size = isMobile ? 57 : 90;
   return (
     <div className="DiceContainer">
       <DiceComponent sound={muted ? undefined : sound} disabled={disabled} ref={DiceRef} onRoll={onRoll} size={size} />
-      <div className="DiceLabel">{disabled ? t('wait') : t('rollDice')}</div>
+      <div className="DiceLabel">{disabled ? t('wait') : (botLabel || t('dice.roll'))}</div>
     </div>
   );
 }

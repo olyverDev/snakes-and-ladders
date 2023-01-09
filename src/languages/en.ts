@@ -1,6 +1,9 @@
 export default {
   translation: {
-    rollDice: 'Roll the Dice',
+    dice: {
+      roll: 'Roll the Dice',
+      bot: 'Bot\s turn',
+    },
     wait: 'Wait...',
     play: 'Play',
     gameEndedForPlayer: 'Player "{{name}}" reached the finish!',
@@ -48,14 +51,16 @@ export default {
           relief: "You lost, but it doesn't matter! Of course, I wait for the promised support, BUT we would like you to be able to participate in the contest as well.",
           contest: {
             conditions: {
-              title: 'The terms of the contest will be described in the VK public.',
+              title: 'The terms of the contest will be described in the VK group.',
               subscribe: 'Subscribe!',
             },
             prize: {
               title: 'Prize',
-              gold: '1st place: $$$',
-              silver: '2nd place: $$ and the board game "Snakes and Ladders" (we will send it by post)',
-              bronze: '3rd place: $ and a poem / text from me',
+              gold: '1st place:',
+              silver: '2nd place:',
+              silverTail: 'and the board game "Snakes and Ladders" (we will send it by post)',
+              bronze: '3rd place:',
+              bronzeTail: 'and a poem / text from me',
             },
           }
         },

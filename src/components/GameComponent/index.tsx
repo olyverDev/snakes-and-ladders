@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import AudioPlayer from '../AudioPlayer';
 import Dice, { DiceRef } from '../Dice';
@@ -30,6 +31,9 @@ function GameComponent({ muted }: { muted: boolean }) {
     };
   }, []);
 
+  const [botLabel, setBotLabel] = useState('');
+  const { t } = useTranslation();
+
   useEffect(() => {
     const eventId = GameEvent.addListener('nextTurn', () => {
       const turnIndex = Game.playerConfig
@@ -48,7 +52,11 @@ function GameComponent({ muted }: { muted: boolean }) {
       if (realPlayers.length === 0) return;
 
       if (nextPlayer.automatic && DiceRef.current) {
+        const botLabel = t('dice.bot');
+        setBotLabel(botLabel);
         DiceRef.current?.rollDice();
+      } else {
+        setBotLabel('');
       }
     });
 
@@ -97,7 +105,7 @@ function GameComponent({ muted }: { muted: boolean }) {
       </div>
       <div className="SideControls">
         <AudioPlayer muted={muted} />
-        <Dice muted={muted} disabled={moving} onRoll={onRoll} />
+        <Dice botLabel={botLabel} muted={muted} disabled={moving} onRoll={onRoll} />
       </div>
     </div>
   );
