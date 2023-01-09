@@ -65,5 +65,14 @@ export default {
         },
       },
     },
+    clouds: {
+      start: 'Бросай кубик!',
+      coffin: 'Эх, сначала...',
+      ladder: 'Йееехху-у-у~!',
+      useAntidote: 'Колю антидот!',
+      snake: 'Почему я !?',
+      antidote: 'Ух ты, антидот!',
+      finish: 'Ура, я первее!',
+    },
   },
 };

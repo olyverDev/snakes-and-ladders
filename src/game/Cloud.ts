@@ -4,15 +4,18 @@ import { Game } from './Game';
 import { User } from './User';
 const { collection: images } = GameImagesService;
 
-type CloudPropsType = { fromCell?: Cell; fromUser?: User };
+type CloudPropsType = { fromCell?: Cell; fromUser?: User; label?: string };
 
 export class Cloud {
   fromCell?: Cell;
   fromUser?: User;
-  constructor({ fromCell, fromUser }: CloudPropsType) {
+  label?: string;
+
+  constructor({ fromCell, fromUser, label }: CloudPropsType) {
     if (!fromCell && !fromUser) throw new Error('Position not found!');
     this.fromCell = fromCell;
     this.fromUser = fromUser;
+    this.label = label;
   }
 
   render = (canvas: CanvasRenderingContext2D) => {
@@ -69,14 +72,40 @@ export class Cloud {
         renderProps: [images.cloud, -x - xOffset, -y - yOffset, sizeX, sizeY],
       },
     };
-    const currentSideDetails =
-    renderValues[
-      isRightTop || isLeftTop || isRightBottom || isLeftBottom || 'isRightTop'
-    ];
+
+    const position = isRightTop || isLeftTop || isRightBottom || isLeftBottom || 'isRightTop';
+    const currentSideDetails = renderValues[position];
   
     canvas.save();
     canvas.scale(...currentSideDetails.scale);
     canvas.drawImage(...currentSideDetails.renderProps);
     canvas.restore();
+
+
+    if (this.label) {
+      // just approximate-lucky-fitting to font coordinates
+      const textStartPosition = {
+        isRightTop: {
+          x: x,
+          y: y - cellSize / 1.5,
+        },
+        isLeftTop: {
+          x: x - cellSize * 1.2,
+          y: y - cellSize / 1.5,
+        },
+        isRightBottom: {
+          x: x,
+          y: y + cellSize / 1.2,
+        },
+        isLeftBottom: {
+          x: x - cellSize * 2,
+          y: y + cellSize / 2,
+        },
+      }
+      const textPosition = textStartPosition[position];
+      canvas.font = `${cellSize / 5}px Jost`;
+      canvas.fillStyle = 'white';
+      canvas.fillText(this.label, textPosition.x, textPosition.y);
+    }
   };
 }

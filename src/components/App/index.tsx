@@ -60,7 +60,10 @@ function App() {
 
         const availableModals = Object.keys(modalsLinkedListRef.current);
         const endGameModalId = availableModals.find(key => Boolean(modalsLinkedListRef.current[key]?.gameEnding));
-        setActiveModalId(endGameModalId);
+
+        setTimeout(() => {
+          setActiveModalId(endGameModalId);
+        }, 1000);
 
         if (IS_PROMO_GAME_VERSION && realPlayers.length === 0)  setPromoWin(true);
       }
