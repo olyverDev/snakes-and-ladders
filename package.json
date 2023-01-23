@@ -8,9 +8,7 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "prettier": "prettier --write .",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist"
+    "prettier": "prettier --write ."
   },
   "dependencies": {
     "@fontsource/jost": "^4.5.12",
@@ -31,7 +29,6 @@
     "@types/react-dom": "^18.0.6",
     "@types/react-modal": "^3.13.1",
     "@vitejs/plugin-react": "^2.0.1",
-    "gh-pages": "^5.0.0",
     "typescript": "*",
     "vite": "^3.0.7"
   }
