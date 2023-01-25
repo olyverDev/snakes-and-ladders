@@ -25,7 +25,6 @@ import PromoGreetingModal from '../Modals/PromoGreetingModal';
 import PromoEndGameModal from '../Modals/PromoEndGameModal';
 import SelectGameModeModal from '../Modals/SelectGameModeModal';
 import { GameEvent } from '../../game/GameEvent';
-import { useTranslation } from 'react-i18next';
 import SoundCheckModal from '../Modals/SoundCheckModal';
 import LanguageSwitcher from './LanguageSwitcher';
 
@@ -41,9 +40,6 @@ function App() {
   const [activeModalId, setActiveModalId] = useState<string | null | undefined>();
   const [isPromoWin, setPromoWin] = useState<boolean>(false);
 
-
-  const { t } = useTranslation();
-
   const getInitialModalId = () => {
     const availableModals = Object.keys(modalsLinkedListRef.current);
 
@@ -51,6 +47,22 @@ function App() {
       Boolean(modalsLinkedListRef.current[key]?.initial)
     );
   }
+
+  useEffect(() => {
+    const listener = (event: BeforeUnloadEvent) => {
+      if (IS_PROMO_GAME_VERSION && !isGameEnd) {
+        event.preventDefault();
+        event.returnValue = '';
+        setActiveModalId(Modals.PromoEndGameModal);
+      }
+    };
+  
+    window.addEventListener('beforeunload', listener);
+
+    return () => {
+      window.removeEventListener('beforeunload', listener);
+    }
+  }, [isGameEnd]);
 
   useEffect(() => {
     const eventId = GameEvent.addListener('gameEnd', (payload) => {
