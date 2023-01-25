@@ -107,6 +107,7 @@ export enum Modals {
   PromoGreetingModal = 'promoGreetingModal',
   PromoEndGameModal = 'promoEndGameModal',
   SoundCheckModal = 'soundCheckModal',
+  PromoLeaveModal = 'promoLeaveModal',
 }
 
 type ModalConfigListItemT = {

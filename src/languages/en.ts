@@ -64,6 +64,9 @@ export default {
             },
           }
         },
+        leave: {
+          title: 'Wait, bro! As promised, the CONTEST',
+        },
       },
     },
     clouds: {

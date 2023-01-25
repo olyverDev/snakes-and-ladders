@@ -27,6 +27,7 @@ import SelectGameModeModal from '../Modals/SelectGameModeModal';
 import { GameEvent } from '../../game/GameEvent';
 import SoundCheckModal from '../Modals/SoundCheckModal';
 import LanguageSwitcher from './LanguageSwitcher';
+import PromoLeaveModal from '../Modals/PromoLeaveModal';
 
 enum Screens {
   Menu = 'menu',
@@ -39,6 +40,7 @@ function App() {
   const [isGameEnd, setGameEnd] = useState(false);
   const [activeModalId, setActiveModalId] = useState<string | null | undefined>();
   const [isPromoWin, setPromoWin] = useState<boolean>(false);
+  const [leaveAttempt, setLeaveAttempt] = useState<boolean>(false);
 
   const getInitialModalId = () => {
     const availableModals = Object.keys(modalsLinkedListRef.current);
@@ -49,11 +51,22 @@ function App() {
   }
 
   useEffect(() => {
+    if (!IS_PROMO_GAME_VERSION) return;
+
     const listener = (event: BeforeUnloadEvent) => {
-      if (IS_PROMO_GAME_VERSION && !isGameEnd) {
+      if (!leaveAttempt && !isGameEnd && activeModalId !== Modals.PromoEndGameModal) {
         event.preventDefault();
         event.returnValue = '';
-        setActiveModalId(Modals.PromoEndGameModal);
+
+        if (modalsLinkedListRef.current) {
+          modalsLinkedListRef.current[Modals.PromoLeaveModal] = {
+            id: Modals.PromoLeaveModal,
+            next: activeModalId ? modalsLinkedListRef.current[activeModalId]?.next : null,
+          };
+        }
+
+        setActiveModalId(Modals.PromoLeaveModal);
+        setLeaveAttempt(true);
       }
     };
   
@@ -62,7 +75,7 @@ function App() {
     return () => {
       window.removeEventListener('beforeunload', listener);
     }
-  }, [isGameEnd]);
+  }, [activeModalId, leaveAttempt]);
 
   useEffect(() => {
     const eventId = GameEvent.addListener('gameEnd', (payload) => {
@@ -162,6 +175,9 @@ function App() {
       )}
       {activeModalId === Modals.PromoEndGameModal && (
         <PromoEndGameModal isWinner={isPromoWin} onClose={handleCloseEndGameModal} />
+      )}
+      {activeModalId === Modals.PromoLeaveModal && (
+        <PromoLeaveModal onClose={closeModalFactory()} />
       )}
       {currentScreen && <div className="GameWrapper">{SCREENS[currentScreen]}</div>}
     </div>
