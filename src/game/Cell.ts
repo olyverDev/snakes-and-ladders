@@ -44,29 +44,26 @@ export class Cell extends GameObject {
      */
     const fontSize = Cell.cellSize / 3.7;
     canvas.font = `${fontSize}px Nunito`;
+    canvas.fillStyle = '#C7C4B1';
+    canvas.globalAlpha = 0.8;
 
     if (this.id === 0) {
-      canvas.fillStyle = 'white';
-      canvas.globalAlpha = 0.7;
       canvas.fillText(
         'Start',
-
         this.x * Cell.cellSize + Cell.cellSize / 5.7,
         this.y * Cell.cellSize + Cell.cellSize / 1.6
       );
-      canvas.globalAlpha = 1;
     }
 
     if (this.isLast) {
-      canvas.fillStyle = '#C7C4B1';
-      canvas.globalAlpha = 0.8;
       canvas.fillText(
         'Finish',
         this.x * Cell.cellSize + Cell.cellSize / 7.2,
         this.y * Cell.cellSize + Cell.cellSize / 1.6
       );
-      canvas.globalAlpha = 1;
     }
+
+    canvas.globalAlpha = 1;
   }
 
   render = (canvas: CanvasRenderingContext2D) => {
