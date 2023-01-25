@@ -1,0 +1,54 @@
+.LeaveTitle {
+  padding-top: 10px;
+  padding-bottom: 25px;
+  font-weight: 300;
+  font-size: 19px;
+}
+
+.Subtitle {
+  padding-bottom: 10px;
+  padding-top: 10px;
+  font-size: 19px;
+}
+
+.Conditions {
+  padding-bottom: 15px;
+}
+
+.List {
+  width: 80%;
+  font-size: 19px;
+  padding-bottom: 20px;
+}
+
+li {
+  margin-bottom: 7px;
+  list-style-type: none;
+}
+
+li span {
+  font-size: 18px;
+  position: relative;
+  left: 5px;
+}
+
+li:nth-child(1) {
+  list-style-type: '\1F947';
+}
+
+li:nth-child(2) {
+  list-style-type: '\1F948';
+}
+
+li:nth-child(3) {
+  list-style-type: '\1F949';
+}
+
+.VkLogo {
+  padding-top: 15px;
+}
+
+.VkLogo:hover {
+  transition: transform .9s;
+  transform: scale(110%);
+}
