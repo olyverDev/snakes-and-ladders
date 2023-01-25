@@ -17,7 +17,7 @@ export class User {
   constructor(
     position: Cell,
     name: string = 'defaultName',
-    imageName: ImageName = 'userDanceBlack'
+    imageName: ImageName = 'userDanceWhite'
   ) {
     this.position = position;
     this.x = position.x;

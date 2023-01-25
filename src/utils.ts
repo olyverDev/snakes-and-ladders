@@ -71,7 +71,7 @@ export const useGameSounds = (muted: boolean): PlaySoundCallbacks => {
 export const SINGLE_PLAYER_CONFIG: PlayerConfig[] = [
   {
     key: 'player',
-    imageName: 'userDanceBlack',
+    imageName: 'userDanceYellow',
     automatic: false,
   },
   {
@@ -84,7 +84,7 @@ export const SINGLE_PLAYER_CONFIG: PlayerConfig[] = [
 export const TWO_PLAYERS_CONFIG: PlayerConfig[] = [
   {
     key: 'player',
-    imageName: 'userDanceBlack',
+    imageName: 'userDanceBlue',
     automatic: false,
   },
   {

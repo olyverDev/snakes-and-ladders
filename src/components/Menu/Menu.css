@@ -39,6 +39,10 @@
   animation-delay: 1s;
 }
 
+.CoverPromo {
+  background-image: url('../../assets/cover.jpg');
+}
+
 /* for blinking effect while loading images resources */
 @keyframes blinkingCoverBackground {
   50%		{ opacity: 65% }

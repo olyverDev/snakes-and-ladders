@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { IS_PROMO_GAME_VERSION } from '../../utils';
 
 import './Menu.css';
 
@@ -24,9 +25,11 @@ function Menu({ loading, onPlayStart }: MenuProps) {
     visibility: coverVisibility,
   }), [coverVisibility]);
 
+  const coverClassName = IS_PROMO_GAME_VERSION ? 'Cover CoverPromo' : 'Cover';
+
   return (
     <div className="Menu">
-      <div style={coverInlineStyles} className="Cover" />
+      <div style={coverInlineStyles} className={coverClassName} />
     </div>
   );
 }
