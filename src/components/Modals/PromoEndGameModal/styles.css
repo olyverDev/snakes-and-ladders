@@ -12,10 +12,6 @@
   font-size: 19px;
 }
 
-.Conditions {
-  padding-bottom: 15px;
-}
-
 .List {
   width: 80%;
   font-size: 19px;
@@ -43,13 +39,4 @@ li:nth-child(2) {
 
 li:nth-child(3) {
   list-style-type: '\1F949';
-}
-
-.VkLogo {
-  padding-top: 15px;
-}
-
-.VkLogo:hover {
-  transition: transform .9s;
-  transform: scale(110%);
 }

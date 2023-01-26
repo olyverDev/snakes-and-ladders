@@ -54,6 +54,8 @@ function App() {
     if (!IS_PROMO_GAME_VERSION) return;
 
     const listener = (event: BeforeUnloadEvent) => {
+      logAnalyticsEvent(AnalyticsEvent.TryToLeave);
+
       if (!leaveAttempt && !isGameEnd && activeModalId !== Modals.PromoEndGameModal) {
         event.preventDefault();
         event.returnValue = '';
@@ -109,7 +111,7 @@ function App() {
         <Menu
           loading={!imagesLoaded}
           onPlayStart={() => {
-            logAnalyticsEvent(AnalyticsEvent.PlayStart);
+            logAnalyticsEvent(AnalyticsEvent.PlayStart, { promo: IS_PROMO_GAME_VERSION });
             setActiveModalId(getInitialModalId());
             setGameStarted(true);
           }}
@@ -153,6 +155,11 @@ function App() {
     setCurrentScreen(null);
     modalsLinkedListRef.current = RESTART_MODALS_LINKED_LIST;
     setActiveModalId(getInitialModalId());
+    logAnalyticsEvent(AnalyticsEvent.CloseEndGameModal);
+  });
+
+  const handleClosePromoLeaveModal = closeModalFactory(() => {
+    logAnalyticsEvent(AnalyticsEvent.ClosePromoLeaveModal);
   });
 
   return (
@@ -177,7 +184,7 @@ function App() {
         <PromoEndGameModal isWinner={isPromoWin} onClose={handleCloseEndGameModal} />
       )}
       {activeModalId === Modals.PromoLeaveModal && (
-        <PromoLeaveModal onClose={closeModalFactory()} />
+        <PromoLeaveModal onClose={handleClosePromoLeaveModal} />
       )}
       {currentScreen && <div className="GameWrapper">{SCREENS[currentScreen]}</div>}
     </div>

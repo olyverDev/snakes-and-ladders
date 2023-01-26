@@ -1,6 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { GameModeSelection } from '../../../utils';
+import { AnalyticsEvent, logAnalyticsEvent } from '../../../firebase';
+import { GameModeSelection, IS_PROMO_GAME_VERSION } from '../../../utils';
 
 import GameModal from '../GameModal';
 import { ModalButton } from '../ModalButton';
@@ -16,10 +17,12 @@ const SelectGameModeModal = ({ onClose }: Props) => {
 
   const handleSelectVsBot = () => {
     onClose(GameModeSelection.VsBot);
+    logAnalyticsEvent(AnalyticsEvent.PlayWithBot, { promo: IS_PROMO_GAME_VERSION });
   }
 
   const handleSelectVsPlayer = () => {
     onClose(GameModeSelection.VsPlayer);
+    logAnalyticsEvent(AnalyticsEvent.PlayWithFriend, { promo: IS_PROMO_GAME_VERSION });
   }
 
   return (
