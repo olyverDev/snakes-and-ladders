@@ -1,0 +1,18 @@
+.VkLogo {
+  padding-top: 15px;
+}
+
+.VkLogo:hover {
+  transition: transform .9s;
+  transform: scale(110%);
+}
+
+.Subtitle {
+  padding-bottom: 10px;
+  padding-top: 10px;
+  font-size: 19px;
+}
+
+.Conditions {
+  padding-bottom: 15px;
+}

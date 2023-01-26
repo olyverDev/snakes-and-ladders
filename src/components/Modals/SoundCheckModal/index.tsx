@@ -6,6 +6,7 @@ import GameModal from '../GameModal';
 import { isMobileBrowser } from '../../../utils';
 import { ModalButton } from '../ModalButton';
 import headphones from '../../../assets/headphones.png';
+import { AnalyticsEvent, logAnalyticsEvent } from '../../../firebase';
 
 type Props = {
   onClose: (withSound: boolean) => void;
@@ -18,11 +19,13 @@ const SoundCheckModal = ({ onClose }: Props) => {
 
   const handleTurnSoundOn = () => {
     onClose(true);
+    logAnalyticsEvent(AnalyticsEvent.GoLoud);
   };
 
   const handleClose = () => {
     if (isMobile) {
       onClose(false);
+      logAnalyticsEvent(AnalyticsEvent.GoMuted);
       return;
     }
 

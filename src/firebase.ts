@@ -20,10 +20,21 @@ const analyticsInstance = getAnalytics(firebaseApp);
 export enum AnalyticsEvent {
   Visit = 'visit',
   PlayStart = 'playStart',
-  LeaveGame = 'leaveGame',
+  TryToLeave = 'tryToLeave',
   Finish = 'finish',
+  ChangePlatform = 'changePlatform',
+  GoToBandLink = 'goToBandLink',
+  SubscribeClick = 'subscribeClick',
+  PauseMusic = 'pauseMusic',
+  PlayMusic = 'playMusic',
+  CloseEndGameModal = 'closeEndGameModal',
+  ClosePromoLeaveModal = 'closePromoLeaveModal',
+  GoMuted = 'goMuted',
+  GoLoud = 'goLoud',
+  PlayWithBot = 'playWithBot',
+  PlayWithFriend = 'playWithFriend',
 }
 
-export const logAnalyticsEvent = (key: AnalyticsEvent) => {
-  logEvent(analyticsInstance, key);
+export const logAnalyticsEvent = (key: AnalyticsEvent, params?: Record<string, any>) => {
+  logEvent(analyticsInstance, key, params);
 }
