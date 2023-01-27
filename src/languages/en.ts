@@ -48,7 +48,7 @@ export default {
         },
         endGame: {
           grats: "You've won, HOORAAY! As promised, the CONTEST",
-          relief: "You lost, but it doesn't matter! Of course, I wait for the promised support, BUT we would like you to be able to participate in the contest as well.",
+          relief: "You lost, but it doesn't matter! How do you like the snippet? We would like you to be able to participate in the contest as well ;)",
           contest: {
             conditions: {
               title: 'The terms of the contest will be described in the VK group.',
@@ -58,7 +58,7 @@ export default {
               title: 'Prize',
               gold: '1st place:',
               silver: '2nd place:',
-              silverTail: 'and the board game "Snakes and Ladders" (we will send it by post)',
+              silverTail: 'and the board game / t-shirt to choose from (we will send it by post)',
               bronze: '3rd place:',
               bronzeTail: 'and a poem / text from me',
             },
