@@ -6,10 +6,11 @@ import Dice, { DiceRef } from '../Dice';
 import Game from '../../game';
 import { Cell } from '../../game/Cell';
 import { gameLoopFactory } from '../../gameLoop';
-import { isMobileBrowser, useGameSounds, useWindowResize } from '../../utils';
+import { isMobileBrowser, IS_PROMO_GAME_VERSION, useGameSounds, useWindowResize } from '../../utils';
 import './GameComponent.css';
 import { GameEvent } from '../../game/GameEvent';
 import { Cloud } from '../../game/Cloud';
+import ArtistLinks from '../ArtistLinks';
 
 function GameComponent({ muted }: { muted: boolean }) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -116,6 +117,7 @@ function GameComponent({ muted }: { muted: boolean }) {
       </div>
       <div className="SideControls">
         <AudioPlayer muted={muted} />
+        {IS_PROMO_GAME_VERSION && <ArtistLinks />}
         <Dice botLabel={botLabel} muted={muted} disabled={moving} onRoll={onRoll} />
       </div>
     </div>
