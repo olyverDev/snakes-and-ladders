@@ -20,7 +20,6 @@ canvas {
 .SideControls {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   padding: 25px;
 }
 

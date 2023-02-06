@@ -1,0 +1,26 @@
+.ArtistLinks {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  margin-left: auto;
+  margin-right: auto;
+  padding-top: 25px;
+  padding-bottom: 25px;
+}
+
+.ArtistLink {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.ArtistLink:hover {
+  transition: transform .9s;
+  transform: scale(120%);
+}
+
+.LinkImage {
+  /* stupid way to make png icons more gray */
+  filter: invert(12%) sepia(14%) saturate(16%) hue-rotate(24deg) brightness(102%) contrast(98%);
+}
