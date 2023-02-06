@@ -84,12 +84,12 @@ export const SINGLE_PLAYER_CONFIG: PlayerConfig[] = [
 export const TWO_PLAYERS_CONFIG: PlayerConfig[] = [
   {
     key: 'player',
-    imageName: 'userDanceBlue',
+    imageName: 'userDanceYellow',
     automatic: false,
   },
   {
     key: 'player2',
-    imageName: 'userDanceYellow',
+    imageName: 'userDanceWhite',
     automatic: false,
   },
 ];
