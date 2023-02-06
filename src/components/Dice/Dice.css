@@ -16,6 +16,13 @@
   height: 40px;
 }
 
+
+.DiceContainer__Mobile {
+  padding-top: 20px;
+  padding-bottom: 10px;
+  margin: 0;
+}
+
 @media only screen and (max-width: 1024px) {
   .DiceContainer {
     padding-top: 20px;

@@ -29,6 +29,19 @@
   opacity: 80%;
 }
 
+
+.LanguageSwitcher__Mobile {
+  position: relative;
+  justify-content: flex-end;
+  padding-top: 5px;
+  gap: 5px;
+}
+
+.LanguageBlock__Mobile {
+  height: 30px;
+  font-size: 20px;
+}
+
 @media only screen and (max-width: 1024px) {
   .LanguageSwitcher {
     position: relative;

@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactModal from 'react-modal';
+import { cx } from '../../../utils';
 
 import './styles.css';
 
@@ -17,7 +18,7 @@ const Modal = ({ isOpen, label, onClose, children, ...props }: Props) => (
   <ReactModal
     isOpen={isOpen}
     contentLabel={label}
-    className="Modal"
+    className={cx('Modal')}
     onRequestClose={onClose}
     {...props}
   >
