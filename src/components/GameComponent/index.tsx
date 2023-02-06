@@ -6,7 +6,7 @@ import Dice, { DiceRef } from '../Dice';
 import Game from '../../game';
 import { Cell } from '../../game/Cell';
 import { gameLoopFactory } from '../../gameLoop';
-import { isMobileBrowser, IS_PROMO_GAME_VERSION, useGameSounds, useWindowResize } from '../../utils';
+import { cx, IS_MOBILE_BROWSER, IS_PROMO_GAME_VERSION, useGameSounds, useWindowResize } from '../../utils';
 import './GameComponent.css';
 import { GameEvent } from '../../game/GameEvent';
 import { Cloud } from '../../game/Cloud';
@@ -93,7 +93,7 @@ function GameComponent({ muted }: { muted: boolean }) {
 
   const onResize = useCallback(() => {
     if (canvasRef.current && game) {
-      const canvasSize = isMobileBrowser()
+      const canvasSize = IS_MOBILE_BROWSER
         ? canvasRef.current.scrollWidth * 2
         : canvasRef.current.scrollWidth;
       canvasRef.current.width = canvasSize;
@@ -111,11 +111,11 @@ function GameComponent({ muted }: { muted: boolean }) {
   useWindowResize(onResize);
 
   return (
-    <div className="GameContainer">
-      <div className="GameComponent">
+    <div className={cx('GameContainer')}>
+      <div className={cx('GameComponent')}>
         <canvas ref={canvasRef} className="Canvas" />
       </div>
-      <div className="SideControls">
+      <div className={cx('SideControls')}>
         <AudioPlayer muted={muted} />
         {IS_PROMO_GAME_VERSION && <ArtistLinks />}
         <Dice botLabel={botLabel} muted={muted} disabled={moving} onRoll={onRoll} />

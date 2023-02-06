@@ -23,6 +23,23 @@ canvas {
   padding: 25px;
 }
 
+
+.GameComponent__Mobile {
+  flex-direction: column;
+  padding: 0;
+}
+
+.GameContainer__Mobile {
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.SideControls__Mobile {
+  padding: 0;
+  padding-bottom: 15px;
+  flex-direction: column-reverse;
+}
+
 @media only screen and (max-width: 1024px) {
   .GameComponent {
     flex-direction: column;
