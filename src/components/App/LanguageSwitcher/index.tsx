@@ -15,8 +15,8 @@ const LanguageSwitcher = () => {
 
   return (
     <div className={cx('LanguageSwitcher')}>
-      <span onClick={selectLanguageFactory('ru')} className={classNameFactory('ru')}>🇷🇺</span>
-      <span onClick={selectLanguageFactory('en')} className={classNameFactory('en')}>🇺🇸</span>
+      <span onClick={selectLanguageFactory('ru')} className={classNameFactory('ru')}>&#127479;&#127482;</span>
+      <span onClick={selectLanguageFactory('en')} className={classNameFactory('en')}>&#127482;&#127480;</span>
     </div>
   )
 };
