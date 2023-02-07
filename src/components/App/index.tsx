@@ -40,13 +40,13 @@ function App() {
   const modalsLinkedListRef = useRef(getInitialModalsLinkedList());
   const { loaded: imagesLoaded } = GameImagesService.useLoad();
   const [isGameEnd, setGameEnd] = useState(false);
-  const [activeModalId, setActiveModalId] = useState<string | null | undefined>();
+  const [activeModalId, setActiveModalId] = useState<string | null | undefined>();g
   const [isPromoWin, setPromoWin] = useState<boolean>(false);
   const [leaveAttempt, setLeaveAttempt] = useState<boolean>(false);
 
   useEffect(() => {
     // NOTE: using this game as usual web app and inside vk iframe, so send VKBridge events only if in iframe
-    if (window.location !== window.parent.location ) {
+    if (window.location !== window.parent.location) {
       try {
         VKBridge.send("VKWebAppInit", {});
       } catch (error) {
