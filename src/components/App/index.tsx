@@ -45,13 +45,10 @@ function App() {
   const [leaveAttempt, setLeaveAttempt] = useState<boolean>(false);
 
   useEffect(() => {
-    // NOTE: using this game as usual web app and inside vk iframe, so send VKBridge events only if in iframe
-    if (window.location !== window.parent.location) {
-      try {
-        VKBridge.send("VKWebAppInit", {});
-      } catch (error) {
-        console.log(error);
-      }
+    try {
+      VKBridge.send("VKWebAppInit", {});
+    } catch (error) {
+      console.log(error);
     }
   }, []);
 
