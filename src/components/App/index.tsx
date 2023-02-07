@@ -40,7 +40,7 @@ function App() {
   const modalsLinkedListRef = useRef(getInitialModalsLinkedList());
   const { loaded: imagesLoaded } = GameImagesService.useLoad();
   const [isGameEnd, setGameEnd] = useState(false);
-  const [activeModalId, setActiveModalId] = useState<string | null | undefined>();g
+  const [activeModalId, setActiveModalId] = useState<string | null | undefined>();
   const [isPromoWin, setPromoWin] = useState<boolean>(false);
   const [leaveAttempt, setLeaveAttempt] = useState<boolean>(false);
 
