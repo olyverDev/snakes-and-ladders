@@ -46,7 +46,7 @@ function App() {
 
   useEffect(() => {
     // NOTE: using this game as usual web app and inside vk iframe, so send VKBridge events only if in iframe
-    if (window.location !== window.parent.location ) {
+    if (window.location !== window.parent.location) {
       try {
         VKBridge.send("VKWebAppInit", {});
       } catch (error) {
