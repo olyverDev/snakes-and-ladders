@@ -28,7 +28,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: url('../../assets/cover-without-logo.jpg');
+  background-image: url('../../assets/cover-without-logo-min.jpg');
   background-position: center;
   background-attachment: fixed;  
   background-repeat: no-repeat;
@@ -40,7 +40,7 @@
 }
 
 .CoverPromo {
-  background-image: url('../../assets/cover.jpg');
+  background-image: url('../../assets/cover-min.jpg');
 }
 
 /* for blinking effect while loading images resources */

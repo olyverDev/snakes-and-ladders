@@ -50,7 +50,7 @@ export const useGameSounds = (muted: boolean): PlaySoundCallbacks => {
   
         audio.pause();
         audio.setAttribute('src', value);
-        audio.volume = 0.5;
+        audio.volume = 0.2;
         audio.play();
       }, []) as () => void,
     }),

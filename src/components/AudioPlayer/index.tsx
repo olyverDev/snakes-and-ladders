@@ -52,7 +52,7 @@ function AudioPlayer({ muted = false }: { muted?: boolean }) {
         playing
         controls
         muted={muted}
-        volume={0.5}
+        volume={0.15}
         url={currentUrl}
         width="100%"
         onPause={handlePause}

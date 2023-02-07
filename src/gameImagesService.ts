@@ -1,6 +1,5 @@
 import blueCell from './assets/blue_cell.png';
 import redCell from './assets/red_cell.png';
-import userDanceBlue from './assets/user_dance_blue.png';
 import userDanceYellow from './assets/user_dance_yellow.png';
 import userDanceWhite from './assets/user_dance_white.png';
 import ladderLeft from './assets/ladder-left.png';
@@ -22,7 +21,6 @@ const IMAGES_SOURCES = {
   coffin,
   praiseHands,
   snakesNest,
-  userDanceBlue,
   userDanceYellow,
   userDanceWhite,
   cloud,
