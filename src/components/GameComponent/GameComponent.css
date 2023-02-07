@@ -2,7 +2,7 @@
   display: flex;
   flex: 0;
   width: 100vw;
-  padding: 25px;
+  padding: 30px;
 }
 
 canvas {
@@ -20,7 +20,7 @@ canvas {
 .SideControls {
   display: flex;
   flex-direction: column;
-  padding: 25px;
+  padding: 30px;
 }
 
 
@@ -40,7 +40,7 @@ canvas {
   flex-direction: column-reverse;
 }
 
-@media only screen and (max-width: 1024px) {
+@media only screen and (max-width: 700px) {
   .GameComponent {
     flex-direction: column;
     padding: 0;

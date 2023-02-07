@@ -31,7 +31,7 @@ const PLATFORMS_CONFIG = {
   },
 };
 
-const USED_PLATFORMS: (keyof typeof PLATFORMS_CONFIG)[] = IS_PROMO_GAME_VERSION ? ['soundcloud', 'youtube', 'chill'] : ['soundcloud', 'youtube'];
+const USED_PLATFORMS: (keyof typeof PLATFORMS_CONFIG)[] = IS_PROMO_GAME_VERSION ? ['youtube', 'soundcloud', 'chill'] : ['youtube', 'soundcloud'];
 
 export const PLATFORMS: Record<
   Platform,
