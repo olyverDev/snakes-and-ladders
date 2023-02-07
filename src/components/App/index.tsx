@@ -2,6 +2,8 @@ import '@fontsource/nunito';
 import '@fontsource/jost/300.css';
 
 import { useEffect, useMemo, useRef, useState } from 'react';
+import VKBridge from '@vkontakte/vk-bridge';
+
 import { AnalyticsEvent, logAnalyticsEvent } from '../../firebase';
 
 import { GameImagesService } from '../../gameImagesService';
@@ -41,6 +43,14 @@ function App() {
   const [activeModalId, setActiveModalId] = useState<string | null | undefined>();
   const [isPromoWin, setPromoWin] = useState<boolean>(false);
   const [leaveAttempt, setLeaveAttempt] = useState<boolean>(false);
+
+  useEffect(() => {
+    try {
+      VKBridge.send("VKWebAppInit", {});
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
 
   const getInitialModalId = () => {
     const availableModals = Object.keys(modalsLinkedListRef.current);
