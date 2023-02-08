@@ -10,8 +10,6 @@
 
 .ArtistLink {
   display: flex;
-  justify-content: center;
-  align-items: center;
   cursor: pointer;
 }
 
@@ -23,4 +21,15 @@
 .LinkImage {
   /* stupid way to make png icons more gray */
   filter: invert(12%) sepia(14%) saturate(16%) hue-rotate(24deg) brightness(102%) contrast(98%);
+}
+
+
+.ArtistLinks__Mobile {
+  margin-left: auto;
+}
+
+@media only screen and (max-width: 700px) {
+  .ArtistLinks {
+    margin-left: auto;
+  }
 }
