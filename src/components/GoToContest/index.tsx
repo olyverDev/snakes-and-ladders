@@ -20,7 +20,7 @@ const GoToContest = () => {
         {' '}
       </div>
       <Link onClick={handleSubscribeClick} href="https://vk.com/abchiphop">{t('modals.promo.endGame.contest.conditions.subscribe')}</Link>
-      <a onClick={handleSubscribeClick} className='VkLogo' href="https://vk.com/abchiphop" target="_blank">
+      <a onClick={handleSubscribeClick} className='VkLogo' href="https://vk.com/abchiphop?w=wall-203284549_265" target="_blank">
         <img width={55} height={55} src={vkLogo} />
       </a>
     </>
