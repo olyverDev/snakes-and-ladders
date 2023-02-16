@@ -37,13 +37,6 @@ enum Screens {
 }
 
 function App() {
-  const modalsLinkedListRef = useRef(getInitialModalsLinkedList());
-  const { loaded: imagesLoaded } = GameImagesService.useLoad();
-  const [isGameEnd, setGameEnd] = useState(false);
-  const [activeModalId, setActiveModalId] = useState<string | null | undefined>();
-  const [isPromoWin, setPromoWin] = useState<boolean>(false);
-  const [leaveAttempt, setLeaveAttempt] = useState<boolean>(false);
-
   useEffect(() => {
     try {
       VKBridge.send("VKWebAppInit", {});
@@ -51,6 +44,14 @@ function App() {
       console.log(error);
     }
   }, []);
+
+  const { loaded: imagesLoaded } = GameImagesService.useLoad();
+
+  const modalsLinkedListRef = useRef(getInitialModalsLinkedList());
+  const [isGameEnd, setGameEnd] = useState(false);
+  const [activeModalId, setActiveModalId] = useState<string | null | undefined>();
+  const [isPromoWin, setPromoWin] = useState<boolean>(false);
+  const [leaveAttempt, setLeaveAttempt] = useState<boolean>(false);
 
   const getInitialModalId = () => {
     const availableModals = Object.keys(modalsLinkedListRef.current);

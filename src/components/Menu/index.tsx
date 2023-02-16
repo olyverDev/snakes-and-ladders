@@ -1,6 +1,8 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { GameImagesService } from '../../gameImagesService';
+
+import coverWithoutLogo from '../../assets/cover-without-logo-min.jpg';
+import cover from '../../assets/cover-min.jpg';
 
 import './Menu.css';
 
@@ -27,7 +29,7 @@ function Menu({ loading, onPlayStart }: MenuProps) {
 
   return (
     <div className="Menu">
-      <img style={coverInlineStyles} className="Cover" src={GameImagesService.collection.cover.src} />
+      <img style={coverInlineStyles} className="Cover" src={import.meta.env.VITE_IS_PROMO_GAME_VERSION === 'true' ? cover : coverWithoutLogo} />
     </div>
   );
 }

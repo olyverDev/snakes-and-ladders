@@ -9,13 +9,10 @@ import coffin from './assets/coffin.png';
 import praiseHands from './assets/praise-hands.png';
 import snakesNest from './assets/snakes-nest.png';
 import cloud from './assets/cloud.png';
-import coverWithoutLogo from './assets/cover-without-logo-min.jpg';
-import cover from './assets/cover-min.jpg';
 
 import { useEffect, useState } from 'react';
 
 const IMAGES_SOURCES = {
-  cover: import.meta.env.VITE_IS_PROMO_GAME_VERSION === 'true' ? cover : coverWithoutLogo,
   blueCell,
   redCell,
   ladderLeft,

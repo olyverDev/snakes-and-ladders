@@ -84,6 +84,10 @@ export class Game {
     );
 
     this.gameObjects.push(
+      new Snake(this.getCellById(60), this.getCellById(43))
+    );
+
+    this.gameObjects.push(
       new Snake(this.getCellById(55), this.getCellById(21))
     );
 
@@ -96,6 +100,14 @@ export class Game {
     );
 
     this.gameObjects.push(
+      new Snake(this.getCellById(18), this.getCellById(1))
+    );
+
+    this.gameObjects.push(
+      new Snake(this.getCellById(25), this.getCellById(8))
+    );
+
+    this.gameObjects.push(
       new Ladder(this.getCellById(21), this.getCellById(4))
     );
 
@@ -105,6 +117,11 @@ export class Game {
 
     this.gameObjects.push(
       new Ladder(this.getCellById(61), this.getCellById(33))
+    );
+
+
+    this.gameObjects.push(
+      new Ladder(this.getCellById(9), this.getCellById(7))
     );
 
 
@@ -122,6 +139,7 @@ export class Game {
   
     this.gameObjects.push(new Coffin(this.getCellById(UNLUCKY_POSITION - 1)));
     this.gameObjects.push(new Coffin(this.getCellById(47)));
+    this.gameObjects.push(new Coffin(this.getCellById(57)));
 
     this.gameObjects.push(
       new SnakesNest({
@@ -136,6 +154,14 @@ export class Game {
         position: this.getCellById(9),
         snakeFrom: this.getCellById(22),
         snakeTo: this.getCellById(7),
+      })
+    );
+
+    this.gameObjects.push(
+      new SnakesNest({
+        position: this.getCellById(2),
+        snakeFrom: this.getCellById(17),
+        snakeTo: this.getCellById(0),
       })
     );
 
